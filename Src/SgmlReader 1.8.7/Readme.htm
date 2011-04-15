@@ -1,0 +1,369 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="readme.css" />
+    <style>
+        dt { font-weight:bold; }
+	    dt { margin-top:1em; }
+	    th { text-align:left; }
+      </style>
+</head>
+<body>
+    <h1>
+        SgmlReader</h1>
+    <p>
+        SgmlReader is an XmlReader API over any SGML document (including&nbsp;built in support
+        for HTML).&nbsp; A command line utility is also provided which outputs the&nbsp;well
+        formed&nbsp;XML result.</p>
+    <p>
+        <img alt="" src="download.gif" hspace="5">Download the zip file including the standalone
+        executable and the full source code: <a href="SgmlReader.zip">SgmlReader.zip</a></p>
+    <p>
+        See online demo at <a href="/tools/sgmlreader/demo.aspx">demo.aspx</a>.<br>
+        See also <a href="/srcview/srcview.aspx?path=/tools/sgmlreader/sgmlreader.src">online
+            source</a>.</p>
+    <h3>
+        Command Line Usage</h3>
+    <p>
+        The command line executable version has the following options:</p>
+    <pre> sgmlreader &lt;options&gt; [InputUri] [OutputFile]</pre>
+    <blockquote>
+        <table id="Table1" cellspacing="1" cellpadding="5" border="1">
+            <tr>
+                <th width="138">
+                    -e "file"</th>
+                <td>
+                    Specifies a file to&nbsp;write error output to.&nbsp; The default is to generate
+                    no errors.&nbsp; The special name "$stderr" redirects errors to stderr output stream.</td>
+            </tr>
+            <tr>
+                <th width="138">
+                    -proxy "server"</th>
+                <td>
+                    Specifies the proxy server to use to fetch DTD's through the fire wall.</td>
+            </tr>
+            <tr>
+                <th width="138">
+                    -html</th>
+                <td>
+                    Specifies that the input is HTML.</td>
+            </tr>
+            <tr>
+                <th width="138">
+                    -dtd "uri"</th>
+                <td>
+                    Specifies some other SGML DTD.</td>
+            </tr>
+            <tr>
+                <th width="138">
+                    -base
+                </th>
+                <td>
+                    <p>
+                        Add an HTML&nbsp;base tag to the output.</p>
+                </td>
+            </tr>
+            <tr>
+                <th width="138">
+                    -pretty
+                </th>
+                <td>
+                    Pretty print the output.</td>
+            </tr>
+            <tr>
+                <th width="138">
+                    -encoding name</th>
+                <td>
+                    Specify an encoding for the output file (default UTF-8)</td>
+            </tr>
+            <tr>
+                <th width="138">
+                    -noxml</th>
+                <td>
+                    Stops generation of XML declaration in output.</td>
+            </tr>
+            <tr>
+                <th width="138">
+                    -doctype</th>
+                <td>
+                    Copy &lt;!DOCTYPE tag to the output.</td>
+            </tr>
+            <tr>
+                <th width="138">
+                    InputUri</th>
+                <td>
+                    The input file name or URL. Default is stdin.&nbsp; If this is a local file name
+                    then it also supports wildcards.</td>
+            </tr>
+            <tr>
+                <th width="138">
+                    OutputFile</th>
+                <td>
+                    The optional output file name. Default is stdout.&nbsp; If the InputUri contains
+                    wildcards then this just specifies the output file extension, the default being
+                    ".xml".</td>
+            </tr>
+        </table>
+    </blockquote>
+    <h3>
+        Examples
+    </h3>
+    <dl>
+        <dt>sgmlreader -html *.htm *.xml</dt>
+        <dd>
+            Converts all .htm files to corresponding .xml files using the built in HTML DTD.
+        </dd>
+        <dt>sgmlreader -html http://www.msn.com -proxy myproxy:80 msn.xml</dt>
+        <dd>
+            Converts all the MSN home page to XML storing the result in the local file "msn.xml".</dd>
+        <dt>sgmlreader -dtd ofx160.dtd test.ofx ofx.xml</dt>
+        <dd>
+            Converts the given OFX file to XML using the SGML DTD "ofx160.dtd" specified in
+            the test.ofx file.
+        </dd>
+    </dl>
+    &nbsp;
+    <h3>
+        SgmlReader Usage</h3>
+    <p>
+        The SgmlReader is an implementation of the XmlReader API so the only thing you really
+        need to know is how to construct it. SgmlReader has a default constructor, then
+        you need to set some of the following properties. To load a DTD you must specify
+        DocType="HTML" or you must provide a SystemLiteral. To specify the SGML document
+        you must provide either the InputStream or Href. Everything else is optional.
+    </p>
+    <dl>
+        <dt>SgmlDtd Dtd</dt>
+        <dd>
+            Specify the SgmlDtd object directly. This allows you to cache the Dtd and share
+            it across multipl SgmlReaders. To load a DTD from a URL use the SystemLiteral property.</dd>
+        <dt>string DocType</dt>
+        <dd>
+            The name of root element specified in the DOCTYPE tag. If you specify "HTML" then
+            the SgmlReader will use the built-in HTML DTD. In this case you do not need to specify
+            the SystemLiteral property.</dd>
+        <dt>string PublicIdentifier</dt>
+        <dd>
+            The PUBLIC identifier in the DOCTYPE tag. This is optional.</dd>
+        <dt>string SystemLiteral</dt>
+        <dd>
+            The SYSTEM literal in the DOCTYPE tag identifying the location of the DTD.
+        </dd>
+        <dt>string InternalSubset</dt>
+        <dd>The DTD internal subset in the DOCTYPE tag. This is optional.</dd>
+        <dt>TextReader InputStream</dt>
+        <dd>
+            The input stream containing SGML data to parse. You must specify this property or
+            the Href property before calling Read().
+        </dd>
+        <dt>string Href</dt>
+        <dd>Specify the location of the input SGML document as a URL.</dd>
+        <dt>string WebProxy</dt>
+        <dd>
+            Sometimes you need to specify a proxy server in order to load data via HTTP from
+            outside the firewall. For example: "itgproxy:80".
+        </dd>
+        <dt>string BaseUri</dt>
+        <dd>The base Uri is used to resolve relative Uri's like the SystemLiteral and Href properties.
+        </dd>
+        <dt>TextWriter ErrorLog</dt>
+        <dd>DTD validation errors are written to this stream.
+        </dd>
+        <dt>string ErrorLogFile</dt>
+        <dd>DTD validation errors are written to this log file.</dd>
+    </dl>
+    <p>
+        Then you can read from this reader like any other XmlReader class.</p>
+    <p>
+        &nbsp;</p>
+    <h3>
+        Features</h3>
+    <p>
+        <strong>SGML CDATA to XML &lt;![CDATA[...]]&gt; conversion</strong></p>
+    <p>
+        SGML DTD's describe a special DTD element type named "CDATA".&nbsp; This is used
+        in HTML for &lt;SCRIPT&gt; for example and the contents of the script block can
+        be any text terminated by &lt;/SCRIPT&gt; including script code containing "&lt;"
+        symbol and so forth, but this would not be well formed in an XML document so the
+        contents of the script block are automatically converted to an XML CDATA block.</p>
+    <p>
+    
+    </p>
+    <h3>Support</h3>
+    <p>
+        Please email bugs, feedback and/or feature requests to <a href="mailto:clovett@microsoft.com">
+            Chris Lovett</a>.</p>
+    
+    <!-- Change History -->
+    <h3>Change History</h3>
+
+    <table id="Table2" cellspacing="1" cellpadding="1" border="1">
+        <tr>
+            <th>
+                Version</th>
+            <th>
+                Description</th>
+        </tr>
+        <tr>
+            <td>
+                1.7</td>
+            <td>
+                Fix lots of reported bugs:<br />
+                <ol>
+                    <li>Fix bug reported by chriswang - MoveToAttribute didn't save state properly.</li>
+                    <li>Fix bug reported by starascendent - build on Visual Studio 2003 was broken.</li>
+                    <li>Fix bug reported by sanchen - ExpandCharEntity was messed up on hex entities.</li>
+                    <li>Fix bug reported by kojiishi - off by one bug in SniffName()</li>
+                    <li>Fix bug reported by kojiishi - bug in loading XmlDocument from SgmlReader - this
+                        was caused by the HTML documernt containing an embedded &lt;?xml version='1.0'?&gt;
+                        declaration, so the SgmlReader now strips these.</li>
+                    <li>Added special stripping of punctuation characters between attributes like ",".</li>
+                </ol>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                1.6</td>
+            <td>
+                Improve wrapping of HTML content with auto-generated &lt;html&gt;&lt;/html&gt; container
+                tags.</td>
+        </tr>
+        <tr>
+            <td>
+                1.5</td>
+            <td>
+                <p>
+                    Fix detection of ContentType=text/html and switch to HTML mode.<br>
+                    Fix problems parsing DOCTYPE tag when case folding is on.&nbsp;
+                    <br>
+                    Fix reading of XHTML DTD.
+                    <br>
+                    Fix parsing of content of type CDATA that resulted in the error message 'Cannot
+                    have ']]&gt;' inside an XML CDATA block'.<br>
+                    Fix parsing of <a href="http://www.virtuelvis.com/download/162/evilml.html" target="_blank">
+                        http://www.virtuelvis.com/download/162/evilml.html</a>.<br>
+                    Fix parsing of attributes missing the equals sign: height"4"&nbsp; (thanks to <span
+                        id="Alias">Ulrich Schwanitz</span> for his fix).<br>
+                    Fix 'SniffWhitespace' thanks to "Windy Winter".
+                    <br>
+                    Added TestSuite project.
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                1.4</td>
+            <td>
+                Added UserAgent string "Mozilla/4.0 (compatible;);" so that SgmlReader gets the
+                right content from webservers.&nbsp; Fixed handling of HTML that does not start
+                with root &lt;html&gt; element tag. Fixed handling of built in HTML entities.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                1.3</td>
+            <td>
+                <p>
+                    Changed ToUpper to CaseFolding enum and added support for "auto-folding" based on
+                    input.<br>
+                    Added support for &lt;![CDATA[...]]&gt; blocks.<br>
+                    Added proper encoding support, including support for HTML &lt;META http-equiv="content-type".&nbsp;
+                    This means output now has the correct XML declaration (unless you specify the new
+                    -noxml option) and any existing xml declarations in the input are stipped out so
+                    you don't end up with two.<br>
+                    Added support for ASP &lt;%...%&gt; blocks (thanks to Dan Whalin).<br>
+                    Now strips out DOCTYPE by default since HTML DocTypes can cause problems for XmlDocument
+                    when it tries to load the HTML DTD.&nbsp; but added "-doctype" switch for those
+                    who really need it to come through.<br>
+                    Fix handling of Office 2000 &lt;?xml:namespace .../&gt; declarations.<br>
+                    Remove bogus attributes that have no name, in cases like &lt;class= "test"&gt;.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                1.2</td>
+            <td>
+                Converted back to Visual Studio 7.0 since this is the lowest common denominator.
+                <br>
+                Added ToUpper switch for upper case folding, instead of the default lower case.<br>
+                Fix handling of UNC paths.
+                <br>
+                Added OFX test suite.
+                <br>
+                Fixed bug in parsing CDATA type elements (like &lt;script&gt;&lt;!-- --&gt;&lt;/script&gt;)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                1.1</td>
+            <td>
+                <p>
+                    Upgraded project to Visual Studio 7.1.<br>
+                    Fixed bug in accessing https authenticated sites.<br>
+                    Fixed bug in handling of content that contains nulls.<br>
+                    Improved handling of &lt;!DOCTYPE with PUBLIC and no SYSTEM literal.<br>
+                    Fixed bug in losing attributes when auto-closing tags.<br>
+                    Fixed pretty printing output by adding WhitespaceHandling flag to SgmlReader.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                1.0.4</td>
+            <td>
+                Added -encoding option so you can change the encoding of the output file.</td>
+        </tr>
+        <tr>
+            <td>
+                1.0.3.26932</td>
+            <td>
+                Implemented ReadOuterXml and ReadInnerXml and fix some bugs in dealing with xmlns
+                attributes and dealing with non-HTML tags.</td>
+        </tr>
+        <tr>
+            <td>
+                1.0.3</td>
+            <td>
+                Fixed some CLS compliance problems with using SgmlReader from VB and a null reference
+                exception bug when loading SgmlReader from XmlDocument</td>
+        </tr>
+        <tr>
+            <td>
+                1.0.2.21225</td>
+            <td>
+                Fixed bug in handling of encodings. Now uses the correct encoding returned from
+                the HTTP server</td>
+        </tr>
+        <tr>
+            <td>
+                1.0.2.21105</td>
+            <td>
+                Fixed bug in handling of input that contains blank lines at the top.</td>
+        </tr>
+        <tr>
+            <td>
+                1.0.2</td>
+            <td>
+                Added fix for the way IE &amp; Netscape deal with characters in the range 0x80 through
+                0x9F in HTML.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                1.0.1</td>
+            <td>
+                Fixed bug in handling of empty elements, like &lt;INPUT&gt;</td>
+        </tr>
+        <tr>
+            <td>
+                1.0</td>
+            <td>
+                Add wildcard support for command line utility.</td>
+        </tr>
+        <tr>
+            <td>
+                0.5</td>
+            <td>
+                Initial</td>
+        </tr>
+    </table>
+</body>
+</html>

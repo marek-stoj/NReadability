@@ -1,0 +1,247 @@
+BODY
+{
+    FONT-FAMILY: "Verdana", sans-serif;
+    FONT-SIZE: x-small;
+}
+#content
+{
+    FONT-SIZE: x-small;
+    PADDING-BOTTOM: 2em
+}
+.main
+{
+    LEFT: 20px;
+    POSITION: absolute;
+    TOP: 0px
+}
+#links
+{
+    LEFT: 45px;
+    POSITION: absolute;
+    TOP: 158px
+}
+.global-link
+{
+    BACKGROUND-COLOR: #f16043;
+    FONT-SIZE: 10px;
+    FONT-WEIGHT: bold;
+    MARGIN-BOTTOM: 1em;
+    PADDING-BOTTOM: 2px;
+    PADDING-LEFT: 2px;
+    PADDING-RIGHT: 2px;
+    PADDING-TOP: 2px;
+    TEXT-ALIGN: center;
+    WIDTH: 120px
+}
+.slim_bold
+{
+    COLOR: black;
+    FONT: 12pt arial;
+    TEXT-DECORATION: none
+    FONT-WEIGHT: bold
+}
+.slim_small
+{
+    COLOR: black;
+    FONT: 8pt arial;
+    TEXT-DECORATION: none
+}
+.footer
+{
+    COLOR: black;
+    LEFT: 20px;
+    POSITION: absolute;
+    TOP: 0px;
+    WIDTH: 600px
+}
+.ie4footer
+{
+    COLOR: black;
+    LEFT: -160px;
+    POSITION: absolute;
+    TOP: 400px;
+    WIDTH: 150px
+}
+A:link { color:rgb(78,72,135) }
+A:visited { color:rgb(128,128,200) }
+A:active { color:rgb(241,96,67) }
+A:hover { color:rgb(241,96,67)  }
+#links A:link { color:rgb(78,72,135); text-decoration:none; }
+#links A:visited { color:rgb(78,72,135); text-decoration:none; }
+#links A:active { color:white }
+#links A:hover {color:white}
+
+.footer A:link { color:rgb(78,72,135) }
+.footer A:visited { color:rgb(128,128,200) }
+.footer A:active { color:rgb(241,96,67) }
+.footer A:hover {color:rgb(241,96,67)}
+
+#editor
+{
+    LEFT: 20px;
+    POSITION: absolute;
+    TOP: 0px
+}
+#editor DIV
+{
+    FONT-SIZE: x-small;
+    FONT-STYLE: italic
+}
+.new
+{
+    BACKGROUND-COLOR: #ffaa57;
+    COLOR: #3480b8;
+    FONT-SIZE: x-small;
+    FONT-WEIGHT: bold
+}
+.editor-button
+{
+    BACKGROUND-COLOR: #3480b8;
+    BORDER-BOTTOM: black 2px solid;
+    BORDER-LEFT: black 2px solid;
+    BORDER-RIGHT: black 2px solid;
+    BORDER-TOP: black 2px solid;
+    COLOR: #ffaa57;
+    FONT-WEIGHT: bold;
+    MARGIN: 4px;
+    PADDING-BOTTOM: 2px;
+    PADDING-LEFT: 2px;
+    PADDING-RIGHT: 2px;
+    PADDING-TOP: 2px;
+    TEXT-ALIGN: center;
+    TEXT-DECORATION: none;
+    WIDTH: 18%
+}
+.editor-button:visited
+{
+    COLOR: #ffaa57
+}
+.editor-button:active
+{
+    COLOR: white
+}
+.editor-button:hover
+{
+    COLOR: white
+}
+.link-title
+{
+    FONT-WEIGHT: bold;
+    MARGIN-TOP: 0.5em
+}
+.link-description
+{
+    FONT-SIZE: x-small; 
+    MARGIN-LEFT: 2em
+}
+P
+{
+    MARGIN-BOTTOM: 0.5em;
+    MARGIN-TOP: 0.5em
+}
+XMP
+{
+    FONT-SIZE: x-small;
+}
+PRE
+{
+    BACKGROUND-COLOR: #ffdfbe;
+    FONT-SIZE: x-small;
+    MARGIN: 1em
+}
+TABLE
+{
+    BORDER-BOTTOM: medium none;
+    BORDER-LEFT: medium none;
+    BORDER-RIGHT: medium none;
+    BORDER-TOP: medium none
+}
+TD
+{
+    BACKGROUND-COLOR: #ffdfbe;
+    BORDER-BOTTOM: medium none;
+    BORDER-LEFT: medium none;
+    BORDER-RIGHT: medium none;
+    BORDER-TOP: medium none;
+    FONT-SIZE: x-small;
+    MARGIN: 2px;
+    PADDING-BOTTOM: 2px;
+    PADDING-LEFT: 2px;
+    PADDING-RIGHT: 2px;
+    PADDING-TOP: 2px;
+    TEXT-ALIGN: left
+}
+TH
+{
+    BACKGROUND-COLOR: #FFAD4A;
+    BORDER-BOTTOM: medium none;
+    BORDER-LEFT: medium none;
+    BORDER-RIGHT: medium none;
+    BORDER-TOP: medium none;
+    FONT-SIZE: x-small;
+    MARGIN: 2px;
+    PADDING-BOTTOM: 2px;
+    PADDING-LEFT: 2px;
+    PADDING-RIGHT: 2px;
+    PADDING-TOP: 2px;
+    TEXT-ALIGN: left
+}
+TH
+{
+    BACKGROUND-COLOR: #ffaa57
+}
+UL
+{
+    MARGIN-TOP: 0.5em
+}
+OL
+{
+    MARGIN-TOP: 0.5em
+}
+H1
+{
+    COLOR: #336699;
+    FONT-SIZE: x-large;
+    MARGIN-BOTTOM: 0.5em;
+    MARGIN-TOP: 1em;
+    PADDING-LEFT: 4px
+}
+H2
+{
+    BORDER-LEFT: #4e4887 8px solid;
+    BORDER-TOP: #4e4887 1px solid;
+    COLOR: #4e4887;
+    FONT-SIZE: small;
+    MARGIN-BOTTOM: 0.5em;
+    MARGIN-TOP: 1em;
+    PADDING-LEFT: 4px
+}
+H3
+{
+    BORDER-LEFT: #4e4887 4px solid;
+    BORDER-TOP: #4e4887 1px solid;
+    COLOR: #4e4887;
+    FONT-SIZE: x-small;
+    MARGIN-BOTTOM: 0.5em;
+    MARGIN-TOP: 1em;
+    PADDING-LEFT: 4px
+}
+H4
+{
+    COLOR: #4e4887;
+    FONT-SIZE: x-small;
+    MARGIN-BOTTOM: 0.5em
+}
+H5
+{
+    COLOR: #4e4887;
+    FONT-SIZE: x-small;
+    MARGIN-BOTTOM: 0.5em
+}
+H6
+{
+    COLOR: #4e4887;
+    FONT-SIZE: x-small;
+    FONT-STYLE: italic;
+    MARGIN-BOTTOM: 0.5em
+}

@@ -1,3 +1,30 @@
 
 /Tests
 /Bin
+/Src/NReadability/_ReSharper.NReadability
+/Src/NReadability/NReadability.5.0.ReSharper.user
+/Src/NReadability/NReadability.4.5.resharper.user
+/Src/NReadability/NReadability.userprefs
+/Src/NReadability/NReadability.sln.cache
+/Src/NReadability/NReadability.suo
+/Src/NReadability/NReadability/obj
+/Src/NReadability/NReadability.Console/obj
+/Src/NReadability/NReadability.Tests/obj
+/Src/NReadability/NReadability.Tests/NReadability.Tests.pidb
+/Src/NReadability/NReadability.Tests/NReadability.Tests.csproj.user
+/Src/NReadability/NReadability.Tests/test-results
+/Src/NReadability/NReadability.Console/NReadability.Console.pidb
+/Src/NReadability/NReadability.Console/NReadability.Console.csproj.user
+/Src/NReadability/NReadability/NReadability.pidb
+/Src/NReadability/NReadability/NReadability.csproj.user
+/Src/SgmlReader 1.8.7/_ReSharper.SgmlReader9
+/Src/SgmlReader 1.8.7/SgmlReader9.suo
+/Src/SgmlReader 1.8.7/SgmlReader9.5.0.ReSharper.user
+/Src/SgmlReader 1.8.7/CommandLine/SgmlReader.csproj.user
+/Src/SgmlReader 1.8.7/CommandLine/SgmlReader71.csproj.user
+/Src/SgmlReader 1.8.7/CommandLine/SgmlReader8.csproj.user
+/Src/SgmlReader 1.8.7/CommandLine/SgmlReader9.csproj.user
+/Src/SgmlReader 1.8.7/sgmlreaderdll/SgmlReaderDll.csproj.user
+/Src/SgmlReader 1.8.7/sgmlreaderdll/SgmlReaderDll71.csproj.user
+/Src/SgmlReader 1.8.7/sgmlreaderdll/SgmlReaderDll9.csproj.user
+/Src/SgmlReader 1.8.7/TestSuite/TestSuite9.csproj.user

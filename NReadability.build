@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="NReadability" default="all">
+
+  <property name="nreadability.version" value="1.3.9.0" />
+  <property name="msbuild.path" value="C:\Windows\Microsoft.NET\Framework\v3.5\MSBuild.exe" />
+
+  <echo message="Current NReadability version is ${nreadability.version}." />
+
+  <target name="expand-templates">
+    <echo message="Expanding AssemblyInfo.cs templates." />
+    <foreach item="File" property="filePath">
+      <in>
+        <items>
+          <include name="Src\**\AssemblyInfo.cs.template" />
+        </items>
+      </in>
+      <do>
+        <echo message="Expanding template ${filePath}" />
+        <copy file="${filePath}" tofile="${path::combine(path::get-directory-name(filePath), 'AssemblyInfo.cs')}" overwrite="true">
+          <filterchain>
+            <replacetokens>
+              <token key="NReadabilityVersion" value="${nreadability.version}" />
+            </replacetokens>
+          </filterchain>
+        </copy>
+      </do>
+    </foreach>
+  </target>
+  
+  <target name="build" depends="expand-templates">
+    <exec program="${msbuild.path}">
+      <arg value="Src\NReadability\NReadability.sln" />
+      <arg value="/t:Build" />
+      <arg value="/p:Configuration=Release" />
+    </exec>
+  </target>
+
+  <target name="doc" depends="build">
+    <exec program="Tools\ImmDocNet\ImmDocNet.exe">
+      <arg value="-ForceDelete" />
+      <arg value="-IncludeInternalMembers" />
+      <arg value="-ProjectName:NReadability Documentation" />
+      <arg value="-OutputDirectory:ImmDoc" />
+      <arg value="-CHMName:ImmDoc\NReadability.chm" />
+      <arg value="Bin\NReadability.dll" />
+      <arg value="Bin\NReadability.xml" />
+    </exec>
+  </target>
+
+  <target name="test" depends="build">
+    <exec program="Tools\NUnit\nunit-console.exe">
+      <arg value="Tests\NReadability.Tests.dll" />
+      <arg value="/xml=Tests\TestsResults.xml" />
+    </exec>
+  </target>
+
+  <target name="dist" depends="build test doc">
+    <delete dir="Dist" />
+    <copy todir="Dist">
+      <fileset basedir="Bin">
+        <include name="*.dll" />
+        <include name="*.xml" />
+      </fileset>
+    </copy>
+    <copy file="Bin\NReadability.Console.exe" todir="Dist" />
+    <copy file="LICENSE.txt" todir="Dist" />
+    <copy todir="Dist">
+      <fileset basedir="ImmDOc">
+        <include name="*.chm" />
+      </fileset>
+    </copy>
+    <call target="package" />
+  </target>
+  
+  <target name="package">
+    <!-- Package binary. -->
+    <property name="bin.zip.dir" value="NReadability-${nreadability.version}" />
+    <zip zipfile="Dist\${bin.zip.dir}.zip">
+      <fileset basedir="Dist" prefix="${bin.zip.dir}">
+        <include name="**\*" />
+        <exclude name="NReadability-*.zip" />
+      </fileset>
+    </zip>
+    <!-- Package source. -->
+    <property name="src.zip.dir" value="NReadability-${nreadability.version}-Src" />
+    <property name="tmp.svn.export.dir" value="tmp_svn_export" />
+    <delete dir="${tmp.svn.export.dir}" />
+    <echo message="Exporting SVN repository." />
+    <exec program="svn">
+      <arg value="export" />
+      <arg value="." />
+      <arg value="${tmp.svn.export.dir}" />
+    </exec>
+    <zip zipfile="Dist\${src.zip.dir}.zip">
+      <fileset basedir="${tmp.svn.export.dir}" prefix="${src.zip.dir}">
+        <include name="**\*" />
+      </fileset>
+    </zip>
+    <delete dir="${tmp.svn.export.dir}" />
+    <delete>
+      <fileset basedir="Dist">
+        <include name="**\*" />
+        <exclude name="${bin.zip.dir}.zip" />
+        <exclude name="${src.zip.dir}.zip" />
+      </fileset>
+    </delete>
+  </target>
+  
+  <target name="clean">
+    <delete dir="Bin" />
+    <delete dir="Tests" />
+    <delete dir="ImmDoc" />
+    <delete dir="Dist" />
+  </target>
+  
+  <target name="all">
+    <call target="dist" />
+  </target>
+
+</project>

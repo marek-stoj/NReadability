@@ -1,0 +1,31 @@
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SgmlReader8", "CommandLine\SgmlReader8.csproj", "{606C348A-9A72-4179-9C55-4DD9914C22CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SgmlReaderDll8", "SgmlReaderDll\SgmlReaderDll8.csproj", "{499527FF-AE52-450F-B3E3-4AD53E1712AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSuite8", "TestSuite\TestSuite8.csproj", "{8C30F6C5-64E8-4810-B5B5-62782257AEBD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{606C348A-9A72-4179-9C55-4DD9914C22CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{606C348A-9A72-4179-9C55-4DD9914C22CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{606C348A-9A72-4179-9C55-4DD9914C22CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{606C348A-9A72-4179-9C55-4DD9914C22CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{499527FF-AE52-450F-B3E3-4AD53E1712AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{499527FF-AE52-450F-B3E3-4AD53E1712AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{499527FF-AE52-450F-B3E3-4AD53E1712AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{499527FF-AE52-450F-B3E3-4AD53E1712AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C30F6C5-64E8-4810-B5B5-62782257AEBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C30F6C5-64E8-4810-B5B5-62782257AEBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C30F6C5-64E8-4810-B5B5-62782257AEBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C30F6C5-64E8-4810-B5B5-62782257AEBD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

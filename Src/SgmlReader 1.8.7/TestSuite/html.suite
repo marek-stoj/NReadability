@@ -1,0 +1,513 @@
+﻿`-html
+<html>
+<body><span text />
+</body>
+</html>
+`
+<html>
+  <body>
+    <span text="text" />
+  </body>
+</html>
+`-html
+<html>
+<body><span text="foo>bar"/>
+</body>
+</html>
+`
+<html>
+  <body>
+    <span text="foo">bar"/&gt;
+</span>
+  </body>
+</html>
+`-html
+<html>
+<body><span text="foo<bar"/>
+</body>
+</html>
+`
+<html>
+  <body>
+    <span text="foo&lt;bar" />
+  </body>
+</html>
+`-html
+<html>
+<body>
+<tag>&test&nbsp&nbsp blah blah</tag>
+</body>
+</html>
+`
+<html>
+  <body>
+    <tag>&amp;test  blah blah</tag>
+  </body>
+</html>
+`-html
+<html>
+<body>
+<tag>&nbsp&nbsp&nbsp blah blah</tag>
+</body>
+</html>
+`
+<html>
+  <body>
+    <tag>   blah blah</tag>
+  </body>
+</html>
+`-html
+<html>
+<body>
+<p>bad char: <span>&#1048576;</span></p>
+</body>
+</html>
+`
+<html>
+  <body>
+    <p>bad char: <span>􀀀</span></p>
+  </body>
+</html>
+`-html
+<html>
+<body>
+<P class=MsoNormal dir=ltr 
+style="MARGIN: 0pt;" align=left><?xml:namespace 
+prefix = st1 ns = "urn:schemas-microsoft-com:office:smarttags" 
+/><ST1:PERSONNAME></ST1:PERSONNAME></P>
+</body>
+</html>
+`
+<html>
+  <body>
+    <P class="MsoNormal" dir="ltr" style="MARGIN: 0pt;" align="left">
+      <?namespace 
+prefix = st1 ns = "urn:schemas-microsoft-com:office:smarttags" 
+?>
+      <ST1:PERSONNAME xmlns:ST1="#unknown">
+      </ST1:PERSONNAME>
+    </P>
+  </body>
+</html>
+`-html
+<html>
+<body>
+<DIV STYLE="top:214px; left:139px; position:absolute; font-size:26px;"><NOBR><SPAN STYLE="font-family:"Wingdings 2";"></SPAN></NOBR></DIV>
+</body>
+</html>
+`
+<html>
+  <body>
+    <DIV STYLE="top:214px; left:139px; position:absolute; font-size:26px;">
+      <NOBR>
+        <SPAN STYLE="font-family:" Wingdings="Wingdings" _x0032_=";">
+        </SPAN>
+      </NOBR>
+    </DIV>
+  </body>
+</html>
+`-html
+<html>
+<body>
+<script type="text/javascript">/*<![CDATA[*/
+var test = '<div>"test"</div>';
+/*]]>*/</script>
+<p>test</p>
+</body>
+</html>
+`
+<html>
+  <body>
+    <script type="text/javascript"><![CDATA[
+var test = '<div>"test"</div>';
+]]></script>
+    <p>test</p>
+  </body>
+</html>
+`-html -lower
+<html>
+<body>This <P>is bad </P> XHTML.</body>
+</html>
+`
+<html>
+  <body>This <p>is bad </p> XHTML.</body>
+</html>
+`-html -noformat
+<html>
+<body><span>some text</span> <span>more text</span></body>
+</html>
+`
+<html>
+<body><span>some text</span> <span>more text</span></body>
+</html>
+`-html
+<html>
+<body><a href="http://www.cnn.com/"' title="cnn.com">cnn</a></body>
+</html>
+`
+<html>
+  <body>
+    <a href="http://www.cnn.com/">cnn</a>
+  </body>
+</html>
+`-html
+<html>
+<head>
+<style>
+<!--
+</style>
+</head>
+</html>
+`
+<html>
+  <head>
+    <style>
+      <!--
+</style>
+</head>
+</html>
+-->
+    </style>
+  </head>
+</html>
+`-html
+<html>
+  <body>&apos;</body>
+</html>
+`
+<html>
+  <body>'</body>
+</html>
+`-html
+<script type="text/javascript></script>
+`
+<html>
+  <script type="text/javascript">
+  </script>
+</html>
+`-html
+<html xmlns="http://www.w3.org/1999/xhtml"><head /><body><table u1:str="" x:str=""></table></body></html>
+`
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head />
+  <body>
+    <table u1:str="" x:str="" xmlns:x="#unknown1" xmlns:u1="#unknown">
+    </table>
+  </body>
+</html>
+`-html
+<html>
+    <body>&sup2;</body>
+</html>
+`
+<html>
+  <body>²</body>
+</html>
+`-html
+<html>
+    <body>
+       <something@something.com>
+    </body>
+</html>
+`
+<html>
+  <body>&lt;something@something.com&gt;</body>
+</html>
+`-html
+<html>
+    <body>
+        <script type="text/javascript">/*<![CDATA[*/ /*<![CDATA[*/ test /*]]>*/ /*]]&gt;*/</script>
+    </body>
+</html>
+`
+<html>
+  <body>
+    <script type="text/javascript"><![CDATA[  test  /*]]&gt;*/]]></script>
+  </body>
+</html>
+`-html
+<html>
+	<body>
+		<style>div.wiki { float: right; }</style>
+		<em>foo</em>
+	</body>
+</html>
+`
+<html>
+  <body>
+    <style><![CDATA[div.wiki { float: right; }]]></style>
+    <em>foo</em>
+  </body>
+</html>
+`-html
+<html><body><title>Title</title><foo>foo</foo></body></html>
+`
+<html>
+  <body>
+    <title>Title</title>
+    <foo>foo</foo>
+  </body>
+</html>
+`-html -testclone
+<html><body>
+<p class="MsoNormal">
+	<span style="font-size: 10pt;" arial="" ,="" sans-serif="" ;;="" font-family:dummy:="" font-family:="" font-family:foo:="" arial;="" font-size:="" 13.3333px;="">
+		<span class="Apple-style-span" style="font-family: Arial; font-size: 13.3333px;">-lm</span>
+	</span>
+</p>
+</body></html>
+`
+<html>
+  <body>
+    <p class="MsoNormal">
+      <span style="font-size: 10pt;" arial="" sans-serif="">
+        <span class="Apple-style-span" style="font-family: Arial; font-size: 13.3333px;">-lm</span>
+      </span>
+    </p>
+  </body>
+</html>
+`-html
+<html><body>do <![if !supportLists]>not<![endif]> lose this text</body></html>
+`
+<html>
+  <body>do not lose this text</body>
+</html>
+`-html
+<html xmlns="http://implicit" xmlns:n="http://explicit"><foo attr1="1" n:attr2="2" /><n:foo attr1="1" n:attr2="2" /></html>
+`
+<html xmlns="http://implicit" xmlns:n="http://explicit">
+  <foo attr1="1" n:attr2="2" />
+  <n:foo attr1="1" n:attr2="2" />
+</html>
+`-html
+<html xmlns:n="http://explicit"><foo attr1="1" n:attr2="2" /><n:foo attr1="1" n:attr2="2" /></html>
+`
+<html xmlns:n="http://explicit">
+  <foo attr1="1" n:attr2="2" />
+  <n:foo attr1="1" n:attr2="2" />
+</html>
+`-html -testclone
+<html xmlns:n="http://explicit"><foo attr1="1" n:attr2="2" /><n:foo attr1="1" n:attr2="2" /></html>
+`
+<html xmlns:n="http://explicit">
+  <foo attr1="1" n:attr2="2" />
+  <n:foo attr1="1" n:attr2="2" />
+</html>
+`-html
+<html><foo xmlns:n="http://explicit" attr1="1" n:attr2="2" /></html>
+`
+<html>
+  <foo xmlns:n="http://explicit" attr1="1" n:attr2="2" />
+</html>
+`-html -testclone
+<html><foo xmlns:n="http://explicit" attr1="1" n:attr2="2" /></html>
+`
+<html>
+  <foo xmlns:n="http://explicit" attr1="1" n:attr2="2" />
+</html>
+`-html
+<html xmlns:o="http://microsoft.com"><body>A<o:p></o:p>B<o:p></o:p></body></html>
+`
+<html xmlns:o="http://microsoft.com">
+  <body>A<o:p></o:p>B<o:p></o:p></body>
+</html>
+`-html -testclone
+<html xmlns:o="http://microsoft.com"><body>A<o:p></o:p>B<o:p></o:p></body></html>
+`
+<html xmlns:o="http://microsoft.com">
+  <body>A<o:p />B<o:p /></body>
+</html>
+`-html
+<html><body>A<o:p></o:p>B<o:p></o:p></body></html>
+`
+<html>
+  <body>A<o:p xmlns:o="#unknown"></o:p>B<o:p xmlns:o="#unknown"></o:p></body>
+</html>
+`-html -testclone
+<html><body>A<o:p></o:p>B<o:p></o:p></body></html>
+`
+<html>
+  <body>A<o:p xmlns:o="#unknown" />B<o:p xmlns:o="#unknown" /></body>
+</html>
+`-html
+<html><body>
+`
+<html>
+  <body>
+  </body>
+</html>
+`-html
+
+
+<html>
+`
+
+
+<html>
+</html>
+`-html
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"> 
+<html>
+`
+<html>
+</html>
+`-html -ignore
+<HTML><BODY> 
+<LINK href="a.css" type="text/css" rel="stylesheet" /> 
+</body> 
+</HTML> 
+`
+<HTML>
+  <BODY>
+  </BODY>
+  <LINK href="a.css" type="text/css" rel="stylesheet" />
+</HTML>
+`-html
+<html>
+<body>
+<table><tr><td>row1<tr><td>row2</td>
+`
+<html>
+  <body>
+    <table>
+      <tr>
+        <td>row1</td>
+      </tr>
+      <tr>
+        <td>row2</td>
+      </tr>
+    </table>
+  </body>
+</html> 
+`-html
+<html> 
+<head> 
+<script language="JavaScript"> 
+<!-- 
+--></script> 
+</head> 
+<body> 
+<p>hello</p> 
+</body> 
+</html> 
+`
+<html>
+  <head>
+    <script language="JavaScript">
+      <!-- 
+-->
+    </script>
+  </head>
+  <body>
+    <p>hello</p>
+  </body>
+</html>
+`-html
+<html>
+<![CDATA[this is a CDATA block with markup <table><tr><td> ]]>
+</html>
+`
+<html><![CDATA[this is a CDATA block with markup <table><tr><td> ]]></html>
+`-html
+<p>This is really <messed_up.< p>.
+`
+<html>
+  <p>This is really <messed_up.>&lt; p&gt;.
+</messed_up.></p>
+</html>
+`-html
+<html><class="black">Text………</html>
+`
+<html>
+  <class>Text………</class>
+</html>
+`-html
+<p>&copy;</p>
+<br/>
+`
+<html>
+  <p>©</p>
+  <br />
+</html>
+`-html
+<html> 
+  <img src="img.gif" height"4" width= 2 > 
+</html>
+`
+<html>
+  <img src="img.gif" height="4" width="2" />
+</html>
+`-html
+<html>
+  <script><![CDATA[this is a test]]></script>
+</html>
+`
+<html>
+  <script><![CDATA[this is a test]]></script>
+</html>
+`-lower -html
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<HTML></HTML>
+`
+<html>
+</html>
+`-html -testdoc
+<b>foo</b>
+`
+<html>
+  <b>foo</b>
+</html>
+`-html -testdoc
+blah <b>foo</b>
+`
+<html>blah <b>foo</b></html>
+`-html -testdoc
+<!-- top --> <b>foo</b>
+`
+<!-- top -->
+<html>
+  <b>foo</b>
+</html>
+`
+<html>
+<body>
+<p>&#x5a;&#90;&#90 test &#90</p>
+`
+<html>
+  <body>
+    <p>ZZZ test Z</p>
+  </body>
+</html>
+`-html -testdoc
+<html>
+  <?xml version="1.0" encoding="UTF-16"?>
+</html>
+`
+<html>
+</html>
+`-html
+<html><?xml:namespace prefix="st1" ns="urn:schemas-microsoft-com:office:smarttags" />
+<body>
+`
+<html>
+  <?namespace prefix="st1" ns="urn:schemas-microsoft-com:office:smarttags" ?>
+  <body>
+  </body>
+</html>
+`-html
+<html xmlns:portal="http://schemas.microsoft.com/msn/portal/controls"><head><title>Welcome to MSN.com</title>
+`
+<html xmlns:portal="http://schemas.microsoft.com/msn/portal/controls">
+  <head>
+    <title>Welcome to MSN.com</title>
+  </head>
+</html>
+`-html -testclone
+<html xmlns:portal="http://schemas.microsoft.com/msn/portal/controls"><head><title>Welcome to MSN.com</title>
+`
+<html xmlns:portal="http://schemas.microsoft.com/msn/portal/controls">
+  <head>
+    <title>Welcome to MSN.com</title>
+  </head>
+</html>
+`

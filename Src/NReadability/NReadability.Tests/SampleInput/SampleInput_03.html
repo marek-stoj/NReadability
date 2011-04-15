@@ -1,0 +1,1322 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> 
+ 
+<html> 
+ 
+<head> 
+<title>Coding Horror: Welcome Back Comments</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<link rel="stylesheet" href="http://www.codinghorror.com/blog/styles-site.css" type="text/css" /> 
+<link rel="stylesheet" href="http://www.codinghorror.com/blog/styles-site-mobile.css" type="text/css" media="handheld" /> 
+<link rel="stylesheet" href="http://www.codinghorror.com/blog/styles-site-print.css" type="text/css" media="print" /> 
+<link rel="alternate" type="application/rss+xml" title="RSS" href="http://feeds.feedburner.com/codinghorror/" /> 
+<link rel="start" href="/blog/" title="Home" /> 
+
+
+<link rel="prev" href="http://www.codinghorror.com/blog/2010/01/cultivate-teams-not-ideas.html" title="Cultivate Teams, Not Ideas" />
+
+
+
+
+<script type="text/javascript"> 
+var TPApp = {};
+TPApp.app_uri = "http://www.typepad.com/";
+
+</script> 
+<script type="text/javascript" src="http://static.typepad.com/.shared:v25.4:typepad:en_us/js/yui/yahoo-dom-event.js"></script> 
+<script type="text/javascript" src="http://static.typepad.com/.shared:v25.4:typepad:en_us/js/app/thumbnail-gallery-min.js"></script> 
+<script type="text/javascript" src="http://static.typepad.com/.shared:v25.4:typepad:en_us/js/app/flyouts.js"></script>
+
+<link rel="shortcut icon" href="/favicon.ico" /> 
+
+</head>
+
+<body>
+	
+
+<div class="blog"> 
+
+<div style="float:left; "> 
+<a href="http://www.codinghorror.com/blog/"><img src="http://www.codinghorror.com/blog/images/coding-horror-official-logo-small.png" alt="I &lt;3 Steve McConnell" border="0" height="91" width="100"></a>*
+</div> 
+
+<div style="float:left; margin-top:10px;"> 
+<a href="http://www.codinghorror.com/blog/"><img alt="Coding Horror" src="http://www.codinghorror.com/blog/images/coding-horror-text.png" border="0" height="25" width="275"></a><br/> 
+<span class="description">programming and human factors<br/>by Jeff Atwood</span> 
+</div> 
+
+
+<div style="float:right; margin-top:20px;" id="searchbox"> 
+<form method="get" action="http://www.google.com/custom" target="_top"> 
+<input type="hidden" name="domains" value="www.codinghorror.com"></input> 
+<label for="sbi" style="display: none">Enter your search terms</label> 
+<input type="text" name="q" size="31" maxlength="255" value="" id="sbi"></input> 
+<label for="sbb" style="display: none">Submit search form</label> 
+<input type="submit" name="sa" value="Search" id="sbb"></input><br/> 
+<input type="radio" name="sitesearch" value="" id="ss0"></input> 
+<label for="ss0" title="Search the Web">Web</label></td> 
+
+<input type="radio" name="sitesearch" value="www.codinghorror.com" checked id="ss1"></input> 
+<label for="ss1" title="Search www.codinghorror.com">Coding Horror</label> 
+<input type="hidden" name="client" value="pub-6424649804324178"></input> 
+<input type="hidden" name="forid" value="1"></input> 
+<input type="hidden" name="ie" value="ISO-8859-1"></input> 
+<input type="hidden" name="oe" value="ISO-8859-1"></input> 
+<input type="hidden" name="safe" value="active"></input> 
+<input type="hidden" name="cof" value="GALT:#0066CC;GL:1;DIV:#FFFFFF;VLC:A2427C;AH:center;BGC:FFFFFF;LBGC:FFFFFF;ALC:666666;LC:666666;T:000000;GFNT:0066CC;GIMP:0066CC;LH:50;LW:344;L:http://www.codinghorror.com/blog/images/codinghorror-search-logo1.png;S:http://www.codinghorror.com/blog/;FORID:1"></input> 
+<input type="hidden" name="hl" value="en"></input> 
+</form> 
+</div> 
+
+</div> 
+<br clear="all"> 
+
+<div id="container"> 
+ 
+<div class="blog"> 
+
+<h2 class="date">Feb 12, 2010</h2> 
+
+
+<div class="blogbody"> 
+
+<h3 class="title"><a href="http://www.codinghorror.com/blog/2010/02/welcome-back-comments.html" class="title-link">Welcome Back Comments</a></h3> 
+
+<p>
+I apologize for the scarcity of updates lately. There have been two things in the way:
+<p>
+<ol>
+<li><p>Continuing fallout from <a href="http://www.codinghorror.com/blog/2009/12/international-backup-awareness-day.html">International Backup Awareness Day</a>, which meant all updates to Coding Horror from that point onward were hand-edited text files. Which, believe me, isn't <i>nearly</i> as sexy as it &hellip; uh &hellip; doesn't sound.</p>
+
+<li><p>I am <a href="http://www.webstock.org.nz/10/programme/presentations.php">presenting and conducting a workshop at Webstock 2010</a> in New Zealand. This is a two week trip I'm taking with the whole family, including our little buddy <a href="http://www.codinghorror.com/blog/2009/03/spawned-a-new-process.html">Rock Hard Awesome</a>, so the preparations have been more intense than usual.
+</p>
+<p>
+On top of all that, <a href="http://www.webstock.org.nz/10/programme/presentations.php">according to the program</a>, I just found that my presentation involves <i>interpretive dance</i>, too. Man. I wish someone had told me! My moves are so rusty, they've barely improved from <a href="http://en.wikipedia.org/wiki/Breakin'_2:_Electric_Boogaloo">Electric Boogaloo</a>. But hey, at least I don't have to sing Andrews Sister songs like poor Brian Fling.</p>
+</ol>
+
+<p>
+And then, of course, there's that crazy <a href="http://www.codinghorror.com/blog/2008/04/introducing-stackoverflow-com.html">Stack Overflow thing</a> I'm always yammering on about. Very busy there, our <a href="http://blog.stackoverflow.com/2010/01/eating-our-own-careers-dogfood/">team is expanding</a>, and we have big plans for this year, too.
+<p>
+But, there is hope!
+<p>
+Thanks to the fine folks at <a href="http://www.sixapart.com/">Six Apart</a> -- and more specifically the herculean efforts of one <a href="http://sippey.typepad.com/">Michael Sippey</a> -- <b>Coding Horror is now hosted in the <a href="http://typepad.com/">TypePad</a> ecosystem</b>. Which means, at least in theory, better "cloud" type reliability in the future. (cough)
+
+<p>
+One accidental bit of collateral damage was that comments, by necessity, were disabled during this two month period. At first, I was relieved. This may seem a bit hypocritical, since I originally wrote <a href="http://www.codinghorror.com/blog/2006/04/a-blog-without-comments-is-not-a-blog.html">A Blog Without Comments is Not a Blog</a>. And I still believe it too. But as I prophetically noted in the very same post:
+<p>
+<blockquote>
+I am sympathetic to issues of scale. <b>Comments don't scale worth a damn.</b> If you have thousands of readers and hundreds of comments for every post, you should disable comments and switch to forums, probably moderated forums at that. But the number of bloggers who have that level of readership is so small as to be practically nil. And when you get there, believe me, you'll know. Until then, you should enable comments.
+</blockquote>
+<p>
+I guess you can put this in the "nice problems to have" category, but let me tell you, it's not so nice of a problem when it's on your plate. <b>At a large enough scale, comments require active moderation or they rapidly go sour.</b> People get mean, the crazies come out in full force, and the comments start to resemble an out of control trailer park reality show brawl. It's fun, I suppose, but in a way that drives out all the sane people. Left unchecked, the best you can hope for is to end up head resident at the sanitarium. And that's a hell of a way to go out.
+<p>
+
+<a href="http://redwing.hutman.net/~mreed/warriorshtm/howlers.htm"><img alt="Howlers" title="Howlers" src="http://www.codinghorror.com/.a/6a0120a85dcdae970b01287798c31e970c-800wi" border="0"></a>
+<p>
+(the above is from Mike Reed's <a href="http://www.codinghorror.com/blog/2005/11/which-online-discussion-archetype-are-you.html">amazing Flame Warriors series</a>, by the way. Well worth your time if you haven't seen it already.)
+<p>
+The degeneration of comments was a shame, because it undermined my claim that <a href="http://www.codinghorror.com/blog/2008/06/finally-a-definition-of-programming-i-can-actually-understand.html">comments are awesome</a>.
+<p>
+<blockquote>
+It's an open secret amongst bloggers that the blog comments are often better than the original blog post, and it's because the community collectively knows far more than you or I will ever know.
+<p>
+The best part of a blog post often begins where the blog post ends. If you are offended by that, I humbly submit you don't understand why blogs work.
+</blockquote>
+<p>
+Why would I have bothered to found Stack Overflow with Joel Spolsky if I didn't believe in the power of community -- that <a href="http://www.codinghorror.com/blog/2008/09/stack-overflow-none-of-us-is-as-dumb-as-all-of-us.html">none of us is as dumb as all of us?</a> Honestly, a lot of the design of Stack Overflow comes from my personal observations about how blog comments work. But my creaky old Coding Horror comments offered none of the fancy voting and moderation facilities that make Stack Overflow work. And without ample free personal time and attention from me to weed the comment garden, the comments got out of control.
+
+<p>
+<b>Most of all, I blame myself.</b>
+<p>
+I got some amazing emails in lieu of comments on my last few blog posts, and it positively <i>kills</i> me that these emails were only seen by two sets of eyes instead of the thousands they deserve. That's a big part of why I <a href="http://www.codinghorror.com/blog/2007/05/maximizing-the-value-of-your-keystrokes.html">hate email silos</a>. And really, <a href="http://blog.stackoverflow.com/2010/02/podcast-83/">email in general</a>. 
+<p>
+But there was another unanticipated side effect of having comments disabled that Stéphane Charette pointed out to me in email.
+<p>
+<blockquote>
+Here is an interesting "silver lining" to the crash you had.  Without 
+comments, it forces us, your faithful readers, to think more about 
+what you have to say.
+
+<p>
+In a way, things are back to how your blog used 
+to be.  In recent years, the huge influx of comments means that we -- 
+or just I? -- end up spending 1/4 of my time reading what you wrote, 
+and then merging in what everyone else wrote.  Depending on how I feel  
+about the topic and your approach to the issue, the weight values may 
+be very different than 50/50.  But regardless, I always have to 
+consider when clicking on my Coding Horror bookmark:  "Is now the 
+right time to check if he has a new entry?  Do I have enough time to 
+read through a hundred comments?  Should I wait until later tonight 
+when the kids are in bed to go read his latest article?" 
+<p>
+I never thought about it until recently.  Your crash is what brought 
+this up to light.  Like tonight, when I saw your new headline in my 
+iGoogle page, I didn't have to consider whether or not it was the 
+right time.  I read the article, and then <i>thought for myself</i>. I 
+didn't let other people's comments steer my thoughts.  How nice!
+<p>
+I'm not certain why it works like this.  Often, the sheer number of 
+comments distracts from what you wrote, but for some reason, it is 
+impossible not to at the very least scroll through what people say. 
+In a way, your blog has ended up like a slashdot article, with a 
+paragraph or two of content at the top, and then everyone wanting to 
+insert their $0.02. 
+</blockquote>
+<p>
+Thinking for yourself. Now there's a <a href="http://www.codinghorror.com/blog/2008/10/youre-reading-the-worlds-most-dangerous-programming-blog.html">novel idea</a>. In the reverberating echo chamber that is the internet, I think we would <i>all</i> do well to remind ourselves of that periodically.
+<p>
+
+He's also right that the psychic burden of all those comments was weighing not just on readers, but on me, the writer, too. That's why I had a false sense of freedom when comments were disabled. <i>You mean I can say whatever I want, and nobody can contradict me underneath my very own post? Revolutionary!</i>
+<p>
+There are some absolute gems of insight and observation in comments, but sometimes extracting them was too much like pulling teeth. At the same time, I felt obligated to read all the comments on every post of mine. If I was asking people to read the random words I'm spewing all over the internet, how could I not extend my commenters the same courtesy? That's just rude. 
+<p>
+It seems the only thing worse than comments being on was comments being <i>off</i>. It started to feel empty. As if I was in an enormous room, presenting to an eerily mute audience.
+<p>
+So, while I am very glad to have comments back, and I welcome dialog with the community, there will be &hellip; changes. For the benefit of everyone's mental health.
+<p>
+<ol>
+<li><p><b>No more anonymous comments</b>. While I would prefer to allow anonymous comments, it is clear that at this scale I don't have time to deal properly with anonymous comments. If you want to say something, you'll need to authenticate. If what you have to say isn't worth authenticating to post, it's probably best for both of us if you keep it to yourself anyway.</p>
+
+<p>
+The good news is that the TypePad commenting system supports a veritable laundry list of authentication mechanisms -- OpenID (naturally), Twitter, Facebook, Google, Yahoo, and many others. So authenticating to post a comment should only present a mild, but necessary, barrier to conversation.</p>
+<li><p><b>Comment moderation will be more stringent</b>. If you don't have something useful and reasonably constructive to say in your comment, it will be removed without hesitation. You can be <a href="http://www.codinghorror.com/blog/2009/06/i-stopped-reading-your-blog-years-ago.html">as critical of me</a> (or, better still, my arguments and ideas) as you like, but you must convince me that you're <i>contributing</i> to the conversation and not just yelling at me or anyone else.</p>
+<p>I'm not looking for sycophants, but shrill argument is every bit as bad. When you comment here, try to show the class something interesting they can use. That's all I'm asking.</p>
+</ol>
+<p>
+It feels good to be back. Thanks to Six Apart for making it happen.
+
+<p>
+And, most of all, thanks to <i>you</i> for reading.
+<p>
+<table> 
+<tr><td class="welovecodinghorror"> 
+[advertisement] <a href="http://www.atlassian.com/software/jira/?s_kwcid=codinghorror&amp;utm_source=codinghorror&amp;utm_medium=referral&amp;utm_campaign=footer_link&amp;utm_content=jira4_from_10" rel="nofollow">JIRA 4</a> - Simplify issue tracking for everyone involved. <a href="http://www.atlassian.com/software/jira/?s_kwcid=codinghorror&amp;utm_source=codinghorror&amp;utm_medium=referral&amp;utm_campaign=footer_link&amp;utm_content=jira4_from_10" rel="nofollow">Get started</a> from $10 for 10 users.
+</td></tr> 
+</table> 
+
+<p>
+<p>
+
+
+
+ 
+ 
+<div class="posted">Posted by Jeff Atwood &nbsp;&nbsp; <script src="http://technorati.com/linkcount" type="text/javascript"></script><a class="tr-linkcount" href="http://technorati.com/search/http://www.codinghorror.com/blog/2010/02/welcome-back-comments.html?sub=nscosmos">View blog reactions</a></div> 
+ 
+
+<div style="float:left;">&laquo; <a href="http://www.codinghorror.com/blog/2010/01/cultivate-teams-not-ideas.html">Cultivate Teams, Not Ideas</a></div> 
+
+
+
+
+</div> 
+
+
+
+
+<div class="comments-head"><a name="comments"></a>Comments</div> 
+
+
+
+
+<div class="comments-body lnxwalt"> 
+<p>Another thing you might think about (if TypePad supports it) is getting a few trusted people to help you moderate comments and trackbacks.</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/lnxwalt" href="http://profile.typepad.com/lnxwalt">LnxWalt</a> on February 12, 2010 11:32 PM</span> 
+</div> 
+
+
+
+<div class="comments-body mythokia"> 
+<p>How was migrating from your previous ASP.NET based (I can&#39;t remember the name offhand) blogging platform to TypePad like? Was there a lot of work involved in importing the content over and such?</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/perpetuallybored" href="http://profile.typepad.com/perpetuallybored">mythokia</a> on February 12, 2010 11:38 PM</span> 
+</div> 
+
+
+
+
+<div class="comments-body jeff_atwood"> 
+<p>Oh, I was always on Movable Type:</p>
+
+<p><a href="http://www.codinghorror.com/blog/2009/07/coding-horror-movable-type-since-2004.html" rel="nofollow">http://www.codinghorror.com/blog/2009/07/coding-horror-movable-type-since-2004.html</a></p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/codinghorror1" href="http://profile.typepad.com/codinghorror1">Jeff Atwood</a> on February 12, 2010 11:45 PM</span> 
+</div> 
+
+
+
+<div class="comments-body poweredbyredbullblogspotcom"> 
+<p>@mythokia: I believe that Jeff was using wordpress in the past. <a href="http://blog.stackoverflow.com/2009/12/blog-outage-backup-policies/" rel="nofollow">http://blog.stackoverflow.com/2009/12/blog-outage-backup-policies/</a></p>
+
+<p>@Jeff... cool to see you&#39;re back being &quot;alive&quot; on your blog again.  Safe trip to the event.  Looking forward to hearing how you, your Mrs. and the little dude make out with the international travel.</p>
+
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/poweredbyredbullblogspotcom" href="http://profile.typepad.com/poweredbyredbullblogspotcom">Poweredbyredbull.blogspot.com</a> on February 12, 2010 11:46 PM</span> 
+</div> 
+
+
+
+<div class="comments-body diago"> 
+<p>Welcome back comments. I do think some of the comments on your blog is worth keeping as well, and some provide a lot of insight to alternative approaches or thoughts.</p>
+
+<p>@mythokia. Jeff previously used MoveableType, not ASP.Net to run his blog. Some of his entries from 2004 describes what software he used and there is a more recent post about MoveableType as well.</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/severanc3" href="http://profile.typepad.com/severanc3">Diago</a> on February 12, 2010 11:46 PM</span> 
+</div> 
+
+
+
+<div class="comments-body diovo"> 
+
+<p>Yes!!!! Welcome back comments.</p>
+
+<p>I see that you have changed the URL structure. Now it is more predictable what I am linking to. Cool. I see that the old URLs are working too. double cool.</p>
+
+<p>What about a voting system and threaded comments?</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/diovo" href="http://profile.typepad.com/diovo">Diovo</a> on February 13, 2010 12:30 AM</span> 
+</div> 
+
+
+
+<div class="comments-body dan_dumitru"> 
+<p>I also welcome the fancy URLs.<br />
+It&#39;s a nice thing to see the posts&#39; titles in the links, when you put them all over your new articles.</p>
+
+<p>Also, why don&#39;t you drop the /blog in your URL structure?<br />
+It&#39;s not like you have something on codinghorror.com and something else on codinghorror.com/blog.</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/dandumitru" href="http://profile.typepad.com/dandumitru">Dan Dumitru</a> on February 13, 2010 12:51 AM</span> 
+</div> 
+
+
+
+<div class="comments-body farazshams"> 
+<p>Use the community to post a gist of the interesting comments a day or two after your main post. And of course, you can always introduce a comment voting system like Stack Overflow.</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/farazshams" href="http://profile.typepad.com/farazshams">Farazshams</a> on February 13, 2010  1:59 AM</span> 
+
+</div> 
+
+
+
+<div class="comments-body steve_mayne"> 
+<p>Although I agree that your blog is richer with comments, most of the time I read your blog through an RSS reader and don&#39;t see them.  </p>
+
+<p>My interest in comments generally comes down to a question of time or topic.  If the topic is particularly controversial or interesting, I&#39;ll scan the comments to see if anyone has picked up on the points I would make myself.  </p>
+
+<p>I suppose it&#39;s just an exercise in  vindication of my own view point.</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/mayne" href="http://profile.typepad.com/mayne">Steve Mayne</a> on February 13, 2010  2:19 AM</span> 
+
+</div> 
+
+
+
+<div class="comments-body bjorn_pettersen"> 
+<p>Hi Jeff, nice to have comments back :-)</p>
+
+<p>Your comments used to be colored differently, could we have tat back?</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/pettersen" href="http://profile.typepad.com/pettersen">Bjorn Pettersen</a> on February 13, 2010  2:52 AM</span> 
+</div> 
+
+
+
+<div class="comments-body umberferrule"> 
+<p>Comment voting system - definitely! Let the community do the work.</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/morrisjon" href="http://profile.typepad.com/morrisjon">UmberFerrule</a> on February 13, 2010  3:02 AM</span> 
+
+</div> 
+
+
+
+<div class="comments-body travis"> 
+<p>This reminds me of the period when Slashdot started needing (community) moderation. For a while after that, the discussions thrived and it was one of the most interesting sites on the net. Let&#39;s hope you don&#39;t go that route :-).</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/tsimon" href="http://profile.typepad.com/tsimon">Travis</a> on February 13, 2010  3:04 AM</span> 
+</div> 
+
+
+
+<div class="comments-body andrew_ducker"> 
+<p>I agree about threaded comments - that way people can either respond to you, or to a particular comment.</p>
+
+<p>And also - comment notifications.  If you want discussion amongst commenters then letting them know that they&#39;ve had a reply is vital.</p>
+
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/andrew18" href="http://profile.typepad.com/andrew18">Andrew Ducker</a> on February 13, 2010  3:28 AM</span> 
+</div> 
+
+
+
+<div class="comments-body vilx"> 
+<p>Nice to see that the TypePad registration is every bit as simple as I had hoped for. The hassle with OpenID was nearly too much to bother. By the way - can you edit your account here? I noticed (one button click too late) that I&#39;ve mistyped my email address.</p>
+
+<p>As for threaded comments - there&#39;s one problem with them. It&#39;s annoyingly difficult to find the comments that have been written since my last visit. I have to re-read the whole discussion. IMHO a chronological approach + quoting feature is better. Like in TheDailyWTF. Though there is one improvement it could have - it gets pretty awkward when there are deep nested quotes and long discussion posts. It would be nice if every quote would show only, say the first 3 lines, and the rest would be javascript-expandable with a button.</p>
+
+<p>Oh, and congratulations on getting your blog back on track! :)</p>
+
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/vals1" href="http://profile.typepad.com/vals1">Vilx-</a> on February 13, 2010  3:38 AM</span> 
+</div> 
+
+
+
+<div class="comments-body vilx"> 
+<p>Hey, I found it! :) And along the way already thought of half a dozen more features for comments (editing your own, advanced formatting, etc.) :P Which usually means exactly one thing - it&#39;s the best the way it is! :D</p>
+
+<p>The best software is not the one that has nothing more to add, but the one that has nothing more to remove.</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/vals1" href="http://profile.typepad.com/vals1">Vilx-</a> on February 13, 2010  3:42 AM</span> 
+</div> 
+
+
+
+
+<div class="comments-body tom"> 
+<p>Congrats on finally fixing your &quot;About me&quot; link :)</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/ardelian" href="http://profile.typepad.com/ardelian">Tom</a> on February 13, 2010  4:46 AM</span> 
+</div> 
+
+
+
+<div class="comments-body stuart_jones"> 
+<p>interesting... but the second caveat for your new comment moderation system could be a difficult path to follow - what you may consider &quot;shrill argument&quot; might be viewed by a wider audience as a valid point.</p>
+
+<p>as another blogger/publisher who invites community comments, I agree that crap like &quot;you suck&quot; is definitely a non-contributing feedback, but there are many times where my first instinct is to delete a negative comment, but then I might revisit it after a while and realise that it is actually a contributive one.</p>
+
+<p>Deleting &quot;shrill arguments&quot; out of hand in these cases might end up limiting truthful commentary and land you in that bubble of sycophanty.</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/jonesstuart" href="http://profile.typepad.com/jonesstuart">Stuart Jones</a> on February 13, 2010  5:04 AM</span> 
+</div> 
+
+
+
+
+<div class="comments-body john_young"> 
+<p>Great to see it back, enjoy your break (well, work break).</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/johnyoung" href="http://profile.typepad.com/johnyoung">John Young</a> on February 13, 2010  5:10 AM</span> 
+</div> 
+
+
+
+<div class="comments-body wwwitscodingtimecom"> 
+<p>Good call on allowing OpenId login&#39;s. I&#39;m pretty small fry when it comes to comments on my blog, yet it always amazes me that someone will waste so much time leaving spam messages, especially when I moderate and simply delete them without anyone else ever seeing them. I guess I need to put up a comment policy statement just so it&#39;s clear that I do moderate.</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/6p0120a897315e970b" href="http://profile.typepad.com/6p0120a897315e970b">www.itscodingtime.com</a> on February 13, 2010  5:29 AM</span> 
+
+</div> 
+
+
+
+<div class="comments-body mike_farrow"> 
+<p>Thanks for some of the most intelligent observations on Blogging and commenting I have ever read! I often advise people on Blogging and yours is always one of the gold standards I offer up to aim for but how do you manage success?</p>
+
+<p>It is a difficult balance and as ever you your finger right on the pulse! have an awesome time in New Zealand, it is a truely wonderous place.</p>
+
+<p>Warmest regards, Mike<br />
+<a href="http://mikefarrow.net" rel="nofollow">http://mikefarrow.net</a></p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/mikefarrow" href="http://profile.typepad.com/mikefarrow">Mike Farrow</a> on February 13, 2010  5:38 AM</span> 
+</div> 
+
+
+
+
+<div class="comments-body mpeters"> 
+<p>You should look at Mollom (<a href="http://mollom.com/)." rel="nofollow">http://mollom.com/).</a> It&#39;s a web service that uses machine learning to analyze potential spam and then give you the chance to show a CAPTCHA if that comment has spam potential. This way normal users don&#39;t have to answer a CAPTCHA but spam bots do. And since they analyze a large body of text coming from multiple sources they can spot trends before us individual sites can.</p>
+
+<p>I&#39;m not affiliated with Mollom, I&#39;m just a happy customer.</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/mpeters1" href="http://profile.typepad.com/mpeters1">Mpeters</a> on February 13, 2010  5:57 AM</span> 
+
+</div> 
+
+
+
+<div class="comments-body shachar"> 
+<p>Great to have comments back on, Jeff. To add to what Stéphane Charette said, I also merged some of the smarter comments to what you had to say, but for me YOUR comments (the ones with the orange background) were a must read, be it important commentary, points you neglected to cover in the original post and so on.</p>
+
+<p>so - can we get the background color back?</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/shachar" href="http://profile.typepad.com/shachar">Shachar</a> on February 13, 2010  6:23 AM</span> 
+</div> 
+
+
+
+<div class="comments-body steve_ryan"> 
+<p>Yes, it would be nice to have your comments back in that orange-ish yellow colour they were. Easier to tell you from the unwashed masses :D.<br />
+But in all seriousness, good to have you back. I missed your blog and it&#39;s &quot;sometime a week&quot; updates.</p>
+
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/steveryan" href="http://profile.typepad.com/steveryan">Steve Ryan</a> on February 13, 2010  6:27 AM</span> 
+</div> 
+
+
+
+<div class="comments-body tom_clancy"> 
+<p>Not really related, but one of the interesting usability issues I think you&#39;re about to have to deal with on Stack Overflow is what to do when a site is so useful that it&#39;s worth the effort of trying to post on it even if you don&#39;t know the native language very well.</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/tomclancy" href="http://profile.typepad.com/tomclancy">Tom Clancy</a> on February 13, 2010  6:42 AM</span> 
+</div> 
+
+
+
+<div class="comments-body tom_clancy"> 
+
+<p>And now I have to follow up to make it clear that I&#39;m not complaining, I think it&#39;s an awesome problem to have and I&#39;d love to see something work. It will really require some community buy-in for native English speakers to not get frustrated and be patient with users who have trouble communicating what they mean. </p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/tomclancy" href="http://profile.typepad.com/tomclancy">Tom Clancy</a> on February 13, 2010  6:43 AM</span> 
+</div> 
+
+
+
+<div class="comments-body macha"> 
+<p>@PoweredByRedBull: Jeff has used Wordpress, but for blog.stackoverflow.com and fakeplasticrock.com . Coding Horror has always been Movable Type.</p>
+
+<p>I wonder, how did the 2 months of inactivity and no comments affect the readership? I notice the Feedburner counter is showing 100k, while I&#39;m nearly certain I saw it around 168k at some point.</p>
+
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/webicity" href="http://profile.typepad.com/webicity">Macha</a> on February 13, 2010  7:23 AM</span> 
+</div> 
+
+
+
+<div class="comments-body joel_coehoorn"> 
+<p>Sigh.  Yet another .Net blogger chooses a competing platform.  Surely there was a viable asp.net-based choice?  What do you use for blog.stackoverflow.com?</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/coehoorn" href="http://profile.typepad.com/coehoorn">Joel Coehoorn</a> on February 13, 2010  8:21 AM</span> 
+</div> 
+
+
+
+<div class="comments-body mykey_"> 
+<p>+1 for the voting system. Of course, it doesn&#39;t have to do as much ranking as on Stack Overflow, but it&#39;s better than having your comments turn into something like this: <a href="http://www.collegehumor.com/video:1771556" rel="nofollow">http://www.collegehumor.com/video:1771556</a></p>
+
+<p>And it&#39;s great that you finally support so many authentication methods.</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/6p0128779a5c14970c" href="http://profile.typepad.com/6p0128779a5c14970c">MyKey_</a> on February 13, 2010  8:47 AM</span> 
+</div> 
+
+
+
+<div class="comments-body ivey_cook"> 
+<p>Finally. I was wondering why they were disabled and updates were few. </p>
+
+<p>Er, Joe Coehoorn, why is choosing TypePad bad?</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/iveycook" href="http://profile.typepad.com/iveycook">Ivey Cook</a> on February 13, 2010 11:08 AM</span> 
+
+</div> 
+
+
+
+<div class="comments-body trevor_george"> 
+<p>Hey Jeff,</p>
+
+<p>so you&#39;re coming to NZ? Awesome!! You&#39;ll love it here.... bring a raincoat.. :-)</p>
+
+<p>And welcome back online. I&#39;ve missed you. I understand your pain having been through it myself a couple of years back.</p>
+
+<p>I was one of the webmasters managing a critical govt. website hosted externally that melted down. (hard drive failure) Our hosting provider then informed us that the backup was &#39;truncated&#39;. </p>
+
+<p>It took two weeks of frantic effort to get the site back to something resembling the original. (and we didn&#39;t even have to deal with comments!!)</p>
+
+<p>I guess you could say you deserve a good holiday after all you&#39;ve been through. And what better place than NZ? (bring a raincoat.. honestly) Hopefully I&#39;ll catch you at Webstock.<br />
+</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/trevorgeorge" href="http://profile.typepad.com/trevorgeorge">Trevor George</a> on February 13, 2010 11:50 AM</span> 
+</div> 
+
+
+
+<div class="comments-body ortzinator"> 
+<p>So I guess Joel doesn&#39;t have a blog? :)</p>
+
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/6p0120a559d96f970b" href="http://profile.typepad.com/6p0120a559d96f970b">Ortzinator</a> on February 13, 2010  1:02 PM</span> 
+</div> 
+
+
+
+<div class="comments-body pat"> 
+<p>Welcome back comments. Very happy to see a new post and the comment system back in place.</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/patrickhyatt" href="http://profile.typepad.com/patrickhyatt">Pat</a> on February 13, 2010  4:23 PM</span> 
+</div> 
+
+
+
+<div class="comments-body jcfiala"> 
+<p>Welcome back comments, indeed!  I&#39;ve been quite sad with several of your blog posts to reach the end and see that comments were turned off.  </p>
+
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/jcfiala1" href="http://profile.typepad.com/jcfiala1">Jcfiala</a> on February 13, 2010  5:52 PM</span> 
+</div> 
+
+
+
+<div class="comments-body esm"> 
+<p>Am I the only one who misses &quot;orange&quot;? :) Ah well, march of progress and all that.</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/esm" href="http://profile.typepad.com/esm">esm</a> on February 13, 2010 10:37 PM</span> 
+</div> 
+
+
+
+<div class="comments-body lokiofknight"> 
+<p>You sound like a egotistical prick.  I used to read everything you wrote with enthusiasm and now you sound so disconnected. I have more space on my iGoogle page. Thanks</p>
+
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/lokiofknight" href="http://profile.typepad.com/lokiofknight">LokiOfKnight</a> on February 13, 2010 10:49 PM</span> 
+</div> 
+
+
+
+<div class="comments-body snoshy"> 
+<p>This brings up a great point - you rightly point out that the value of comments falls off a cliff after a certain number of viewers/responders is reached.  I&#39;ve always believed that there is a &quot;sweet spot&quot; when it comes to allowing your users to post comments.</p>
+
+<p>YouTube comments are a perfect example of the vocal but idiotic voices having their say with responses where it rapidly approaches the point where nobody values them.  I hate to put it that way, but reality, as they say, is a bitch.</p>
+
+<p>I think it is an interesting topic in itself.  As a rookie blogger, you&#39;re looking to grow your readership.  While you&#39;re in the growth stage, comments are critical for feedback and to foster a sense of community.  Once you pass a certain threshold of popularity, the idea of &quot;community&quot; (however that is defined by the Internet hive-mind), breaks down rapidly and begins to detract from the value of your loyal reader feedback.</p>
+
+<p>digg/Engadget/etc. style of commenting has always seemed a no-brainer to me.  Your readers end up policing themselves by down-voting asinine comments such that they aren&#39;t viewed by your typical follower that is looking to gauge the reaction to your latest post.  The Gawker community takes this a step further (or it did until recently) by disallowing anyone from posting unless they had a level of street-cred... errr.. troll-cred?</p>
+
+<p>Sorry, that ended up becoming an almost-blog-post-in-itself.</p>
+
+<p>Regardless, I&#39;m glad to see comments are back, especially with the emphasis that you are putting (as with anything) on the quality of comments.</p>
+
+<p>You should know, the commenting system seems to be buggy with Chrome.  I had to switch to Firefox to post this.</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/snoshy" href="http://profile.typepad.com/snoshy">Snoshy</a> on February 14, 2010 12:28 AM</span> 
+
+</div> 
+
+
+
+<div class="comments-body muhammad_usman_akram"> 
+<p>Welcome back comments ^__^</p>
+
+<p>Ortzinator, Jeol <a href="http://www.joelonsoftware.com/" rel="nofollow">http://www.joelonsoftware.com/</a> has a blog but he doesn&#39;t post as much as Jeff </p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/muhammadusmanakram" href="http://profile.typepad.com/muhammadusmanakram">Muhammad Usman Akram</a> on February 14, 2010  3:49 AM</span> 
+</div> 
+
+
+
+<div class="comments-body openidorgicelava"> 
+
+<p>I practise like Steve Mayne too; I regularly read Coding Horror via RSS, and only read further on comments for the topics I am interested in getting a more &quot;in depth&quot; perspective from what others have to state/suggest.</p>
+
+<p>Because we know Jeff is oftentimes wrong ;-)</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/6p0128779e6172970c" href="http://profile.typepad.com/6p0128779e6172970c">openid.org/icelava</a> on February 14, 2010  6:10 AM</span> 
+</div> 
+
+
+
+<div class="comments-body jeff_davis"> 
+<p>Woohoo! Glad to be part a discussion with my (mostly) peers again. Thanks.</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/davisjeff" href="http://profile.typepad.com/davisjeff">Jeff Davis</a> on February 14, 2010  7:26 AM</span> 
+
+</div> 
+
+
+
+<div class="comments-body david_w_fenton"> 
+<p>I am not a fan of OpenID. The only reason I set up an account is for StackOverflow. I am willing to maintain individual accounts with sites that I use regularly.</p>
+
+<p>However, I have no intention of being a regular poster of comments on this blog, so OpenID came in handy here -- I wouldn&#39;t comment at all if I had to set up an account just for this blog.</p>
+
+<p>So, to me, OpenID is most useful for the sites where I&#39;m a transitory visitor.</p>
+
+<p>FWIW.</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/david44" href="http://profile.typepad.com/david44">David W. Fenton</a> on February 14, 2010 12:35 PM</span> 
+
+</div> 
+
+
+
+<div class="comments-body eternalephemeronblogspotcom"> 
+<p>Honestly I don&#39;t understand the feelings some people have towards comments.  Not having comments means you have to think about the author&#39;s blog post, while with the comments you don&#39;t?  Comments don&#39;t scale?  Sure, moderation by a single person doesn&#39;t scale but lots of sites have more complex moderation.  Forums don&#39;t scale either if you insist on moderating every post.  As for people who worry that there will be too many comments to read, the answer is simple: don&#39;t read them.</p>
+
+<p>Sometimes people complain about information overload or other related problems but there is a really simple solution for many of those things: don&#39;t read it.  Too many comments? don&#39;t read them. Can&#39;t keep up with the forum posts? Just randomly scan forum topics and read a couple.  The world DOES have too much information for any person to process.  Just disconnect a bit.</p>
+
+<p>And Jeff, your hate-on for email is a little weird.  Email is great because it is so versatile.  Why should you need twenty different communication tools when email can do everything?</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/eternalephemeronblogspotcom" href="http://profile.typepad.com/eternalephemeronblogspotcom">Eternalephemeron.blogspot.com</a> on February 14, 2010  5:54 PM</span> 
+</div> 
+
+
+
+<div class="comments-body chris_moorhouse"> 
+<p>Comments, yay! Goodness all around.</p>
+
+<p>You know the improvement I liked best in thedailywtf.com? Featured Comments. If I was interested in the raw conversation, I could access that, but if all I wanted was the insightful stuff, the Featured Comments had it right there.</p>
+
+<p>Although it doesn&#39;t change the workload of moderation, content-wise this seems like the ideal situation for someone who supports the idea of the blog as a conversation. Instead of demoting what you consider &quot;bad&quot; comments, you instead promote &quot;good&quot; ones.</p>
+
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/chrismoorhouse" href="http://profile.typepad.com/chrismoorhouse">Chris Moorhouse</a> on February 14, 2010 11:09 PM</span> 
+</div> 
+
+
+
+<div class="comments-body juan_zamudio"> 
+<p>I’m glad that you are back, my only hope is that the quality of your post get&#39;s better too, the last 3 months were terrible, it appears that with all your activity you have left CH behind.<br />
+Keep the good posts coming.</p>
+
+<p>Juan Zamudio</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/juanzamudio" href="http://profile.typepad.com/juanzamudio">Juan Zamudio</a> on February 14, 2010 11:10 PM</span> 
+
+</div> 
+
+
+
+<div class="comments-body rod_sanders"> 
+<p>So, you&#39;re afraid of anonymous comments. How sad.</p>
+
+<p>I&#39;m certainly not a fan of the preponderance of trolls and morons who feel the urge to treat a discussion board as their own toilet, but it&#39;s also quite possible to go too far in the other direction as well.</p>
+
+<p>You&#39;re in danger of making this into an echo chamber. Sure, simply being required to sign on isn&#39;t going to suppress debate, in and of itself, but you&#39;re choosing to throw out some insightful and intelligent discourse, merely because they choose to not sign in.</p>
+
+<p>Yes, there are morons in that direction, but there can also be meaningful dialogue. However, with this attitude, you&#39;re basically saying that just because someone prefers to remain anonymous, it means (falsely) that they must have nothing of value to offer to the community.</p>
+
+<p>Maybe the real problem is that you don&#39;t like it when your preconceptions are challenged (you&#39;re going to claim that having a login only reduces trolls, but the trolls will be there, regardless, you just don&#39;t like having J. Random Stranger tell you that you&#39;re full of it.) From the last few postings where you had comments, I&#39;m going to have to assume that you&#39;ve taken offense at the idea that most of your commenters hate Markdown (and apparently, that pisses you off).</p>
+
+<p>Login or not, you&#39;re going to have to deal with disagreement, and even trolls. If you think this will allow you to moderate them, you&#39;re just in denial (and even if you are able to moderate them, you could do just as well, whether logins were required, or not).</p>
+
+<p>As to the idea that comments (especially anonymous ones) take away from the thrust of the original post, the only thing I can think to say about that is bullcrap. If your post stands on its own, and makes a clear and identifiable point, it won&#39;t matter if there&#39;s one or one thousand comments about it. </p>
+
+<p>If you really want to manage comments, do it like Slashdot does. Allow all comments, have levels of visibility managed by a group of moderators (here you get around the issue of what one person can do). In lieu of that kind of moderation, the only thing that comes through clearly is that you&#39;re utterly unwilling to accept the idea that people don&#39;t agree with you.</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/rodsanders" href="http://profile.typepad.com/rodsanders">Rod Sanders</a> on February 15, 2010 12:35 AM</span> 
+</div> 
+
+
+
+<div class="comments-body gordon_milne"> 
+<p>Welcome to NZ.</p>
+
+<p>In addition to excellent chocolate we have excellent coffee.</p>
+
+<p>Avoid all Starbucks emplacements whilst in NZ and head for the local coffee shot for a decent shot of the good stuff. I&#39;d start with a Flat White and see what you think of that.</p>
+
+<p>Wellington is the best little city in the world. It might be wet and windy at times but it does have the big advantage of compactness so getting about in the centre is a breeze.</p>
+
+<p>Any plans to visit the South Island this time around?</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/gordonmilne" href="http://profile.typepad.com/gordonmilne">Gordon Milne</a> on February 15, 2010  2:07 AM</span> 
+
+</div> 
+
+
+
+<div class="comments-body john"> 
+<p>Comments aren&#39;t back until Catto is.</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/6p0120a8a010b5970b" href="http://profile.typepad.com/6p0120a8a010b5970b">John</a> on February 15, 2010  3:56 AM</span> 
+</div> 
+
+
+
+<div class="comments-body demon_code_monkey"> 
+<p>&gt; Comments aren&#39;t back until Catto is.<br />
+Amen to that! Hey now Catto!</p>
+
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/demoncodemonkey" href="http://profile.typepad.com/demoncodemonkey">demon code monkey</a> on February 15, 2010  5:10 AM</span> 
+</div> 
+
+
+
+<div class="comments-body chris_lawlor"> 
+<p>Comment moderation may be a necessary evil at scale, but it can invite the (mis?)perception that disagreeable comments will be unjustifiably removed. One way to combat that perception is to allow viewing of moderated comments should the use choose to see them. Keep the pure spam out completely, but allowing comments that have been removed for reasons other than spam to be viewed optionally allows for a higher quality reading experience while preserving transparency.</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/lawlorchris" href="http://profile.typepad.com/lawlorchris">Chris Lawlor</a> on February 15, 2010  5:34 AM</span> 
+</div> 
+
+
+
+<div class="comments-body jeff_sternal"> 
+<p>Rod Sanders wrote:</p>
+
+<blockquote>Login or not, you&#39;re going to have to deal with disagreement, and even trolls. If you think this will allow you to moderate them, you&#39;re just in denial (and even if you are able to moderate them, you could do just as well, whether logins were required, or not).</blockquote>
+
+<p>If this is true, why do you care if anonymous comments are enabled or not?</p>
+
+<p>Furthermore, what exactly do anonymous comments add?</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/sternal" href="http://profile.typepad.com/sternal">Jeff Sternal</a> on February 15, 2010  6:01 AM</span> 
+</div> 
+
+
+
+<div class="comments-body sam_hasler"> 
+<p>Signed in with my openid and it&#39;s saying I&#39;m signed in as &quot;Sam&quot;, is that the name I&#39;ll get in my signature or will it use my full name?<br />
+
+Finding out in 3...2..1...</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/sam28" href="http://profile.typepad.com/sam28">Sam Hasler</a> on February 15, 2010  7:12 AM</span> 
+</div> 
+
+
+
+<div class="comments-body sam_hasler"> 
+<p>hmm, it&#39;s linking to a typepad account, and I could edit my display name in that. I&#39;d have preferred it to link straight to my openid using my full name like wordpress did.</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/sam28" href="http://profile.typepad.com/sam28">Sam Hasler</a> on February 15, 2010  7:16 AM</span> 
+</div> 
+
+
+
+
+<div class="comments-body clutchdude"> 
+<p>I dunno about this. The comment moderation systems out there, such as what the iPhone Dev team use, slashdot, and so on. The best and the worst get filtered to their respective levels, while making it all open for the end user. </p>
+
+<p>I mean, <a href="http://intensedebate.com/" rel="nofollow">http://intensedebate.com/</a> has the problems you bring up figured out already. </p>
+
+<p>It even has a Typepad support built in. </p>
+
+<p>The fact is that just about any system is better than the editor doing everything clandestine, deciding what is a shrill and what isn&#39;t. </p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/clutchdude" href="http://profile.typepad.com/clutchdude">ClutchDude</a> on February 15, 2010  7:35 AM</span> 
+
+</div> 
+
+
+
+<div class="comments-body michael_johnson"> 
+<p>0) What cant we use our stack overflow accounts? openId wouldn&#39;t accept my account or my provider url to sign in :(</p>
+
+<p>1) Why can&#39;t we just up/down vote items like we do on stack overflow?<br />
+</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/michaeljohnson1" href="http://profile.typepad.com/michaeljohnson1">Michael Johnson</a> on February 15, 2010 11:21 AM</span> 
+</div> 
+
+
+
+<div class="comments-body domagoj_klepac"> 
+<p>Jeff, why don&#39;t you develop stack-overlow-like plugin for blogs, which lets people vote for comments and other stuff we&#39;re used to on Stack Overflow (maybe a bit more limited)? Seems that there is a need.</p>
+
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/domagoj" href="http://profile.typepad.com/domagoj">Domagoj Klepac</a> on February 15, 2010  2:09 PM</span> 
+</div> 
+
+
+
+<div class="comments-body pikadude_no_1"> 
+<p>I like it when anonymous comments are off because it reduces the effects of John Gabriel&#39;s Greater Internet ****wad Theory. Doesn&#39;t block ****wads entirely, but hey.</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/pikadudeno1" href="http://profile.typepad.com/pikadudeno1">Pikadude No. 1</a> on February 15, 2010  5:39 PM</span> 
+</div> 
+
+
+
+<div class="comments-body rod_sanders"> 
+<p><i>If this is true, why do you care if anonymous comments are enabled or not?</p>
+
+<p>Furthermore, what exactly do anonymous comments add?</i></p>
+
+<p>Oh, I&#39;m sorry. Was the concept of anonymity something that made your brain hurt?</p>
+
+<p>To say it in simple terms (hope it helps you), the problem with just scuttling anonymous comments is that it doesn&#39;t actually do what the the banning party thinks it will.</p>
+
+<p>Yeah, it may decrease some of the more eggregious moron spew, but strangely enough, experience shows that the more committed morons are willing to sign in (usually using a temporary identity), because it gives them great pleasure to participate in the &#39;Greater internet fuckwad theory&#39;.</p>
+
+<p>On the other hand, for a number of reasons (and, yes, those reasons can be valid), some people just like to be anonymous online. And, though it might be too much for those suffering from a debilitating deficit of neurons to understand, many of these people actually do have something useful to contribute to the conversation.</p>
+
+<p>Simply put (in deference to you), a policy of moderation actually works much better than a simple strict policy of exclusion. The only people who think a straight mechanism of exclusion is valid are those who feel the desire to shape the course of the discussion, rather than accept that there might be some validity in the opinions of others.</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/rodsanders" href="http://profile.typepad.com/rodsanders">Rod Sanders</a> on February 15, 2010  9:56 PM</span> 
+</div> 
+
+
+
+<div class="comments-body silvercode"> 
+<p>On StackOverflow I don&#39;t have to remember my OpenId URL, but on this site it asks the URL (I didn&#39;t notice the provider buttons). It is case sensitive, too, needs to be written in lower case. On StackOverflow it isn&#39;t.</p>
+
+<p>Anyway, adding signing in reduces the amount of people who comment, because there is an extra step. If you have never signed in, you also need to register a new account. Sure OpenId and such make it easier as you can sign in to many places with it, but there is the extra step anyway. Coding Horror has lots of readers who already use these sign in methods, so it isn&#39;t that much of a hindrance though. </p>
+
+<p>But in internet in general, people browse sites and the next site is just a click away. If you would have to register on one site, people might think again and click away instead of registering.</p>
+
+<p>Then again, I think people expect something in return for registering. Voting of comments would be nice and gathering reputation. Otherwise logging in feels just like some bureaucracy that takes time.</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/silvercode" href="http://profile.typepad.com/silvercode">Silvercode</a> on February 16, 2010 12:34 AM</span> 
+</div> 
+
+
+
+<div class="comments-body maxam"> 
+<p>Welcome back, indeed!</p>
+
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/maxam" href="http://profile.typepad.com/maxam">Maxam</a> on February 16, 2010  2:35 AM</span> 
+</div> 
+
+
+
+<div class="comments-body joncage"> 
+<p>Glad to have the comments back. I&#39;m with the crowd suggesting self-moderation + threaded conversations. I really think that would end a lot of the problems you&#39;ev mentioned...</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/joncage" href="http://profile.typepad.com/joncage">Joncage</a> on February 16, 2010  2:45 AM</span> 
+</div> 
+
+
+
+<div class="comments-body juergen_szolay"> 
+<p>Hi Jeff! Good to see comments back :)</p>
+
+<p>I want to join all the people wishing you and your family a safe trip. And I want to add that I hope that we will see your dancing performance afterwards :)</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/szolay" href="http://profile.typepad.com/szolay">Juergen Szolay</a> on February 16, 2010  5:38 AM</span> 
+</div> 
+
+
+
+<div class="comments-body redsparrowmyopenidcom"> 
+<p>I came here to say the same thing as Steve Mayne.  I usually read Coding Horror in an RSS reader and have to make a conscious decision to come look at the comments for a given article, which I do about 5-10% of the time.</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/6p0120a8a674c9970b" href="http://profile.typepad.com/6p0120a8a674c9970b">redsparrow.myopenid.com</a> on February 16, 2010  7:03 AM</span> 
+</div> 
+
+
+
+<div class="comments-body catto"> 
+
+<p>Hey Now Jeff,</p>
+
+<p>Your comments on backups &amp; clouds are interesting. As always, Thx 4 the info!</p>
+
+<p>Coding Horror Fan,<br />
+Catto</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/catto" href="http://profile.typepad.com/catto">Catto</a> on February 16, 2010  8:05 AM</span> 
+</div> 
+
+
+
+
+<div class="comments-body abe_miessler"> 
+<p>Glad to have you (and comments) back!</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/abemiessler" href="http://profile.typepad.com/abemiessler">Abe Miessler</a> on February 16, 2010  8:44 AM</span> 
+</div> 
+
+
+
+<div class="comments-body silvercode"> 
+<p>Did I make a mistake at the first time or what? The signing in URL has to have upper case letter in it too, lower case didn&#39;t work.</p>
+
+<p>No, I tried it again. It just doesn&#39;t work at the first time. Having Silvercode in it or silvercode doesn&#39;t matter. It gives error message at first login, then I login again and I use the same URL and then it works.</p>
+
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/silvercode" href="http://profile.typepad.com/silvercode">Silvercode</a> on February 16, 2010 12:45 PM</span> 
+</div> 
+
+
+
+<div class="comments-body wayne_atchley"> 
+<p>Authenticated with my google credentials without a problem.  </p>
+
+<p>I personally like seeing who starts or continues a flame war so I know who to ignore.  Constructive criticism or alternative points of view are always appreciated, but name calling and sarcasm is just pointless.  This is not the correct venue for such behavior.</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/wayneatchley" href="http://profile.typepad.com/wayneatchley">Wayne Atchley</a> on February 16, 2010  1:43 PM</span> 
+</div> 
+
+
+
+<div class="comments-body ivan_belov"> 
+
+<p>Listened to you and Joel discussing your Kiwiland trip. Now I also have to go there and drive around both islands. :)</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/belov" href="http://profile.typepad.com/belov">Ivan Belov</a> on February 16, 2010  2:56 PM</span> 
+</div> 
+
+
+
+<div class="comments-body chris_mahan"> 
+<p>Ideas on comment moderation: <br />
+ <br />
++ Allow people with at least 2,000 points on stackoverflow to comment unmoderated. (or some other number of points)</p>
+
+<p>+ Allow threading, and allow respondee to moderate respondor, with notification. </p>
+
+<p>+ Allow people with 10,000 stack overflow points to moderate other people&#39;s comments. (they won&#39;t want to screw you lest they lose access to SO.)</p>
+
+<p>... Wait, use the Stackoverflow system as a blogging engine, and allow people to post their blog with it, including yours. I know I&#39;d like that better than my current blogging platform.</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/chrismahan" href="http://profile.typepad.com/chrismahan">Chris_mahan</a> on February 17, 2010 12:15 AM</span> 
+</div> 
+
+
+
+<div class="comments-body zenpsycho"> 
+<p>@Chris_mahan interesting idea, but it seems to me like a blog has entirely different load and scaling characteristics than a QA forum. It doesn&#39;t seem to me like there&#39;d be quite as much code reuse as you seem to be implying.</p>
+
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/zenpsycho1" href="http://profile.typepad.com/zenpsycho1">ZenPsycho</a> on February 17, 2010  2:39 PM</span> 
+</div> 
+
+
+
+<div class="comments-body zainrzv"> 
+<p>+1 for the threaded comments, voting, and community moderation (lifehacker.com style)</p>
+
+<p>As things stand right now, you&#39;ve got multiple folks saying the same thing over and over again because there&#39;s too many comments for them to go through and see if it&#39;s already been said or not.  With threaded comments you&#39;ll at least have some amount of grouping that&#39;ll help prevent redundancy</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/zainrzv" href="http://profile.typepad.com/zainrzv">ZainRzv</a> on February 17, 2010 10:12 PM</span> 
+
+</div> 
+
+
+
+<div class="comments-body joncage"> 
+<p>@Chris mahan: That&#39;s a nice idea (using SO as a method to verify more trusted opinions). I wonder if it would be possible to expose some of the information from Stack Overflow for bloggers to use as a metric. Maybe authenticating against matching openid credentials?</p>
+
+<p>Interesting... :-)</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/joncage" href="http://profile.typepad.com/joncage">Joncage</a> on February 18, 2010  1:29 AM</span> 
+</div> 
+
+
+
+<div class="comments-body john"> 
+<p>@Rod Sanders:</p>
+
+<p><i>Yeah, it may decrease some of the more eggregious moron spew</i></p>
+
+<p>Which is Jeff&#39;s stated goal.</p>
+
+<p><i>but strangely enough, experience shows that the more committed morons are willing to sign in (usually using a temporary identity), because it gives them great pleasure to participate in the &#39;Greater internet fuckwad theory&#39;.</i></p>
+
+<p>Which causes said committed morons to spend more time and energy to spew their worthless thoughts here. I&#39;m sure that for some percentage of these types, such an expenditure of their time and energy presents a large enough barrier that they will give up before even trying, which is, again, one of Jeff&#39;s stated goals. </p>
+
+<p><i>On the other hand, for a number of reasons (and, yes, those reasons can be valid), some people just like to be anonymous online.</i></p>
+
+<p>Nothing wrong with that.</p>
+
+<p><i> And, though it might be too much for those suffering from a debilitating deficit of neurons to understand, many of these people actually do have something useful to contribute to the conversation.</i></p>
+
+<p>Simply having something useful to contribute to a conversation is not good enough; They must also have enough desire and will power to actually contribute. Those anonymously useful contributors that fade back into the ether of anonymity at the first sight of a login prompt clearly prove that their useful contribution does not rise above the level of effort required to type in an id and a password in order to contribute said useful contribution. By their own inaction, they prove that their useful contribution isn&#39;t really all that useful.</p>
+
+<p><i>Simply put (in deference to you), a policy of moderation actually works much better than a simple strict policy of exclusion.</i></p>
+
+<p>Perhaps in the academic world of theory, moderation works better. But in the real world, and applying this to comments on a blog, moderation would increase Jeff&#39;s workload. Why should Jeff be forced to spend more of his time and energy deleting worthless comments just so that anonymous people can generate said worthless comments easier? That makes no sense.</p>
+
+<p><i>The only people who think a straight mechanism of exclusion is valid are those who feel the desire to shape the course of the discussion,</i></p>
+
+<p><b>Or</b>, those who wish to spend less energy cleaning up the messes of those who feel the desire to create said messes.</p>
+
+<p><i> rather than accept that there might be some validity in the opinions of others.</i></p>
+
+<p>Having a valid opinion is like having a...belly button. (ahem) You may have a beautiful one, but that doesn&#39;t mean everyone wants to see it.</p>
+
+<p>Remember one thing: This is Jeff&#39;s blog/website. He&#39;s in control. He sets the rules. If his rules don&#39;t bother you, you&#39;re more than welcome to participate. If, however, his rules <b>do</b> bother you, go build your own blog/website, set your own rules, write your own entries, attract your own set of followers, and have fun moderating all the comments. No one&#39;s stopping you!</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/6p0120a8b16600970b" href="http://profile.typepad.com/6p0120a8b16600970b">John</a> on February 18, 2010  7:07 AM</span> 
+</div> 
+
+
+
+<div class="comments-body paul_nathan"> 
+
+<p>I am a big fan of requiring logins for online discussions. I&#39;ve seen way too many poo-flinging anonymousii on newspapers and blogs. </p>
+
+<p>The truth is that there&#39;s a point where noise drowns out signal. Veto-style moderation is one way to filter out the noise. Stackoverflow and Slashdot both have a system to filter out noise that works OK.</p>
+
+<p>Imagine 4chan. Anonymity is a big factor in the /b/tard phenomenon. Do we want the whole internet 4channed? </p>
+
+<p>I say no. For professional communication, let&#39;s use our real names. Let&#39;s sign what we say, and stand behind what we say. Let&#39;s take responsibility for our words.</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/paulnathan" href="http://profile.typepad.com/paulnathan">Paul Nathan</a> on February 18, 2010  9:35 AM</span> 
+
+</div> 
+
+
+
+<div class="comments-body christopher_mccall"> 
+<p>&quot;Simply put (in deference to you), a policy of moderation actually works much better than a simple strict policy of exclusion. The only people who think a straight mechanism of exclusion is valid are those who feel the desire to shape the course of the discussion, rather than accept that there might be some validity in the opinions of others.&quot;</p>
+
+<p>Yeah, sure unless you&#39;re a real human being and not an internet punching bag who wants to fritter his life away policing internet morons trying to shout him down on his own blog.</p>
+
+<p>With one click of a checkbox he&#39;s shaved a dozen (unpaid) hours off of his workweek. Want to present a differing opinion? Get your own blog and use it to express yourself. Crybaby.</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/christophermccall" href="http://profile.typepad.com/christophermccall">Christopher McCall</a> on February 18, 2010 11:45 AM</span> 
+</div> 
+
+
+
+
+<div class="comments-body nayan_zaveri"> 
+<p>I am really a fan of your blog &amp; have also started a blog inspired by your blog.</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/zaveri" href="http://profile.typepad.com/zaveri">Nayan Zaveri</a> on February 20, 2010  1:12 AM</span> 
+</div> 
+
+
+
+<div class="comments-body nutm"> 
+<p>Hey Horrors. First thx for your enlightening insights Jeff. Also, if someone has got any answer to <a href="http://buggytrends.blogspot.com/" rel="nofollow">this unanswerable wondering of mine</a>, thx in advance.[/ad mode off]</p>
+<span class="comments-post" style="margin-left:20px"><a rel="nofollow" target="_blank" title="http://profile.typepad.com/nutmotion" href="http://profile.typepad.com/nutmotion">NutM</a> on February 20, 2010  5:03 PM</span> 
+
+</div> 
+
+
+	
+
+
+
+
+<a name="endcomments"></a> 
+
+
+
+<style>
+textarea {
+ 	width : 600px;
+	font-size : 14px;
+	}
+#comment-author,
+#comment-email,
+#comment-url {
+	font-size : 14px;
+	padding : 3px;
+	width : 350px;
+	}
+</style>
+
+
+<!-- comment form -->
+<div id="atp-comments">
+	<div id="comment-preview" class="hiddenBox">
+		<h3 id="header-verify-comment" class="comments-header hiddenBox">Verify your Comment</h3>
+		<h3 id="header-preview-comment" class="comments-header hiddenBox">Previewing your Comment</h3>
+		<div class="comments-content">
+
+			<div class="comment">
+				<div id="comment-preview-content" class="comment-content">
+				</div>
+				<p class="comment-footer">
+					Posted by:
+					<span id="comment-preview-author"></span>&nbsp;|&nbsp;<span id="comment-preview-datetime"></span>
+				</p>
+			</div>
+		</div>
+
+	</div>
+	<div id="comment-preview-confirmation" class="hiddenBox yellowBox">
+		<p>This is only a preview. Your comment has not yet been posted.</p>
+		<form id="comment-preview-form"
+			method="post"
+			onsubmit="atpComments.interceptPost(commentFormNum); return false;">
+			<input type="submit" name="post" id="comment-confirm-post" value="&nbsp;Post&nbsp;" onclick="atpComments.interceptPost(commentFormNum); return false;"/>
+			<input type="submit" name="edit" id="comment-edit" value="&nbsp;&nbsp;Edit&nbsp;&nbsp;" onclick="atpComments.previewOnly(commentFormNum, 2); return false;"/>
+			<span id="previewFormSpinner" class="hiddenBox"><img src="/.shared/images/spinner.gif" alt="Working..." /></span>
+		</form>
+
+	</div>
+	<div id="comment-error" class="hiddenBox redBox">
+		Your comment could not be posted. Error type: <span id="comment-error-msg"></span>
+	</div>
+	<div id="comment-complete" class="hiddenBox yellowGreenBox">
+		Your comment has been posted. <a href="javascript:void 0;" onclick="window.location.hash='#comment-form';window.location.reload(false)">Post another comment</a>
+	</div>
+
+	<div id="comment-captcha" class="hiddenBox yellowBox">
+		<div id="captchaText">
+			<p id="captchaFailMsg" class="captchaErrorText hiddenBox">The letters and numbers you entered did not match the image. Please try again.</p>
+			<p>As a final step before posting your comment, enter the letters and numbers you see in the image below. This prevents automated programs from posting comments.</p>
+			<p><span id="comment-captcha-viewalt">Having trouble reading this image? <a href="#comment-captcha" onClick="atpComments.generateCaptcha(commentFormNum);">View an alternate.</a></span></p>
+		</div>
+		<p class=""><img id="captchaImg" /></p>
+
+		<form id="comment-captcha-form"
+			method="post"
+			onsubmit="atpComments.submitWithCaptcha(commentFormNum); return false;">
+			<input type="hidden" name="captcha_chal" id="comment-captcha-chal" value="" />
+			<p>
+				<input id="comment-captcha-text" name="captcha_text" size="10" />
+			</p>
+			<p>
+				<input type="submit" name="continue" id="captcha-continue" value="&nbsp;Continue&nbsp;" />
+				<span id="captchaFormSpinner" class="commentSpinner hiddenBox"><img src="/.shared/images/spinner.gif" alt="Working..." /></span>
+			</p>
+
+		</form>
+	</div>
+	<div id="primary-comment-form" class="comment-form">
+		<form id="comment-form"
+			method="post">
+			<input type="hidden" name="entry_xid" id="comment-entry-xid" value="6a0120a85dcdae970b01287798e223970c" />
+			<div class="comments-open">
+				<h2 class="comments-open-header" id="comment-title">Post a comment</h2>
+				<div id="comments-open-content" class="comments-open-content">
+
+					
+
+					
+						<p id="comments-open-login" style="display: none;">
+							
+								To comment, please <a href="https://www.typekey.com/t/typekey/login?v=1.0&t=085fded65c60e4c8164fc269dc813ca667655f85&lang=en_US&_return=http%3A%2F%2Fwww.codinghorror.com%2Fblog%2F2010%2F02%2Fwelcome-back-comments.html&_portal=typepad">sign in</a> using TypePad, Twitter, Facebook or OpenID.
+							
+							
+						</p>
+
+						<p id="comments-open-logout" style="display: none;">
+							You are currently signed in as
+							<span id="commenter-name">(nobody)</span>.
+							<a href="http://www.codinghorror.com/.services/sitelogout?to=https%3A%2F%2Fwww.typekey.com%2Ft%2Ftypekey%2F%3F__mode%3Dlogout%26_return%3Dhttp%253A%252F%252Fwww.codinghorror.com%252Fblog%252F2010%252F02%252Fwelcome-back-comments.html">Sign Out</a>
+
+						</p>
+					
+						<div id="comments-open-text" style="display:none;">
+							<textarea id="comment-text" name="text" rows="10" cols="30" onkeyup="atpComments.maxTextArea(this, 64000);"></textarea>
+							<p class="comments-open-subtext">
+								(You can use HTML tags like &lt;b&gt; &lt;i&gt; and &lt;ul&gt; to style your text.URLs automatically linked.)
+							</p>
+
+						</div>
+						<div id="comments-open-data" style="display:none;">
+							<p>Your Information</p>
+							<p>
+							
+								(Name is required. Email address will not be displayed with the comment.)
+							
+							
+							</p>
+							<p>
+								<input id="comment-author" at:default="Name" name="author" size="30" value="Name" onfocus="if(this.value==this.getAttribute('at:default')) this.value='';"  onBlur="if(this.value=='') this.value=this.getAttribute('at:default');" class="grayText"/>
+								<label for="comment-author" id="comment-author-error" class="comment-error hiddenBox">Name is required to post a comment</label>
+
+							</p>
+							<p>
+								<input id="comment-email" at:default="Email Address" name="email" size="30" value="Email Address" onfocus="if(this.value==this.getAttribute('at:default')) this.value='';"  onBlur="if(this.value=='') this.value=this.getAttribute('at:default');" class="grayText"/>
+								<label for="comment-email" id="comment-email-error" class="comment-error hiddenBox">Please enter a valid email address</label>
+							</p>
+							<p>
+								<input id="comment-url" at:default="Web Site URL" name="url" size="30" value="Web Site URL" onfocus="if(this.value==this.getAttribute('at:default')) this.value='';"  onBlur="if(this.value=='') this.value=this.getAttribute('at:default');" class="grayText"/>
+								<label for="comment-url" id="comment-url-error" class="comment-error hiddenBox">Invalid URL</label>
+
+							</p>
+						</div>
+				</div>
+				<div id="comments-open-footer" class="comments-open-footer" style="display:none;">
+					<input type="submit" name="post" id="comment-post-button" value="&nbsp;Post&nbsp;" onclick="atpComments.interceptPost(commentFormNum); return false;" disabled="true" />
+					<input type="submit" name="preview" id="comment-preview-button" value="&nbsp;Preview&nbsp;" onclick="atpComments.previewOnly(commentFormNum, 1); return false;" disabled="true" />
+					<span id="commentEntryFormSpinner" class="commentSpinner hiddenBox"><img src="/.shared/images/spinner.gif" alt="Working..." /></span>
+				</div>
+			</div>
+
+		</form>
+		<noscript>
+			
+			<p>This weblog only allows comments from registered TypeKey users. To comment, please enable JavaScript so you can sign into TypeKey.</p>
+			
+			
+		</noscript>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+</div> 
+ 
+
+<table width="100%"> 
+<tr> 
+<td align="left" width=50> 
+</td> 
+<td align="right" width="*"><span style="font-size:70%">Content (c) 2009 <A href="http://www.codinghorror.com/blog/archives/000021.html">Jeff Atwood</A>. Logo image used with permission of the author. (c) 1993 Steven C. McConnell. All Rights Reserved.</span></td></tr> 
+</table> 
+ 
+</div> 
+
+<div id="links"> 
+ 
+
+
+
+
+<div class="sidetitle">&laquo; Older</div> 
+<div class="side">
+<a href="http://www.codinghorror.com/blog/2010/01/cultivate-teams-not-ideas.html">Cultivate Teams, Not Ideas</a>
+
+</div> 
+
+ 
+<p></p> 
+<p></p> 
+<p></p> 
+<div class="side"> 
+<a href="http://www.codinghorror.com/blog/">Home</a> 
+<p></p> 
+<p></p> 
+<a href="http://www.codinghorror.com/blog/archives.html">Browse All Posts</a> 
+<p></p> 
+<p></p> 
+<p></p> 
+
+ 
+
+<div class="welovecodinghorror"> 
+[ad] Is your application eating a lot of RAM? – Find out what's holding your objects in memory. <a href="http://www.red-gate.com/products/ants_memory_profiler/find_memory_leaks_fast.htm?utm_source=codinghorr&utm_medium=textad&utm_term=3229&utm_content=findmemleaksfast&utm_campaign=antsmemoryprofiler" rel="nofollow">Find memory leaks fast</a>.
+
+</div> 
+ 
+<div class="welovecodinghorror"> 
+[ad] Tired of endless code review emails? Ditch the emails - try peer code review with <a href="http://codecollab.com/" rel="nofollow">Code Collaborator</a>. Also learn tips and tricks with <a href="http://www.codereviewbook.com/?howheard=Coding+Horror" rel="nofollow">this free book</a>.
+</div> 
+ 
+<div class="welovecodinghorror"> 
+[ad] You've maxed out your machine. Now upgrade your career. <a href="http://careers.stackoverflow.com/">Stack Overflow Careers</a> helps the world's top developers get noticed by the world's top employers.
+</div>
+
+<!-- [ad] Got a cool product for developers? Advertise it on Coding Horror! mailto:jatwood@codinghorror.com?subject=Advertising Contact me for rates. --> 
+
+
+<div class="sidetitle">Resources</div> 
+
+<div class="side"> 
+<b><a href="/blog/2004/02/recommended-reading-for-developers.html">Recommended Reading</a></b><br /> 
+<b><a href="http://stackoverflow.com">stackoverflow.com</a></b><br/> 
+<b><a href="http://serverfault.com">serverfault.com</a></b><br/> 
+<b><a href="http://superuser.com">superuser.com</a></b><br/> 
+<img src="/favicon.ico" width="16" height="16" style="vertical-align:middle;border:0">&nbsp;&nbsp;<a href="/blog/2004/02/about-me.html">About Me</a> 
+</div> 
+
+
+
+<div class="syndicate"> 
+<img src="http://feeds.feedburner.com/~fc/codinghorror?bg=EEEEEE&amp;fg=111111&amp;anim=0" height="26" width="88" style="border:0" alt="Count of RSS readers" /> 
+<br/> 
+<a href="http://my.statcounter.com/project/standard/stats.php?project_id=2600027&guest=1">Traffic Stats</a> 
+
+<br/> 
+<br/> 
+<a href="http://feeds.feedburner.com/codinghorror" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon16x16.png" width=16 height=16 alt="" style="vertical-align:middle;border:0"/>&nbsp;Subscribe in a reader</a> 
+<br/> 
+<a href="http://www.feedburner.com/fb/a/emailverifySubmit?feedId=74729"><img src="/blog/images/mail.png" width=16 height=16 alt="" style="vertical-align:middle;border:0"/>&nbsp;Subscribe via email</a> 
+</div> 
+
+
+
+</div> 
+</div> 
+ 
+<script> 
+x=window.document.getElementsByTagName('div'); for(var i = 0; i < x.length; i++) { if (x[i].className == "comments-body") { if (x[i].innerHTML.search(/jeff atwood<\/a>/i) != -1) { x[i].style.backgroundColor = "#FFECC7"; } } }
+</script> 
+ 
+<script type="text/javascript" language="javascript"> 
+var sc_project=2600027; 
+var sc_invisible=0; 
+var sc_partition=25; 
+var sc_security="dcff5548"; 
+</script> 
+ 
+<script type="text/javascript" language="javascript" src="http://www.statcounter.com/counter/counter.js"></script> 
+<noscript><a href="http://www.statcounter.com/" target="_blank"><img  src="http://c26.statcounter.com/counter.php?sc_project=2600027&java=0&security=dcff5548&invisible=0" alt="web metrics" border="0"></a> </noscript> 
+ 
+
+<!-- Start Quantcast tag -->
+<script type="text/javascript" src="http://edge.quantserve.com/quant.js"></script>
+<script type="text/javascript">_qoptions = { tags:"typepad.extended" }; _qacct="p-fcYWUmj5YbYKM"; quantserve();</script>
+<noscript>
+<a href="http://www.quantcast.com/p-fcYWUmj5YbYKM" target="_blank"><img src="http://pixel.quantserve.com/pixel/p-fcYWUmj5YbYKM.gif?tags=typepad.extended" style="display: none" border="0" height="1" width="1" alt="Quantcast"/></a>
+</noscript>
+<!-- End Quantcast tag -->
+
+<script src="http://cdn.media6degrees.com/static/ty2093.js" type="text/javascript"></script></body> 
+</html>
+<script type="text/javascript">
+var captchaImgAttempts = 0;
+var allowAnonComments = '0';
+var registrationRequired = 1;
+var registrationOptional = 0;
+var emailRequired = 0;
+var useAvatars = 0;
+
+var showSignInMessaging = 0;
+var jsonURL = "/.services/json-rpc";
+
+var captchaSrc = "/.services/captcha?code_encrypted=";
+var alertCommentCannotBeBlank = "You can not leave an empty comment. Please enter some text in the Comment field.";
+var alertEditingExpired = "Sorry, you're no longer allowed to edit this comment. You may have taken too much time before submitting your edit or someone may have already replied to it.";
+
+var alertAuthorCannotBeBlank = "Name must not be blank.";
+var alertEmailCannotBeBlank = "Email Address must not be blank.";
+var alertAuthorAndEmailCannotBeBlank = "Name and email address are both required!";
+var alertEmailIsInvalid = "The Email Address you entered is invalid. Please enter a valid email address.";
+var alertUnauthorizedAction = "The comments on this post are closed.";
+var msgPostReplyTo = "Reply to ";  
+var msgInReplyTo = "In reply to ";
+var msgPostAComment = "Post a comment ";
+var atpCommentsPath = "/.shared/js/atpcomments_yui.js?v=4";
+var hasChanged = 0;
+var hostName = ".codinghorror.com";
+var tp_comment_token = "1266773812-de35027e3852f58fb603e4f58ad2a0ba375a91ce:AzwpEsYfZUp1dswt";
+
+var isPage = 0;
+var blog_xid = "6a0120a85dcdae970b0128776faab5970c";
+var xid = "";
+var injectCode = '<div id=\"comment-preview\" class=\"hiddenBox\">\n\t<h3 id=\"header-verify-comment\" class=\"comments-header hiddenBox\">Verify your Comment<\/h3>\n    <h3 id=\"header-preview-comment\" class=\"comments-header hiddenBox\">Previewing your Comment<\/h3>\n\t<div class=\"comments-content\">\n\t\t<div class=\"comment\">\n\t\t\t<div id=\"comment-preview-content\" class=\"comment-content\">\n\t\t\t<\/div>\n\t\t\t<p class=\"comment-footer\">\n\t\t\t\tPosted by: \n\t\t\t\t<span id=\"comment-preview-author\"><\/span>&nbsp;|&nbsp;<span id=\"comment-preview-datetime\"><\/span>\n\t\t\t<\/p>\n\t\t<\/div>\n\t<\/div>\n<\/div>\n<div id=\"comment-preview-confirmation\" class=\"hiddenBox yellowBox\">\n    <p>This is only a preview. Your comment has not yet been posted.<\/p>\n   \t<form id=\"comment-preview-form\"\n   \t\tmethod=\"post\"\n   \t\tonsubmit=\"atpComments.interceptPost(commentFormNum); return false;\">\n\t\t<input type=\"submit\" name=\"post\" id=\"comment-confirm-post\" value=\"&nbsp;Post&nbsp;\" onclick=\"atpComments.interceptPost(commentFormNum); return false;\"/>\t\t    \n\t\t<input type=\"submit\" name=\"edit\" id=\"comment-edit\" value=\"&nbsp;&nbsp;Edit&nbsp;&nbsp;\" onclick=\"atpComments.previewOnly(commentFormNum, 2); return false;\"/>\n        <span id=\"previewFormSpinner\" class=\"hiddenBox\"><img src=\"/.shared/images/spinner.gif\" alt=\"Working...\" /><\/span>\n\t<\/form>\n<\/div>\n<div id=\"comment-error\" class=\"hiddenBox redBox\">\t    \n   Your comment could not be posted. Error type: <span id=\"comment-error-msg\"><\/span> \n<\/div>\t\n<div id=\"comment-complete\" class=\"hiddenBox yellowGreenBox\">\n    Your comment has been posted. <a href=\"javascript:void 0;\" onclick=\"window.location.hash=\'#comment-form\';window.location.reload(false)\">Post another comment<\/a>\n<\/div>\t\n<div id=\"comment-captcha\" class=\"hiddenBox yellowBox\">\t\n    <div id=\"captchaText\">\n\t    <p id=\"captchaFailMsg\" class=\"captchaErrorText hiddenBox\">The letters and numbers you entered did not match the image. Please try again.<\/p>\t    \t        \n\t    <p>As a final step before posting your comment, enter the letters and numbers you see in the image below. This prevents automated programs from posting comments.<\/p>\n\t    <p><span id=\"comment-captcha-viewalt\">Having trouble reading this image? <a href=\"#comment-captcha\" onClick=\"atpComments.generateCaptcha(commentFormNum);\">View an alternate.<\/a><\/span><\/p>\n    <\/div>\n    <p class=\"\"><img id=\"captchaImg\" /><\/p>\t\t\n    <form id=\"comment-captcha-form\" \n\t\t  method=\"post\"\n\t\t  onsubmit=\"atpComments.submitWithCaptcha(commentFormNum); return false;\">\n\t\t<input type=\"hidden\" name=\"captcha_chal\" id=\"comment-captcha-chal\" value=\"\" />\n        <p>\n\t        <input id=\"comment-captcha-text\" name=\"captcha_text\" size=\"10\" />\n        <\/p>\n        <p>\n            <input type=\"submit\" name=\"continue\" id=\"captcha-continue\" value=\"&nbsp;Continue&nbsp;\" />\n            <span id=\"captchaFormSpinner\" class=\"commentSpinner hiddenBox\"><img src=\"/.shared/images/spinner.gif\" alt=\"Working...\" /><\/span>\n        <\/p>\n    <\/form>\n<\/div>\n'; 
+var commentFormNum;
+var entryPermalink = "http://www.codinghorror.com/blog/2010/02/welcome-back-comments.html";
+var inlineReply = document.createElement("div");
+var commentFooterLinks;
+var commentHeader;
+var commentReplyXID;
+var commentReplyAuthor;
+var commentReplyComplete;
+var inlineReplyLoaded = 0;
+
+function xidToCommentPermalink (entryUrl, xid) {
+    return entryUrl + "?cid=" + xid + "#comment-" + xid;
+}
+
+</script>
+<script type="text/javascript" src="/.shared/js/yui/yuiloader-beta-min.js"></script>
+<script type="text/javascript" src="/.shared/js/atpcomments.js?v=3"></script>
+
+<!-- ph=1 -->
+<!-- nhm:from_kauri -->

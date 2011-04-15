@@ -1,0 +1,1158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="verify-v1" content="FNUUJyFXNL1EYEcZXjnokbfdAJxhzh+843RzmykIWEQ=" />
+
+
+
+
+
+	<title>Race Conditions Don&#8217;t Exist</title>
+	
+
+
+<meta name="generator" content="WordPress 2.8.4" /> <!-- leave this for stats -->
+
+<link rel="stylesheet" href="http://www.udidahan.com/wp-content/themes/udidahan/style.css" type="text/css" />
+<link rel="stylesheet" href="/wp-content/uploads/csharp1.css" type="text/css" />
+<link rel="alternate" type="application/rss+xml" title="Udi Dahan - The Software Simplist" href="http://feeds.feedburner.com/UdiDahan-TheSoftwareSimplist" />
+<link rel="pingback" href="http://www.udidahan.com/xmlrpc.php" />
+
+
+<link rel="alternate" type="application/rss+xml" title="Udi Dahan - The Software Simplist &raquo; Race Conditions Don&#8217;t Exist Comments Feed" href="http://www.udidahan.com/2010/08/31/race-conditions-dont-exist/feed/" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.udidahan.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.udidahan.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='index' title='Udi Dahan - The Software Simplist' href='http://www.udidahan.com' />
+<link rel='start' title='Starting Blogging' href='http://www.udidahan.com/2003/11/07/starting-blogging/' />
+<link rel='prev' title='NServiceBus &#8211; .NET Service Bus Smackdown' href='http://www.udidahan.com/2010/08/04/nservicebus-net-service-bus-smackdown/' />
+<link rel='next' title='Upcoming conferences and courses' href='http://www.udidahan.com/2010/09/29/upcoming-conferences-and-courses/' />
+<meta name="generator" content="WordPress 2.8.4" />
+<!--Added by Iframe-B-Gone version 1.0.0 - http://mtekk.weblogs.us/code --> 
+	<style>
+		iframe{width: 500px !important; height: 500px !important; display: block !important; background: #ff0000; border: #000 dashed thick !important;}
+	</style>
+	<link rel="stylesheet" type="text/css" href="http://www.udidahan.com/wp-content/plugins/wp-recaptcha/recaptcha.css" /><style type='text/css'>
+<!--#header { background: url('http://www.udidahan.com/wp-content/themes/udidahan/images/header-img.php?upper=69aee7&lower=000033') no-repeat bottom center; }
+--></style>
+</head>
+
+<body>
+
+<table width="1000" style="border:1px solid black; margin-left: auto; margin-right: auto;" cellpadding="0" cellspacing="0">
+
+<tr><td colspan="7">
+
+<table width="100%" cellpadding="0" cellspacing="0">
+
+<tr style="background-color:#003399">
+<td align="center" width="56">
+<a href="/"><img src="http://www.udidahan.com/wp-content/uploads/udidahan_56x80.png" height="80" width="56" border="0" alt="Udi Dahan" title="Udi Dahan" border="0"/></a></td>
+
+<td width="20">&nbsp;</td>
+
+<td width="*">
+<a style="color:white; font-size:34px; font-weight:bold; text-decoration:none; font-family:Calibri;" href="/" >Udi Dahan &#8211; The Software Simplist</a>
+<br/>
+
+<a style="color:white; font-size:24px; text-decoration:none; font-family:Calibri;"  href="/">Enterprise Development Expert & SOA Specialist</a>
+</td>
+
+<td align="left" width="194">
+
+<div style="background:#EEE; height:48px;">
+
+<a style="font-size:6px;">&nbsp;<br/></a>
+&nbsp;<a href="http://feeds.feedburner.com/UdiDahan-TheSoftwareSimplist" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://udidahan.weblogs.us/wp-content/uploads/rss_32x32.png" border="0" style="vertical-align:middle;" width="32" height="32"></a>
+
+<a href="http://feeds.feedburner.com/UdiDahan-TheSoftwareSimplist"><img src="http://feeds.feedburner.com/~fc/UdiDahan-TheSoftwareSimplist?bg=FF6600&amp;fg=FFFFFF&amp;anim=1" height="26" width="88" style="border:0; vertical-align:middle" alt="" /></a>
+
+&nbsp;
+
+<a href="http://twitter.com/UdiDahan" title="Follow me on Twitter"><img src="http://www.udidahan.com/wp-content/uploads/twitter.png" height="23" width="25" style="border:0; vertical-align:middle" alt="" /></a>
+
+</div>
+
+</td></tr></table>
+
+
+<form method="get" id="searchform" style="padding:0 0 0 0;" action="http://www.udidahan.com/">
+
+<tr>
+<td  colspan="7" align="center" style="background-color:black; color:white; font-size:15px; font-family:Calibri;">
+
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td align="left">&nbsp;&nbsp;&nbsp;&nbsp;<a style="font-size:15px; font-family:Calibri; color:white" href="/?blog=true" rel="nofollow"><b>Blog</b></a>
+</td>
+
+<td><a style="font-size:15px; font-family:Calibri; color:white" href="/consulting/" rel="nofollow"><b>Consulting</b></a>
+</td>
+
+<td><a style="font-size:15px; font-family:Calibri; color:white" href="/training/" rel="nofollow"><b>Training</b></a>
+</td>
+
+<td><a style="font-size:15px; font-family:Calibri; color:white" href="/articles/" rel="nofollow"><b>Articles</b></a>
+</td>
+
+<td><a style="font-size:15px; font-family:Calibri; color:white" href="/speaking/" rel="nofollow"><b>Speaking</b></a>
+</td>
+
+<!--
+<td align="center"><a style="font-size:15px; font-family:Calibri; color:white" href="/podcasts/" rel="nofollow"><b>Podcasts</b></a>
+</td>
+
+<td align="center"><a style="font-size:15px; font-family:Calibri; color:white" href="/webcasts/" rel="nofollow"><b>Webcasts</b></a>
+</td>
+-->
+
+<td><a style="font-size:15px; font-family:Calibri; color:white" href="/about/" rel="nofollow"><b>About</b></a></td>
+
+<td width="170" align="right">
+<input type="text" style="font-family:Calibri; font-size:12px; height:12px; border:0px" size="30" value=" Type and hit enter to search"  name="s" id="s" onfocus="if (this.value == ' Type and hit enter to search') {this.value = '';}" onblur="if (this.value == '') {this.value = ' Type and hit enter to search';}" />
+<input type="hidden" id="searchsubmit" value="Search" />
+</td>
+
+</tr>
+</table>
+
+</td>
+</tr>
+
+</form>
+
+<tr>
+
+<td width="10" style="background-color:white;">
+&nbsp;&nbsp;
+</td>
+
+<td valign="top" style="background-color:white;"><br/>
+
+	<div>
+
+	
+		<div class="post" id="post-1335">
+
+<!-- google_ad_section_start -->
+			<h2><a href="http://www.udidahan.com/2010/08/31/race-conditions-dont-exist/" rel="bookmark" title="Permanent Link: Race Conditions Don&#8217;t Exist">Race Conditions Don&#8217;t Exist</a></h2>
+<!-- google_ad_section_end -->
+
+<span style="font-size:11px; font-family:Arial;">
+Tuesday, August 31st, 2010.
+</span>
+
+<hr size="1" />
+
+			<div class="entry">
+<!-- google_ad_section_start -->
+				<p><img src="http://www.udidahan.com/wp-content/uploads/crossing-the-finish-line1.jpg" alt="crossing-the-finish-line" title="crossing-the-finish-line" width="200" height="159" style="float:right; margin-left:10px; margin-bottom:10px;"  />Not in the business world anyway.</p>
+<p>The problem is that, as software developers, we&#8217;re all too quick to accept them at face value. We don&#8217;t question the requirements &#8211; in all fairness, it was never our job to do so. We were the ones that implemented them, preferably quickly. </p>
+<h3>For example</h3>
+<p>Let&#8217;s say we get the requirement the following requirements:</p>
+<p>1. If the order was already shipped, don&#8217;t let the user cancel the order.<br />
+2. If the order was already cancelled, don&#8217;t let the user ship the order.</p>
+<p>The race condition here is when we have two users who are looking at the same order, which is neither cancelled nor shipped yet, and each submits a command &#8211; one to ship the order, the other to cancel it.</p>
+<p>In these cases, the code is simple &#8211; just an if statement before performing the relevant command.</p>
+<h3>So what&#8217;s the problem</h3>
+<p>A microsecond difference in timing shouldn&#8217;t make a difference to core business behaviors. Which means that we&#8217;ve actually got here is a bug in the requirements. Users are actually dictating solutions here rather than requirements.</p>
+<p>Let&#8217;s ask our stakeholders, &#8220;why shouldn&#8217;t we let users cancel a shipped order? I mean, the users don&#8217;t want the products.&#8221;</p>
+<p>And the stakeholders would respond with something like, &#8220;well, we don&#8217;t want to refund the user&#8217;s money then. Or, at least, not all their money. Well, maybe if they return the products in their original packaging, *then* we could give a full refund.&#8221;</p>
+<p>And as we drilled deeper, &#8220;when do refunds need to be given? Right away, in the same transaction?&#8221;</p>
+<p>The stakeholders would explain, &#8220;no, refunds don&#8217;t need to be given right away.&#8221;</p>
+<p>It turns out we were missing the concept of a refund, as well as assuming that all things needed to be processed and enforced immediately. Once we dug into the requirements, we found that there is actually plenty of time to allow both transactions to go through. We just need to add some checks during shipping&#8217;s long-running process to see if the order was cancelled, and then to cut the process short.</p>
+<h3>So is everything a long-running process then?</h3>
+<p>That&#8217;s actually a fair question &#8211; long-running processes are a lot more common than at first appears.</p>
+<p>What we&#8217;re seeing is that cancellation is now a command that has no reason to fail &#8211; just like <a href="http://www.udidahan.com/2009/12/09/clarified-cqrs">CQRS</a> tells us. When this command is performed, it publishes the OrderCancelled event, which the billing service subscribes to. </p>
+<p>Billing then starts a long-running process (a saga, in <a href="http://www.NServiceBus.com">NServiceBus</a> lingo), also listening to events from the shipping process, ultimately making a decision when a refund should be given, and for how much.</p>
+<h3>Deeper business analysis</h3>
+<p>As we discuss matters more with our business stakeholders, we hear that most orders are actually cancelled within an hour of being submitted. It is quite rare for orders to be cancelled days later.</p>
+<p>In which case, we could look at modeling the acceptance of an order as a long-running process itself.</p>
+<p>When a user places an order, we don&#8217;t immediately publish an event indicating the acceptance of an order, instead a saga is kicked off &#8211; which opens up a timeout for an hour later. If a cancellation command arrives during that period of time, the user gets a full refund (seeing as we didn&#8217;t charge anything since billing didn&#8217;t get the accepted event to begin with), and the saga just shuts itself down. If the timeout occurs an hour later, and the saga didn&#8217;t get a cancel command, then the order is actually accepted and the event is published.</p>
+<p>Yes, sagas are everywhere, once you learn to see with business eyes, and no race conditions are left.</p>
+<h3>In closing</h3>
+<p>Any time you see requirements that indicate a race condition, dig deeper.</p>
+<p>What you&#8217;re likely to find are some additional business concepts as well as the introduction of time and the creation of long-running business processes. The implementation at that point will pivot from being trivial if-statements to being richer sagas.</p>
+<p>Keep an eye out.</p>
+<!-- google_ad_section_end -->
+
+
+<p/>
+<table cellpadding="" cellspacing="0" width="100%" style="background-color:rgb(235,235,235); font-size:13px; font-family:Arial;"><tr><td width="13px">&nbsp;&nbsp;</td><td>
+<br/>
+
+If you liked this article, you might also like articles in these categories:<br/>
+<div style="font-size:11px;"><a href="http://www.udidahan.com/category/architecture/" title="View all posts in Architecture" rel="category tag">Architecture</a> |  <a href="http://www.udidahan.com/category/bpm/" title="View all posts in BPM" rel="category tag">BPM</a> |  <a href="http://www.udidahan.com/category/business-rules/" title="View all posts in Business Rules" rel="category tag">Business Rules</a> |  <a href="http://www.udidahan.com/category/cqrs/" title="View all posts in CQRS" rel="category tag">CQRS</a> |  <a href="http://www.udidahan.com/category/nservicebus/" title="View all posts in NServiceBus" rel="category tag">NServiceBus</a> |  <a href="http://www.udidahan.com/category/pubsub/" title="View all posts in Pub/Sub" rel="category tag">Pub/Sub</a> |  <a href="http://www.udidahan.com/category/workflow/" title="View all posts in Workflow" rel="category tag">Workflow</a></div>
+
+<br/>
+
+
+<hr size="1"/>
+<a href="http://udidahan.weblogs.us/first-time-here/">
+<img src="http://www.udidahan.com/wp-content/uploads/trophy.png" style="border:none; float:left; margin-right:10px" alt="Check out my Best Content" title="Check out my Best Content" /></a>
+
+If you've got a minute, you might enjoy taking a look at some of my <a href="http://udidahan.weblogs.us/first-time-here/">best articles</a>.<br/>
+I've gone through the hundreds of articles I've written over the past 6 years and put together a list of the best ones as ranked by my 5000+ readers.<br/><a href="http://www.UdiDahan.com/first-time-here/">You won't be disappointed.</a>
+<hr size="1" />
+
+<br/>
+<a href="http://feeds.feedburner.com/UdiDahan-TheSoftwareSimplist"><img src="http://www.UdiDahan.com/wp-content/uploads/rss_32x32.png" style="border:none; float:left; margin-left:17px; margin-right: 26px;" alt="Subscribe to my feed" title="Subscribe to my feed"/></a>If you'd like to get new articles sent to you when they're published, it's easy and <b>free</b>.<br/>
+<a href="http://feeds.feedburner.com/UdiDahan-TheSoftwareSimplist">Subscribe right here</a>.
+<hr size="1" />
+
+<br/>
+<a href="http://twitter.com/UdiDahan"><img src="http://www.UdiDahan.com/wp-content/uploads/twitter.png" style="border:none; float:left; margin-left:21px; margin-right:26px; margin-top:-5px;" alt="Follow me on Twitter" title="Follow me on Twitter" /></a> Follow me on Twitter <a href="http://twitter.com/UdiDahan">@UdiDahan</a>.
+
+<br/><br/>
+<hr size="1" />
+
+
+<!-- You can start editing here. -->
+<br/>
+Something on your mind? Got a question? I'd be thrilled to hear it.<br/>
+Leave a comment below or <a href="mailto:questions@UdiDahan.com">email me</a>, whatever works for you.
+<br/>
+<br/>
+
+
+
+<h4>22 Comments</h4> 
+
+	<ol class="commentlist">
+
+	
+		<li class="alt" id="comment-37398">
+			<cite><a href='http://www.ebpml.org/blog2' rel='external nofollow' class='url'>Jean-Jacques Dubray</a></cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-37398" title="">August 31st, 2010 at 4:46 am</a> </small>
+
+<!-- google_ad_section_start -->
+			<p>Udi,</p>
+<p>if I may, I think you have just discovered the concept of &#8220;business entity lifecycle&#8221; (which now even has a spec BEDL). There is a simple implementation model underlying BELs: namely orchestration. Orchestration languages could be semantically a bit richer, but they do the job, they serialize incoming messages (events or action requests) and decide whether the Business Entity is in a state where an event can be consumed or an action executed. </p>
+<p>It is kind of sad that in 2010 the dominant model is still RPC and now REST pushes it down a notch to the CRUD level. </p>
+<p>I have taught several IT organizations how to model their processes, not as a flow, but as a series of business entity lifecycles interacting with each other. This is the kinds of things I described in WSPER many years ago: <a href="http://www.ebpml.org/wsper/wsper/wsper_primer.pdf" rel="nofollow">http://www.ebpml.org/wsper/wsper/wsper_primer.pdf</a>  </p>
+<p>JJ-</p>
+<!-- google_ad_section_end -->
+
+		</li>
+
+	
+<br/>
+
+	
+		<li class="" id="comment-37402">
+			<cite><a href='http://www.UdiDahan.com' rel='external nofollow' class='url'>udidahan</a></cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-37402" title="">August 31st, 2010 at 10:03 pm</a> </small>
+
+<!-- google_ad_section_start -->
+			<p>JJ,</p>
+<p>The issue that we have in our industry is not in the solution domain, but rather how we interpret requirements. Many developers do not know enough about requirements engineering so we need to provide rules-of-thumb to help them pick up on solutions masquerading as requirements. That was ultimately the point of this post &#8211; not to prescribe any kind of solution for these cases.</p>
+<!-- google_ad_section_end -->
+
+		</li>
+
+	
+<br/>
+
+	
+		<li class="alt" id="comment-37408">
+			<cite>Alex Simkin</cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-37408" title="">September 1st, 2010 at 8:18 am</a> </small>
+
+<!-- google_ad_section_start -->
+			<p>&#8220;A microsecond difference in timing shouldn’t make a difference to core business behaviors.&#8221; But it does. And we have precisely the same situaltion here.<br />
+- The order considered shipped when the box scanned at shipping station. After that it can sit in the warehouse for days awaiting truck but it cannot be cancelled as it is too expensive to go and search for the box. From this moment customer can only return order back (Return is different from Cancel because customer will be charged for shipping and re-stocking).<br />
+- If however order was cancelled one microsecond before it was scanned, the shipping station rejects the box and it will be re-stocked free of charge.</p>
+<!-- google_ad_section_end -->
+
+		</li>
+
+	
+<br/>
+
+	
+		<li class="" id="comment-37410">
+			<cite><a href='http://codefish21056.blogspot.com' rel='external nofollow' class='url'>Nuno Lopes</a></cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-37410" title="">September 1st, 2010 at 9:22 am</a> </small>
+
+<!-- google_ad_section_start -->
+			<p>&#8220;The issue that we have in our industry is not in the solution domain, but rather how we interpret requirements. Many developers do not know enough about requirements engineering so we need to provide rules-of-thumb to help them pick up on solutions masquerading as requirements.&#8221; &#8211; Udi</p>
+<p>Agreed. </p>
+<p>Considering the example a point against is that the &#8220;refund policy&#8221; is not  to take care of race conditions. You might even have the case that only Orders bellow over certain amount are entitled to refunds (business cost efficiency). What happens then? Is the user forced to pay an order that has been cancelled? &#8230; If we proceed with this probably but not very nice.</p>
+<p>It is true that in the business world there are little race conditions but this is driven to the physical nature of the medium (paper). </p>
+<p>How? Well In the business world we don&#8217;t have two users editing an order simultaneously, so allowing that to happen is was for sure a technical decision. In the business world would be two users reaching for the same Order (paper), then they would say &#8211; you take it, no you take it oh, ok thanks.</p>
+<p>So this particular race condition is not created by the business, but the medium, computers. </p>
+<p>The down the rabbits hole the race condition described here is that indeed we have  two users reaching out the same Order at the same time to change it yet with no inter communication. So this needs to be mediated in a different way. This can be considered a technical problem derived from the context (computers).</p>
+<p>All in all, to fully avoid this race condition the business process needs to be reengineered with the business people. </p>
+<p>I think that is probably the core point of this article.</p>
+<p>Nuno<br />
+PS: Probably an implementation more closer to the business would be for the user to check out the order, change it and submit it. This could be managed with a Saga in a transparent way as far as I understand it. But then again we could have a race condition when checking out.</p>
+<!-- google_ad_section_end -->
+
+		</li>
+
+	
+<br/>
+
+	
+		<li class="alt" id="comment-37411">
+			<cite><a href='http://www.commongenius.com' rel='external nofollow' class='url'>David Nelson</a></cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-37411" title="">September 1st, 2010 at 1:33 pm</a> </small>
+
+<!-- google_ad_section_start -->
+			<p>I agree with Alex. You haven&#8217;t eliminated the race condition, you have just moved it to a different point in time.</p>
+<p>While I agree that on the whole the software industry does a poor job of requirements gathering, I don&#8217;t see how that in any way changes the logical concept of a race condition.</p>
+<!-- google_ad_section_end -->
+
+		</li>
+
+	
+<br/>
+
+	
+		<li class="" id="comment-37415">
+			<cite><a href='http://www.UdiDahan.com' rel='external nofollow' class='url'>udidahan</a></cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-37415" title="">September 2nd, 2010 at 2:32 am</a> </small>
+
+<!-- google_ad_section_start -->
+			<p>Alex,</p>
+<p>The bottom line of the customer not wanting the products doesn&#8217;t change because of a microsecond. The ultimate question is how much of a refund does the customer get, and when.</p>
+<p>Since the customer doesn&#8217;t know if the order is about to be scanned at the shipping station, why should the system care? Also, shouldn&#8217;t the company be concerned about restocking costs regardless of the microsecond? Can&#8217;t we just raise the cost of cancellation and be done with it?</p>
+<p>The requirements you&#8217;ve presented assume a 100% consistent system, and that has severe scalability and availability costs related to it &#8211; those should be balanced with all of the above as well.</p>
+<p>The goal is for our system (as a whole) to be profitable, and give a good user experience as well. Fairness and timing aren&#8217;t necessary to fulfill those goals.</p>
+<!-- google_ad_section_end -->
+
+		</li>
+
+	
+<br/>
+
+	
+		<li class="alt" id="comment-37416">
+			<cite><a href='http://www.UdiDahan.com' rel='external nofollow' class='url'>udidahan</a></cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-37416" title="">September 2nd, 2010 at 2:32 am</a> </small>
+
+<!-- google_ad_section_start -->
+			<p>Nuno,</p>
+<p>&#8221; to fully avoid this race condition the business process needs to be reengineered with the business people&#8221;</p>
+<p>Agreed.</p>
+<!-- google_ad_section_end -->
+
+		</li>
+
+	
+<br/>
+
+	
+		<li class="" id="comment-37417">
+			<cite><a href='http://www.UdiDahan.com' rel='external nofollow' class='url'>udidahan</a></cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-37417" title="">September 2nd, 2010 at 2:33 am</a> </small>
+
+<!-- google_ad_section_start -->
+			<p>David,</p>
+<p>See my answer to Alex above.</p>
+<!-- google_ad_section_end -->
+
+		</li>
+
+	
+<br/>
+
+	
+		<li class="alt" id="comment-37418">
+			<cite>Alex Simkin</cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-37418" title="">September 2nd, 2010 at 5:33 am</a> </small>
+
+<!-- google_ad_section_start -->
+			<p>@udidahan</p>
+<p>You are describing an attempt to hide a system defect with additional charges passed to the client.</p>
+<p>We solved it by implementing &#8220;standard&#8221; locking mechanism that you would use to avoid race conditions when accessing any shared resource. If customer calls about a specific order number, lock this order if not yet shipped (race condition possible), then check again that it is not shipped and inform the customer if it is too late (or not) to cancel the order.</p>
+<!-- google_ad_section_end -->
+
+		</li>
+
+	
+<br/>
+
+	
+		<li class="" id="comment-37419">
+			<cite><a href='http://www.UdiDahan.com' rel='external nofollow' class='url'>udidahan</a></cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-37419" title="">September 2nd, 2010 at 7:46 pm</a> </small>
+
+<!-- google_ad_section_start -->
+			<p>Alex,</p>
+<p>I can see that your opinion is that software should implement the requirements, regardless of what those requirements are. If the requirements demand for the system to have a centralized locking mechanism, then your position is to build it that way.</p>
+<p>My position is that those are not requirements, but rather dictated solutions. What I need from the business is their goals, objectives, and scenarios they want to support &#8211; not requirements (it&#8217;s not their job to come up with those). Then (wearing by business analyst hat), I work with the business stakeholders to formulate the requirements that address the above *without* requiring synchronous locking across business-capability boundaries (shipping and sales are different).</p>
+<p>When the business signs off on these requirements, the behavior of the resulting system is correct by definition &#8211; we&#8217;re not hiding a system defect.</p>
+<p>I think we&#8217;re looking at things from different perspectives, me in the form of re-engineering the requirements, and you from the implementation of the original requirements.</p>
+<!-- google_ad_section_end -->
+
+		</li>
+
+	
+<br/>
+
+	
+		<li class="alt" id="comment-37424">
+			<cite><a href='http://neilmosafi.blogspot.com' rel='external nofollow' class='url'>Neil Mosafi</a></cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-37424" title="">September 4th, 2010 at 11:22 am</a> </small>
+
+<!-- google_ad_section_start -->
+			<p>&#8220;If the timeout occurs an hour later, and the saga didn’t get a cancel command, then the order is actually accepted and the event is published.&#8221;</p>
+<p>But what happens if a cancellation is received just after the timeout occur?  Surely we&#8217;ve just moved the race condition from &#8220;order shipping + order cancelled&#8221; to &#8220;timeout occurs + order cancelled&#8221;?</p>
+<!-- google_ad_section_end -->
+
+		</li>
+
+	
+<br/>
+
+	
+		<li class="" id="comment-37430">
+			<cite><a href='http://www.UdiDahan.com' rel='external nofollow' class='url'>udidahan</a></cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-37430" title="">September 8th, 2010 at 6:03 am</a> </small>
+
+<!-- google_ad_section_start -->
+			<p>Neil,</p>
+<p>First of all, preventing a large percentage of these occurrences is already a big win &#8211; applying the 80/20 rule here. Second, as I said in the post, the handling of the apparent race conditions has to do with deciding *later* how much of a refund to give the customer, rather than trying to block one of the users from performing an action.</p>
+<!-- google_ad_section_end -->
+
+		</li>
+
+	
+<br/>
+
+	
+		<li class="alt" id="comment-37436">
+			<cite><a href='http://www.commongenius.com' rel='external nofollow' class='url'>David Nelson</a></cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-37436" title="">September 9th, 2010 at 9:41 am</a> </small>
+
+<!-- google_ad_section_start -->
+			<p>Udi,</p>
+<p>I cannot tell you how envious I am that you have never had to build an application based on dictated requirements. Can you tell me your secret?</p>
+<p>In this case, why are you assuming that the business has just overlooked the possibility of offering a smaller refund after the product has shipped? How do you know that they have not considered that possibility and rejected it for valid business reasons? You are trying to wave a magic wand and make the race conditions go away, but the real world doesn&#8217;t work like that. Sometimes race conditions DO exist.</p>
+<!-- google_ad_section_end -->
+
+		</li>
+
+	
+<br/>
+
+	
+		<li class="" id="comment-37445">
+			<cite><a href='http://www.UdiDahan.com' rel='external nofollow' class='url'>udidahan</a></cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-37445" title="">September 10th, 2010 at 10:44 pm</a> </small>
+
+<!-- google_ad_section_start -->
+			<p>David,</p>
+<p>My secret is that companies have tried doing things the way they&#8217;ve always done them and ended up stuck &#8211; either in terms of scalability, complexity, time to market, etc. By the time they come to me, they&#8217;re ready to listen and understand how related all these things are to each other. </p>
+<p>The reason that I&#8217;m assuming that the business *has* overlooked these possibilities is that they *don&#8217;t* know the costs of synchronous centralized system. The business assumes (not in the least because we techies told them so) that no matter the requirements, we&#8217;ll be able to build it in a scalable manner. It is *our* assumptions, as technical people, that need to be adjusted &#8211; and then communicated back out to our business stakeholders.</p>
+<!-- google_ad_section_end -->
+
+		</li>
+
+	
+<br/>
+
+	
+		<li class="alt" id="comment-37480">
+			<cite>Milo</cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-37480" title="">October 8th, 2010 at 3:31 pm</a> </small>
+
+<!-- google_ad_section_start -->
+			<p>Udi,</p>
+<p>Is there not still a point somewhere in the timeline of an order beyond which cancellation is not allowed?</p>
+<!-- google_ad_section_end -->
+
+		</li>
+
+	
+<br/>
+
+	
+		<li class="" id="comment-37482">
+			<cite><a href='http://www.UdiDahan.com' rel='external nofollow' class='url'>udidahan</a></cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-37482" title="">October 16th, 2010 at 1:56 am</a> </small>
+
+<!-- google_ad_section_start -->
+			<p>Milo,</p>
+<p>That&#8217;s a business question &#8211; ultimately the question is why? If the customer is required to return products in original packaging to get a refund (where the refund may not include shipping costs), is there any risk?</p>
+<!-- google_ad_section_end -->
+
+		</li>
+
+	
+<br/>
+
+	
+		<li class="alt" id="comment-37488">
+			<cite>Milo</cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-37488" title="">October 22nd, 2010 at 10:42 pm</a> </small>
+
+<!-- google_ad_section_start -->
+			<p>Udi,</p>
+<p>I think there may be a terminology issue here. Returning a product in original packaging is not canceling an order, it&#8217;s returning a product. These are two different things. Now it may be that you feel the distinction is unimportant. It could be argued that both processes are simply solutions to the more general problem of a customer no longer wanting something they previously ordered. Is that what you&#8217;re advocating, that the requirements derive from this higher-level idea?</p>
+<!-- google_ad_section_end -->
+
+		</li>
+
+	
+<br/>
+
+	
+		<li class="" id="comment-37489">
+			<cite><a href='http://www.UdiDahan.com' rel='external nofollow' class='url'>udidahan</a></cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-37489" title="">October 24th, 2010 at 11:34 pm</a> </small>
+
+<!-- google_ad_section_start -->
+			<p>Milo,</p>
+<p>Agreed, the customer has to explicitly express their intent to cancel the order. Yet, when it comes to refunds, those are influenced by whether the products are returned (or can be returned in the case of digital/virtual products) and in what state they were returned.</p>
+<!-- google_ad_section_end -->
+
+		</li>
+
+	
+<br/>
+
+	
+		<li class="alt" id="comment-37490">
+			<cite>Milo</cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-37490" title="">October 25th, 2010 at 3:52 pm</a> </small>
+
+<!-- google_ad_section_start -->
+			<p>Udi,</p>
+<p>If they explicitly request cancellation, the outcome depends on whether or not the order can be canceled. More generally, if someone requests X, the outcome of that request depends on whether X can occur. If there is a point at which that possibility changes, then there is the potential for a race between that transition the request.</p>
+<!-- google_ad_section_end -->
+
+		</li>
+
+	
+<br/>
+
+	
+		<li class="" id="comment-37492">
+			<cite>Kyle Szklenski</cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-37492" title="">October 26th, 2010 at 12:46 pm</a> </small>
+
+<!-- google_ad_section_start -->
+			<p>&#8220;Race conditions do exist! What about a racing app?&#8221; &#8211; just made up, but sounds like some of the funny responses you get at times, Udi. <img src='http://www.udidahan.com/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+<p>I&#8217;m really glad you&#8217;re preaching for the DDD lately. What you&#8217;ve written is a very DDD way of handling the solution, in my opinion.</p>
+<p>The way I&#8217;ve said the above before was: There are almost *no* new business concepts in modern day programming. Almost everything you could write has been written before. Instead of requiring all new code, study up some on the business domain and eventually become a kind of expert on it. Then, implement the solution.</p>
+<p>To be perfectly honest, though, most of the projects that I see that have race conditions only exist because the coders were so confused about what multi-threading is meant to solve.</p>
+<!-- google_ad_section_end -->
+
+		</li>
+
+	
+<br/>
+
+	
+		<li class="alt" id="comment-37505">
+			<cite><a href='http://www.UdiDahan.com' rel='external nofollow' class='url'>udidahan</a></cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-37505" title="">November 6th, 2010 at 6:21 am</a> </small>
+
+<!-- google_ad_section_start -->
+			<p>Milo,</p>
+<p>It looks like we&#8217;ve come full circle &#8211; see my posts about CQRS and why commands should succeed.</p>
+<!-- google_ad_section_end -->
+
+		</li>
+
+	
+<br/>
+
+	
+		<li class="" id="comment-37506">
+			<cite><a href='http://www.UdiDahan.com' rel='external nofollow' class='url'>udidahan</a></cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-37506" title="">November 6th, 2010 at 6:22 am</a> </small>
+
+<!-- google_ad_section_start -->
+			<p>Kyle,</p>
+<p>Glad you liked it. As an industry, I think we need a bigger focus on business analysis than technical/technological approaches.</p>
+<!-- google_ad_section_end -->
+
+		</li>
+
+	
+<br/>
+
+	
+	</ol>
+
+ 
+
+
+<h4>Your comment...</h4>
+
+<form action="http://www.udidahan.com/wp-comments-post.php" method="post" id="commentform">
+
+
+<p><input type="text" name="author" id="author" value="" size="22" tabindex="1" />
+<label for="author"><small>Name (required)</small></label></p>
+
+<p><input type="text" name="email" id="email" value="" size="22" tabindex="2" />
+<label for="email"><small>Mail (will not be published) (required)</small></label></p>
+
+<p><input type="text" name="url" id="url" value="" size="22" tabindex="3" />
+<label for="url"><small>Website</small></label></p>
+
+
+<!--<p><small><strong>XHTML:</strong> You can use these tags: &lt;a href=&quot;&quot; title=&quot;&quot;&gt; &lt;abbr title=&quot;&quot;&gt; &lt;acronym title=&quot;&quot;&gt; &lt;b&gt; &lt;blockquote cite=&quot;&quot;&gt; &lt;cite&gt; &lt;code&gt; &lt;del datetime=&quot;&quot;&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=&quot;&quot;&gt; &lt;strike&gt; &lt;strong&gt; </small></p>-->
+
+<p><textarea name="comment" id="comment" cols="70%" rows="10" tabindex="4"></textarea></p>
+
+<p>Please help me fight the spammers that try to ruin the experience for us all.</p>
+<p><input name="submit" type="submit" id="submit" tabindex="5" value="Submit Comment" />
+<input type="hidden" name="comment_post_ID" value="1335" />
+</p>
+		<script type='text/javascript'>
+				var RecaptchaOptions = { theme : 'red', lang : 'en' , tabindex : 5 };
+		</script><script type="text/javascript" src="http://api.recaptcha.net/challenge?k=6LdCmQMAAAAAAEb0d-G99pIRuvTVEelRGzp2tyEY"></script>
+
+<noscript>
+<iframe src="http://api.recaptcha.net/noscript?k=6LdCmQMAAAAAAEb0d-G99pIRuvTVEelRGzp2tyEY" height="300" width="500" frameborder="0"></iframe><br/>
+<textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>
+<input type="hidden" name="recaptcha_response_field" value="manual_challenge"/>
+</noscript>				<div id="recaptcha-submit-btn-area"></div> 
+				<script type='text/javascript'>
+				var sub = document.getElementById('submit');
+				sub.parentNode.removeChild(sub);
+				document.getElementById('recaptcha-submit-btn-area').appendChild (sub);
+				document.getElementById('submit').tabIndex = 6;
+				if ( typeof _recaptcha_wordpress_savedcomment != 'undefined') {
+						document.getElementById('comment').value = _recaptcha_wordpress_savedcomment;
+				}
+				document.getElementById('recaptcha_table').style.direction = 'ltr';
+				</script>
+				<noscript>
+				 <style type='text/css'>#submit {display:none;}</style>
+				 <input name="submit" type="submit" id="submit-alt" tabindex="6" value="Submit Comment"/> 
+				</noscript>
+<br/><br/>
+If this is your first time commenting, it may take a while to show up.<br/>
+I'm working to make that better.<br/><br/>
+
+<a href="http://www.udidahan.com/comments/feed/">Subscribe here to receive updates on comments</a>.
+
+</form>
+
+
+
+</td><td width="13px">&nbsp;&nbsp;</td></tr></table>
+
+
+
+
+
+				
+				
+						
+
+				
+
+			</div>
+		</div>
+
+
+
+
+
+
+	
+	</div>
+</td>
+
+<td width="5">&nbsp;</td>
+
+<td width="5" style="background-color:#999999">&nbsp;</td>
+
+<td width="374" valign="top" style="background-color:#999999">
+
+
+<table width="100%" cellpadding="0" cellspacing="0">
+
+<tr>
+<td valign="top" align="center" width="193" style="background-color:#999999">
+
+<br/><br/>
+
+<a href="http://udidahan.weblogs.us/first-time-here/">
+<img src="http://udidahan.weblogs.us/wp-content/uploads/first_time_here.png" border="0" width="165" height="78" alt="Don't miss my best content" title="Don't miss my best content" /></a>
+
+<!--
+<a href="/ask-udi/"><img src="http://udidahan.weblogs.us/wp-content/uploads/ask_udi.png" border="0" height="35" width="130" title="Listen to the 'Ask Udi' podcast"></a>
+-->
+
+</td>
+
+<td width="5" style="background-color:#999999">&nbsp;</td>
+
+<td width="176" align="center" valign="top" style="background-color:#999999; font-color:white;">
+
+
+<br/>
+
+<a href="http://www3.clustrmaps.com/counter/maps.php?url=http://udidahan.weblogs.us" id="clustrMapsLink"><img src="http://www3.clustrmaps.com/counter/index2.php?url=http://udidahan.weblogs.us" style="border:0px;" alt="Locations of visitors to this page" title="Locations of visitors to this page" id="clustrMapsImg" onError="this.onError=null; this.src='http://www2.clustrmaps.com/images/clustrmaps-back-soon.jpg'; document.getElementById('clustrMapsLink').href='http://www2.clustrmaps.com'" />
+</a>
+
+<!--
+<a href="http://www.nServiceBus.com"><img src="http://udidahan.weblogs.us/wp-content/uploads/nservicebus_logo_small.png" border="0" height="39" width="149" title="Scalable Pub/Sub OSS Framework"></a>
+-->
+
+</td>
+</tr>
+</table>
+
+
+<br/>
+
+<div class="sidetitle">
+<font style="font-weight:bold; size:14px">Recommendations</font>
+</div>
+
+<br/>
+
+<div class="side">
+
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 10px 10px; border-left: 0px; border-bottom: 0px" height="82" alt="Sam Gentile" title="Sam Gentile" src="http://udidahan.weblogs.us/wp-content/uploads/sam_gentile.png" width="70" align="right" border="0">
+<a href="http://www.samgentile.com">Sam Gentile, Independent WCF & SOA Expert</a>
+<br/>
+“Udi, one of the great minds in this area.<br/>A man I respect immensely.”
+
+<br/><br/><br/><br/><br/><br/>
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 10px 10px; border-left: 0px; border-bottom: 0px" height="99" alt="Ian Robinson" title="Ian Robinson" src="http://udidahan.weblogs.us/wp-content/uploads/irobinson1.jpg" width="80" align="right" border="0">
+<a href="http://iansrobinson.com/about/">Ian Robinson, Principal Consultant at ThoughtWorks</a>
+<br/>
+"Your blog and articles have been enormously useful in shaping, testing and refining my own approach to delivering on SOA initiatives over the last few years. Over and against a certain 3-layer-application-architecture-blown-out-to- distributed-proportions school of SOA, <b>your writing, steers a far more valuable course</b>."
+
+<br/><br/>
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 10px 10px; border-left: 0px; border-bottom: 0px" height="82" alt="Shy Cohen" title="Shy Cohen" src="http://udidahan.weblogs.us/wp-content/uploads/shycohen.jpg" width="80" align="right" border="0">
+<a href="http://www.linkedin.com/in/shycohen">Shy Cohen, Senior Program Manager at Microsoft</a>
+<br/>
+“Udi is a world renowned software architect and speaker. I met Udi at a conference that we were both speaking at, and immediately recognized his keen insight and razor-sharp intellect. Our shared passion for SOA and the advancement of its practice launched a discussion that lasted into the small hours of the night.<br/>It was evident through that discussion that Udi is one of the most knowledgeable people in the SOA space. It was also clear why – Udi does not settle for mediocrity, and seeks to fully understand (or define) the logic and principles behind things.<br/><b>Humble yet uncompromising, Udi is a pleasure to interact with</b>.”
+
+<br/><br/>
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 8px 8px; border-left: 0px; border-bottom: 0px" height="80" alt="Karl Wannenmacher" title="Karl Wannenmacher" src="http://udidahan.weblogs.us/wp-content/uploads/karl_wannenmacher.png" width="70" align="right" border="0">
+<a href="https://www.xing.com/profile/Karl_Wannenmacher">Karl Wannenmacher, Senior Lead Expert at Frequentis AG</a>
+<br/>
+“I have been following Udi’s blog and podcasts since 2007. I’m convinced that he is one of the most knowledgeable and experienced people in the field of SOA, EDA and large scale systems.<br/>
+Udi helped Frequentis to design a major subsystem of a large mission critical system with a <b>nationwide deployment based on NServiceBus</b>. It was impressive to see how he took the initial architecture and turned it upside down leading to a very flexible and scalable yet simple system without knowing the details of the business domain.
+I highly recommend consulting with Udi when it comes to large scale mission critical systems in any domain.”
+
+<br/><br/>
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 10px 10px; border-left: 0px; border-bottom: 0px" height="76" alt="Simon Segal" title="Simon Segal" src="http://udidahan.weblogs.us/wp-content/uploads/simon_segal.jpg" width="80" align="right" border="0">
+<a href="http://www.linkedin.com/in/simonsegal">Simon Segal, Independent Consultant</a>
+<br/>
+“Udi is one of the outstanding software development minds in the world today, his vast insights into Service Oriented Architectures and Smart Clients in particular are indeed a rare commodity. <b>Udi is also an exceptional teacher</b> and can help lead teams to fall into the pit of success. I would recommend Udi to anyone considering some Architecural guidance and support in their next project.”
+
+
+<br/><br/>
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 10px 10px; border-left: 0px; border-bottom: 0px" height="80" alt="Ohad Israeli" title="Ohad Israeli" src="http://www.udidahan.com/wp-content/uploads/ohad_israeli.jpg" width="80" align="right" border="0">
+<a href="http://www.linkedin.com/in/ohadisraeli">Ohad Israeli, Chief Architect at Hewlett-Packard, Indigo Division</a>
+<br/>
+“When you need a man to do the job Udi is your man! No matter if you are facing near deadline deadlock or at the early stages of your development, if you have a problem Udi is the one who will probably be able to solve it, with his large experience at the industry and his widely horizons of thinking , he is always <b>full of just in place great architectural ideas</b>. 
+<br/>
+I am honored to have Udi as a colleague and a friend (plus having his cell phone on my speed dial).”
+
+<br/><br/>
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 10px 10px; border-left: 0px; border-bottom: 0px" height="90" alt="Ward Bell" title="Ward Bell" src="http://www.udidahan.com/wp-content/uploads/ward_bell.jpg" width="65" align="right" border="0">
+<a href="http://www.linkedin.com/pub/0/b08/1a9">Ward Bell, VP Product Development at IdeaBlade</a>
+<br/>
+“Everyone will tell you how smart and knowledgable Udi is ... and they are oh-so-right. Let me add that Udi is a smart LISTENER. He's always calibrating what he has to offer with your needs and your experience ... looking for the fit. He has strongly held views ... and the ability to temper them with the nuances of the situation.<br/><b>I trust Udi to tell me what I need to hear, even if I don't want to hear it, ... in a way that I can hear it.</b> That's a rare skill to go along with his command and intelligence.”
+
+<br/><br/>
+
+<a href="http://www.linkedin.com/pub/8/314/674">Eli Brin, Program Manager at RISCO Group</a>
+<br/>
+“We hired Udi as a SOA specialist for a large scale project. The development is outsourced to India. SOA is a buzzword used almost for anything today. We wanted to understand what SOA really is, and what is the meaning and practice to develop a SOA based system.
+<br/>
+We identified Udi as the one that can put some sense and order in our minds. We started with a private customized SOA training for the entire team in Israel. After that I had several focused sessions regarding our architecture and design.
+<br/>
+I will summarize it simply (as he is the software simplist): We are very happy to have Udi in our project. It has a great benefit. We feel good and assured with the knowledge and practice he brings. <b>He doesn’t talk over our heads</b>. We assimilated nServicebus as the ESB of the project. I highly recommend you to bring Udi into your project.”
+
+<br/><br/>
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 10px 10px; border-left: 0px; border-bottom: 0px" height="80" alt="Catherine Hole" title="Catherine Hole" src="http://www.udidahan.com/wp-content/uploads/catherine_hole.jpg" width="80" align="right" border="0">
+<a href="http://www.linkedin.com/pub/cathrine-hole/0/6a3/666">Catherine Hole, Senior Project Manager at the Norwegian Health Network</a>
+<br/>
+“My colleagues and I have spent five interesting days with Udi - diving into the many aspects of SOA. Udi has shown impressive abilities of understanding organizational challenges, and has brought the business perspective into our way of looking at services. He has an excellent understanding of the many layers from business at the top to the technical infrstructure at the bottom. He is a great listener, and manages to simplify challenges in a way that is <b>understandable both for developers and CEOs, and all the specialists in between</b>.”
+
+<br/><br/>
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 10px 10px; border-left: 0px; border-bottom: 0px" height="80" alt="Yoel Arnon" title="Yoel Arnon" src="http://media.linkedin.com/mpr/mpr/shrink_80_80/p/1/000/000/241/319cbcd.jpg" width="80" align="right" border="0">
+<a href="http://www.linkedin.com/in/yoelarnon">Yoel Arnon, MSMQ Expert</a>
+<br/>
+“Udi has a unique, in depth understanding of service oriented architecture and <b>how it should be used in the real world</b>, combined with excellent presentation skills. I think Udi should be a premier choice for a consultant or architect of distributed systems.”
+
+<br/><br/>
+
+<a href="http://www.linkedin.com/pub/1/a1/607">Vadim Mesonzhnik, Development Project Lead at Polycom</a><br/>
+“When we were faced with a task of creating a high performance server for a video-tele conferencing domain we decided to opt for a stateless cluster with SQL server approach. In order to confirm our decision we invited Udi.
+
+<br/><br/><b>After carefully listening for 2 hours he said: "With your kind of high availability and performance requirements you don’t want to go with stateless architecture."</b>
+
+<br/><br/>One simple sentence saved us from implementing a wrong product and finding that out after years of development. No matter whether our former decisions were confirmed or altered, it gave us great confidence to move forward relying on the experience, industry best-practices and time-proven techniques that Udi shared with us.
+
+<br/>It was a distinct pleasure and a unique opportunity to learn from someone who is among the best at what he does.”
+
+<br/><br/>
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 10px 10px; border-left: 0px; border-bottom: 0px" height="90" alt="Jack Van Hoof" title="Jack Van Hoof" src="http://www.udidahan.com/wp-content/uploads/jackvanhoof.jpg" width="75" align="right" border="0">
+<a href="http://www.linkedin.com/in/jackvanhoof">Jack Van Hoof, Enterprise Integration Architect at Dutch Railways</a>
+<br/>
+“Udi is a respected visionary on SOA and EDA, whose opinion I most of the time (if not always) highly agree with. <b>The nice thing about Udi is that he is able to explain architectural concepts in terms of practical code-level examples</b>.”
+
+<br/><br/>
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 10px 10px; border-left: 0px; border-bottom: 0px" height="80" alt="Neil Robbins" title="Neil Robbins" src="http://www.udidahan.com/wp-content/uploads/neil_robbins.png" width="63" align="right" border="0">
+<a href="http://neildoesdotnet.blogspot.com/">Neil Robbins, Applications Architect at Brit Insurance</a>
+<br/>
+“Having followed Udi's blog and other writings for a number of years I attended Udi's two day course on 'Loosely Coupled Messaging with NServiceBus' at SkillsMatter, London.
+<br/><br/>
+I would strongly recommend this course to anyone with an interest in how to develop IT systems which provide immediate and future fitness for purpose. An influential and innovative thought leader and practitioner in his field, Udi demonstrates and shares a phenomenally in depth knowledge that proves his position as one of the premier experts in his field globally.
+<br/><br/>
+The course has enhanced my knowledge and skills in ways that I am able to immediately apply to provide benefits to my employer. Additionally though I will be able to build upon what I learned in my 2 days with Udi and have no doubt that it will only enhance my future career.
+<br/><br/>
+<b>I cannot recommend Udi, and his courses, highly enough</b>.”
+
+<br/><br/>
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 10px 10px; border-left: 0px; border-bottom: 0px" height="80" alt="Nick Malik" title="Nick Malik" src="http://www.udidahan.com/wp-content/uploads/nick_malik.jpg" width="80" align="right" border="0">
+<a href="http://www.linkedin.com/pub/1/763/999">Nick Malik, Enterprise Architect at Microsoft Corporation</a>
+<br/>
+“<b>You are an excellent speaker and trainer, Udi</b>, and I've had the fortunate experience of having attended one of your presentations.  I believe that you are a knowledgable and intelligent man.”
+
+<br/><br/>
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 10px 10px; border-left: 0px; border-bottom: 0px" height="82" alt="Sean Farmar" title="Sean Farmar" src="http://udidahan.weblogs.us/wp-content/uploads/sean_farmar.png" width="68" align="right" border="0">
+<a href="http://www.linkedin.com/pub/6/668/107">Sean Farmar, Chief Technical Architect at Candidate Manager Ltd</a>
+<br/>
+“Udi has provided us with guidance in system architecture and supports our implementation of NServiceBus in our core business application.
+<br/><br/>He accompanied us in all stages of our development cycle and helped us put vision into real life distributed scalable software. He brought fresh thinking, great in depth of understanding software, and ongoing support that proved as valuable and cost effective.
+<br/><br/>Udi has the unique ability to analyze the business problem and come up with a simple and elegant solution for the code and the business alike.<br/><b>With Udi's attention to details, and knowledge we avoided pit falls that would cost us dearly</b>.”
+
+<br/><br/>
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 10px 10px; border-left: 0px; border-bottom: 0px" height="80" alt="Børge Hansen" title="Børge Hansen" src="http://www.udidahan.com/wp-content/uploads/borge_hansen.png" width="80" align="right" border="0">
+<a href="http://www.linkedin.com/in/borge3000">Børge Hansen, Architect Advisor at Microsoft</a>
+<br/>
+“Udi delivered a 5 hour long workshop on SOA for aspiring architects in Norway. While <b>keeping everyone awake and excited</b> Udi gave us some great insights and really delivered on making complex software challenges simple. Truly the software simplist.”
+
+<br/><br/>
+
+<a href="http://www.linkedin.com/pub/7/678/b2b">Motty Cohen, SW Manager at KorenTec Technologies</a>
+<br/>
+“I know Udi very well from our mutual work at KorenTec. During the analysis and design of a complex, distributed C4I system - where the basic concepts of NServiceBus start to emerge - I gained a lot of "Udi's hours" so I can surely say that he is a professional, skilled architect with <b>fresh ideas and unique perspective</b> for solving complex architecture challenges. His ideas, concepts and parts of the artifacts are the basis of several state-of-the-art C4I systems that I was involved in their architecture design.”
+
+<br/><br/>
+
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 10px 10px; border-left: 0px; border-bottom: 0px" height="109" alt="Aaron Jensen" title="Aaron Jensen" src="http://www.udidahan.com/wp-content/uploads/aaron_jensen.png" width="100" align="right" border="0">
+<a href="http://www.linkedin.com/in/aaronjensen">Aaron Jensen, VP of Engineering at Eleutian Technology</a>
+<br/>
+“<b>Awesome. Just awesome.</b>
+<br/><br/>
+We’d been meaning to delve into messaging at Eleutian after multiple discussions with and blog posts from Greg Young and Udi Dahan in the past. We weren’t entirely sure where to start, how to start, what tools to use, how to use them, etc. Being able to sit in a room with Udi for an entire week while he described exactly how, why and what he does to tackle a massive enterprise system was invaluable to say the least.
+<br/><br/>
+We now have a much better direction and, more importantly, have the confidence we need to start introducing these powerful concepts into production at Eleutian.”
+ 
+
+<br/><br/>
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 10px 10px; border-left: 0px; border-bottom: 0px" height="82" alt="Gad Rosenthal" title="Gad Rosenthal" src="http://udidahan.weblogs.us/wp-content/uploads/gad_rosenthal.png" width="86" align="right" border="0">
+<a href="http://www.linkedin.com/pub/7/601/542">Gad Rosenthal, Department Manager at Retalix</a>
+<br/>
+“A thinking person. Brought fresh and valuable ideas that helped us in architecting our product. <b>When recommending a solution he supports it with evidence and detail so you can successfully act based on it</b>. Udi's support "comes on all levels" - As the solution architect through to the detailed class design. Trustworthy!” 
+
+<br/><br/>
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 10px 10px; border-left: 0px; border-bottom: 0px" height="70" alt="Chris Bilson" title="Chris Bilson" src="http://udidahan.weblogs.us/wp-content/uploads/chris_bilson.jpeg" width="70" align="right" border="0">
+<a href="http://www.linkedin.com/pub/0/15/338">Chris Bilson, Developer at Russell Investment Group</a>
+<br/>
+“I had the pleasure of attending a workshop Udi led at the Seattle ALT.NET conference in February 2009. I have been reading Udi's articles and listening to his podcasts for a long time and have always looked to him as a source of advice on software architecture.<br/>When I actually met him and talked to him I was even more impressed. <b>Not only is Udi an extremely likable person, he's got that rare gift of being able to explain complex concepts and ideas in a way that is easy to understand</b>.<br/>All the attendees of the workshop greatly appreciate the time he spent with us and the amazing insights into service oriented architecture he shared with us.” 
+
+<br/><br/>
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 10px 10px; border-left: 0px; border-bottom: 0px" height="80" alt="Alexey Shestialtynov" title="Alexey Shestialtynov" src="http://udidahan.weblogs.us/wp-content/uploads/alexey_shestialtynov.jpg" width="80" align="right" border="0">
+<a href="http://www.linkedin.com/pub/1/266/a3">Alexey Shestialtynov, Senior .Net Developer at Candidate Manager</a>
+<br/>
+“I met Udi at Candidate Manager where he was brought in part-time as a consultant to help the company make its flagship product more scalable. For me, even after 30 years in software development, <b>working with Udi was a great learning experience</b>. I simply love his fresh ideas and architecture insights.<br/>As we all know it is not enough to be armed with best tools and technologies to be successful in software - there is still human factor involved. When, as it happens, the project got in trouble, management asked Udi to step into a leadership role and bring it back on track. This he did in the span of a month. I can only wish that things had been done this way from the very beginning.<br/>I look forward to working with Udi again in the future.” 
+
+<br/><br/>
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 10px 10px; border-left: 0px; border-bottom: 0px" height="76" alt="Christopher Bennage" title="Christopher Bennage" src="http://www.udidahan.com/wp-content/uploads/chris_bennage.png" width="80" align="right" border="0">
+<a href="http://www.linkedin.com/pub/1/266/a3">Christopher Bennage, President at Blue Spire Consulting, Inc.</a>
+<br/>
+“My company was hired to be the primary development team for a large scale and highly distributed application. Since these are not necessarily everyday requirements, we wanted to bring in some additional expertise. We chose Udi because of his blogging, podcasting, and speaking. We asked him to to review our architectural strategy as well as the overall viability of project.<br/>
+I was very impressed, as Udi demonstrated a broad understanding of the sorts of problems we would face. His advice was honest and unbiased and very pragmatic. Whenever I questioned him on particular points, he was able to backup his opinion with real life examples.
+I was also impressed with his clarity and precision. He was very careful to untangle the meaning of words that might be overloaded or otherwise confusing. While Udi's hourly rate may not be the cheapest, <b>the ROI is undoubtedly a deal</b>.
+I would highly recommend consulting with Udi.” 
+
+
+<br/><br/>
+
+<a href="http://www.linkedin.com/pub/1/3b2/26a">Robert Lewkovich, Product / Development Manager at Eggs Overnight</a>
+<br/>
+“Udi's advice and consulting were a huge time saver for the project I'm responsible for. <b>The $ spent were well worth it</b> and provided me with a more complete understanding of nServiceBus and most importantly in helping make the correct architectural decisions earlier thereby reducing later, and more expensive, rework.” 
+
+<br/><br/>
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 10px 10px; border-left: 0px; border-bottom: 0px" height="80" alt="Ray Houston" title="Ray Houston" src="http://www.udidahan.com/wp-content/uploads/ray_houston.jpg" width="80" align="right" border="0">
+<a href="http://www.linkedin.com/pub/1/469/885">Ray Houston, Director of Development at TOPAZ Technologies</a>
+<br/>
+“Udi's SOA class made me smart - it was awesome.
+<br/><br/>
+<b>The class was very well put together</b>. The materials were clear and concise and Udi did a fantastic job presenting it. It was a good mixture of lecture, coding, and question and answer. I fully expected that I would be taking notes like crazy, but it was so well laid out that the only thing I wrote down the entire course was what I wanted for lunch. Udi provided us with all the lecture materials and everyone has access to all of the samples which are in the nServiceBus trunk.
+<br/><br/>
+Now I know why Udi is the "Software Simplist." I was amazed to find that all the code and solutions were indeed very simple. The patterns that Udi presented keep things simple by isolating complexity so that it doesn't creep into your day to day code. The domain code looks the same if it's running in a single process or if it's running in 100 processes.” 
+
+<br/><br/>
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 10px 10px; border-left: 0px; border-bottom: 0px" height="85" alt="Ian Cooper" title="Ian Cooper" src="http://www.udidahan.com/wp-content/uploads/ian_cooper.png" width="80" align="right" border="0">
+<a href="http://www.linkedin.com/pub/1/469/885">Ian Cooper, Team Lead at Beazley</a>
+<br/>
+“Udi is one of the leaders in the .Net development community, one of the truly smart guys who do not just get best architectural practice well enough to educate others but drives innovation. Udi consistently challenges my thinking in ways that <b>make me better at what I do</b>.” 
+
+<br/><br/>
+
+<a href="http://www.linkedin.com/pub/1/578/ab5">Liron Levy, Team Leader at Rafael</a>
+<br/>
+“I've met Udi when I worked as a team leader in Rafael. One of the most senior managers there knew Udi because he was doing superb architecture job in another Rafael project and he recommended bringing him on board to help the project I was leading.<br/>Udi brought with him fresh solutions and invaluable deep architecture insights. He is an authority on SOA (service oriented architecture) and this was a tremendous help in our project.<br/>On the personal level - <b>Udi is a great communicator and can persuade even the most difficult audiences</b> (I was part of such an audience myself..) by bringing sound explanations that draw on his extensive knowledge in the software business. Working with Udi was a great learning experience for me, and I'll be happy to work with him again in the future.”
+
+<br/><br/>
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 10px 10px; border-left: 0px; border-bottom: 0px" height="80" alt="Adam Dymitruk" title="Adam Dymitruk" src="http://udidahan.weblogs.us/wp-content/uploads/adam_dymitruk.jpg" width="80" align="right" border="0">
+<a href="http://www.linkedin.com/in/adymitruk">Adam Dymitruk, Director of IT at Apara Systems</a>
+<br/>
+“I met Udi for the first time at DevTeach in Montreal back in early 2007. While Udi is usually involved in SOA subjects, <b>his knowledge spans all of a software development company's concerns</b>. I would not hesitate to recommend Udi for any company that needs excellent leadership, mentoring, problem solving, application of patterns, implementation of methodologies and straight out solution development.<br/>There are very few people in the world that are as dedicated to their craft as Udi is to his. At ALT.NET Seattle, Udi explained many core ideas about SOA. The team that I brought with me found his workshop and other talks the highlight of the event and provided the most value to us and our organization. I am thrilled to have the opportunity to recommend him.”
+
+<br/><br/>
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 10px 10px; border-left: 0px; border-bottom: 0px" height="80" alt="Eytan Michaeli" title="Eytan Michaeli" src="http://udidahan.weblogs.us/wp-content/uploads/eytan.jpg" width="80" align="right" border="0">
+<a href="http://www.linkedin.com/in/eytanm">Eytan Michaeli, CTO Korentec</a>
+<br/>
+“Udi was responsible for a major project in the company, and as a chief architect designed a complex multi server C4I system with many innovations and excellent performance.”
+
+
+<br/><br/><br/>
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 10px 10px; border-left: 0px; border-bottom: 0px" height="78" alt="Carl Kenne" title="Carl Kenne" src="http://www.udidahan.com/wp-content/uploads/carl_kenne.jpg" width="80" align="right" border="0">
+<a href="http://www.linkedin.com/pub/carl-kenne/2/982/aa2">Carl Kenne, .Net Consultant at  Dotway AB</a>
+<br/>
+“Udi's session "DDD in Enterprise apps" was truly an eye opener. Udi has a great ability to explain complex enterprise designs in a very comprehensive and inspiring way. I've seen several sessions on both DDD and SOA in the past, but Udi puts it in a completly new perspective and <b>makes us understand what it's all really about</b>. If you ever have a chance to see any of Udi's sessions in the future, take it!”
+
+<br/><br/>
+
+<a href="http://www.linkedin.com/pub/7/b15/407">Avi Nehama, R&D Project Manager at Retalix</a><br/>
+“Not only that Udi is a briliant software architecture consultant, he also has remarkable abilities to present complex ideas in a simple and concise manner, and... <br/>
+<b>always with a smile</b>. Udi is indeed a top-league professional!”
+
+<br/><br/>
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 10px 10px; border-left: 0px; border-bottom: 0px" height="80" alt="Ben Scheirman" title="Ben Scheirman" src="http://udidahan.weblogs.us/wp-content/uploads/ben_scheirman.png" width="80" align="right" border="0">
+<a href="http://www.linkedin.com/in/benscheirman">Ben Scheirman, Lead Developer at CenterPoint Energy</a>
+<br/>
+“Udi is one of those rare people who not only deeply understands SOA and domain driven design, but also eloquently conveys that in an easy to grasp way. <b>He is patient, polite, and easy to talk to</b>. I'm extremely glad I came to his workshop on SOA.”
+
+<br/><br/>
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 10px 10px; border-left: 0px; border-bottom: 0px" height="73" alt="Scott C. Reynolds" title="Scott C. Reynolds" src="http://www.udidahan.com/wp-content/scottcreynolds.jpg" width="73" align="right" border="0">
+<a href="http://www.linkedin.com/in/scottcreynolds">Scott C. Reynolds, Director of Software Engineering at CBLPath </a>
+<br/>
+“Udi is consistently advancing the state of thought in software architecture, service orientation, and domain modeling.<br/>
+His mastery of the technologies and techniques is second to none, but he pairs that with a singular ability to listen and communicate effectively with all parties, technical and non, to help people <b>arrive at context-appropriate solutions</b>.
+Every time I have worked with Udi, or attended a talk of his, or just had a conversation with him I have come away from it enriched with new understanding about the ideas discussed.”
+
+<br/><br/>
+
+<a href="http://www.linkedin.com/in/obender">Evgeny-Hen Osipow, Head of R&D at PCLine</a><br/>
+“Udi has helped PCLine on projects by implementing architectural blueprints demonstrating the value of simple design and code.”
+
+<br/><br/>
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 10px 10px; border-left: 0px; border-bottom: 0px" height="80" alt="Rhys Campbell" title="Rhys Campbell" src="http://www.udidahan.com/wp-content/uploads/rhys_campbell.jpg" width="80" align="right" border="0">
+<a href="http://www.linkedin.com/in/rhysc">Rhys Campbell, Owner at Artemis West</a>
+<br/>
+“For many years I have been following the works of Udi. His explanation of often complex design and architectural concepts are so cleanly broken down that even the most junior of architects can begin to understand these concepts. These concepts however tend to typify the "real world" problems we face daily so even the most experienced software expert will find himself in an "Aha!" moment when following Udi teachings.<br/>
+It was a pleasure to finally meet Udi in Seattle Alt.Net OpenSpaces 2008, where I was pleasantly surprised at <b>how down-to-earth and approachable</b> he was. His depth and breadth of software knowledge also became apparent when discussion with his peers quickly dove deep in to the problems we current face. If given the opportunity to work with or recommend Udi I would quickly take that chance. When I think .Net Architecture, I think Udi.” 
+
+<br/><br/>
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 10px 10px; border-left: 0px; border-bottom: 0px" height="90" alt="Sverre Hundeide" title="Sverre Hundeide" src="http://www.udidahan.com/wp-content/uploads/sverre.png" width="70" align="right" border="0">
+<a href="http://www.linkedin.com/in/rhysc">Sverre Hundeide, Senior Consultant at Objectware </a>
+<br/>
+“Udi had been hired to present the third LEAP master class in Oslo. He is an well known international expert on enterprise software architecture and design, and is the author of the open source messaging framework nServiceBus.
+The entire class was based on discussion and interaction with the audience, and the only Power Point slide used was the one showing the agenda.<br/>
+He started out with sketching a naive traditional n-tier application (big ball of mud), and based on suggestions from the audience we explored different solutions which might improve the solution. Whatever suggestions we threw at him, he always had a thoroughly considered answer describing pros and cons with the suggested solution. <b>He obviously has a lot of experience with real world enterprise SOA applications</b>.”  
+
+<br/><br/>
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 10px 10px; border-left: 0px; border-bottom: 0px" height="80" alt="Raphaël Wouters" title="Raphaël Wouters" src="http://www.udidahan.com/wp-content/uploads//raphael_wouters.jpg" width="80" align="right" border="0">
+<a href="http://www.linkedin.com/in/raphaelwouters">Raphaël Wouters, Owner/Managing Partner at Medinternals</a>
+<br/>
+“I attended Udi's excellent course 'Advanced Distributed System Design with SOA and DDD' at Skillsmatter. Few people can truly claim such a high skill and expertise level, present it using a <b>pragmatic, concrete no-nonsense</b> approach and still stay reachable.”
+
+<br/><br/>
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 10px 10px; border-left: 0px; border-bottom: 0px" height="80" alt="Nimrod Peleg" title="Nimrod Peleg" src="http://www.udidahan.com/wp-content/uploads/nimrod_peleg.png" width="80" align="right" border="0">
+<a href="http://www.linkedin.com/pub/0/674/708">Nimrod Peleg, Lab Engineer at Technion IIT</a>
+<br/>
+“One of the best programmers and software engineer I've ever met, creative, knows how to design and implemet, very collaborative and finally - <b>the applications he designed implemeted work for many years without any problems!</b>”
+
+<br/><br/>
+
+<a href="http://www.linkedin.com/in/jmbeas">Jose Manuel Beas</a><br/>
+“When I attended Udi's SOA Workshop, then it suddenly changed my view of what Service Oriented Architectures were all about. Udi explained complex concepts very clearly and created a very productive discussion environment <b>where all the attendees could learn a lot</b>. I strongly recommend hiring Udi.” 
+
+<br/><Br/>
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 10px 10px; border-left: 0px; border-bottom: 0px" height="80" alt="Daniel Jin" title="Daniel Jin" src="http://www.udidahan.com/wp-content/uploads/daniel_jin.jpg" width="80" align="right" border="0">
+<a href="http://www.linkedin.com/pub/0/674/708">Daniel Jin, Senior Lead Developer at PJM Interconnection</a>
+<br/>
+“Udi is one of the top SOA guru in the .NET space. He is always <b>eager to help others</b> by sharing his knowledge and experiences. His blog articles often offer deep insights and is a invaluable resource. I highly recommend him.” 
+
+<br/><br/>
+
+<img style="border-right: 0px; border-top: 0px; margin: 0px 0px 10px 10px; border-left: 0px; border-bottom: 0px" height="85" alt="Pasi Taive" title="Pasi Taive" src="http://www.udidahan.com/wp-content/uploads/pasi_taive.png" width="73" align="right" border="0">
+<a href="http://www.linkedin.com/pub/pasi-taive/0/a93/3b5">Pasi Taive, Chief Architect at Tieto</a>
+<br/>
+“I attended both of Udi's "UI Composition Key to SOA Success" and "DDD in Enterprise Apps" sessions and they were exceptionally good. I will definitely participate in his sessions again. <b>Udi is a great presenter</b> and has the ability to explain complex issues in a manner that everyone understands.” 
+
+<br/><br/>
+
+<a href="http://il.linkedin.com/pub/eran-sagi/0/b55/999">Eran Sagi, Software Architect at HP</a>
+<br/>
+“So far, I heard about Service Oriented architecture all over. 
+Everyone mentions it – the big buzz word. 
+But, when I actually asked someone for what does it really mean, no one managed to give me a complete satisfied answer.
+Finally in his excellent course “Advanced Distributed Systems”, <b>I got the answers I was looking for</b>.
+Udi went over the different motivations (principles) of Services Oriented, explained them well one by one, and showed how each one could be technically addressed using NService bus.
+In his course, Udi also explain the way of thinking when coming to design a Service Oriented system. 
+What are the questions you need to ask yourself in order to shape your system, place the logic in the right places for best Service Oriented system.
+<br/><br/>
+I would recommend this course for any architect or developer who deals with distributed system, but not only. 
+In my work we do not have a real distributed system, but one PC which host both the UI application and the different services inside, all communicating via WCF. 
+I found that many of the architecture principles and motivations of SOA apply for our system as well. Enough that you have SW partitioned into components and most of the principles becomes relevant to you as well.
+Bottom line – an excellent course recommended to any SW Architect, or any developer dealing with distributed system.” 
+
+<br/><br/>
+
+
+
+<a href="/consulting/">Consult with Udi</a>
+
+</div>
+
+<br/>
+
+<div class="sidetitle">
+Guest Authored Books
+</div>
+
+<div class="side">
+<a href="http://www.jnsk.se/weblog/posts/GuestAuthors.htm"><img src="http://udidahan.weblogs.us/wp-content/uploads/applying_ddd.png" alt="Chapter: Introduction to SOA" title="Chapter: Introduction to SOA" border="0" width="175" height="227"/></a>&nbsp;&nbsp;&nbsp;
+
+<a href="http://www.soa-expertenwissen.de/">
+<img src="http://udidahan.weblogs.us/wp-content/uploads/soa_expert_book.png" alt="Article: The Enterprise Service Bus and Your SOA" title="Article: The Enterprise Service Bus and Your SOA" border="0" width="156" height="227"/></a>
+
+<br/>
+<br/>
+
+<a href="http://www.amazon.com/dp/059652269X"><img src='http://www.udidahan.com/wp-content/uploads/97_things_architect.jpg' alt='97 Things Every Software Architect Should Know' border="0" width="153" height="227"/></a>
+
+</div>
+
+<br/><br/>
+
+
+
+
+<div style="visibility:hidden;">
+
+<!-- Start of StatCounter Code -->
+<script type="text/javascript">
+sc_project=224771; 
+sc_invisible=1; 
+sc_partition=0; 
+sc_security=""; 
+</script>
+
+<script type="text/javascript" src="http://www.statcounter.com/counter/counter.js"></script><noscript><div class="statcounter"><a href="http://www.statcounter.com/" target="_blank"><img class="statcounter" src="http://c1.statcounter.com/224771/0//1/" alt="web statistics" ></a></div></noscript>
+<!-- End of StatCounter Code -->
+
+<script src="http://feeds.feedburner.com/~s/UdiDahan-TheSoftwareSimplist?i=http://www.udidahan.com/2010/08/31/race-conditions-dont-exist/" type="text/javascript" charset="utf-8"></script>
+
+
+</div>
+
+
+</td>
+
+
+
+</tr>
+
+<tr>
+<td colspan="4" style="background-color:black; color:white;">
+<br/>
+<a href="http://creativecommons.org/licenses/by/3.0/"><img src="http://www.udidahan.com/wp-content/uploads/cc88x31.png" title="Creative Commons License" alt="Creative Commons License" style="border:none;"/></a>&nbsp;
+© Copyright 2005-2009, Udi Dahan. <a href="mailto:email@UdiDahan.com" style="color:white; font-weight:normal;">email@UdiDahan.com</a>&nbsp;&nbsp;&nbsp;&nbsp;Freely hosted by <a href="http://Weblogs.us" style="color:white; font-weight:normal;">Weblogs.us</a>
+</td>
+</tr>
+
+
+</table>
+
+</body>
+</html>

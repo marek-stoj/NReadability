@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <assemblies major="1"
+              minor="8"
+              release="0">
+    <assembly name="SgmlReaderDll"
+              publicKeyToken="46b2db9ca481831b"
+              culture="neutral"
+              assemblyinfo-path="sgmlreaderdll\AssemblyInfo.cs"
+              />
+   </assemblies>
+</configuration>

@@ -1,0 +1,27 @@
+Microsoft Visual Studio Solution File, Format Version 7.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SgmlReader", "CommandLine\SgmlReader.csproj", "{606C348A-9A72-4179-9C55-4DD9914C22CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SgmlReaderDll", "SgmlReaderDll\SgmlReaderDll.csproj", "{499527FF-AE52-450F-B3E3-4AD53E1712AD}"
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		ConfigName.0 = Debug
+		ConfigName.1 = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{606C348A-9A72-4179-9C55-4DD9914C22CC}.Debug.ActiveCfg = Debug|.NET
+		{606C348A-9A72-4179-9C55-4DD9914C22CC}.Debug.Build.0 = Debug|.NET
+		{606C348A-9A72-4179-9C55-4DD9914C22CC}.Release.ActiveCfg = Release|.NET
+		{606C348A-9A72-4179-9C55-4DD9914C22CC}.Release.Build.0 = Release|.NET
+		{499527FF-AE52-450F-B3E3-4AD53E1712AD}.Debug.ActiveCfg = Debug|.NET
+		{499527FF-AE52-450F-B3E3-4AD53E1712AD}.Debug.Build.0 = Debug|.NET
+		{499527FF-AE52-450F-B3E3-4AD53E1712AD}.Release.ActiveCfg = Release|.NET
+		{499527FF-AE52-450F-B3E3-4AD53E1712AD}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

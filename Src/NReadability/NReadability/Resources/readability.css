@@ -1,0 +1,82 @@
+﻿/* Document */
+body {font-size: 100%;}
+#readability-logo,#arc90-logo,.footer-twitterLink,#readTools a,a.rdbTK-powered span{background-color:transparent!important;background-image:url(http://lab.arc90.com/experiments/readability/images/sprite-readability.png)!important;background-repeat:no-repeat!important;}
+#readOverlay {display:block;position:absolute;top:0;left:0;width:100%;}
+#readInner {line-height:1.4em;max-width:800px;margin:1em auto;}
+#readInner a {color:#039;text-decoration:none;}
+#readInner a:hover {text-decoration:underline;}
+#readInner img {float:left;clear:both;margin: 0 12px 12px 0;}
+#readInner h1 {display:block;width:100%;border-bottom:1px solid #333;font-size:1.2em;padding-bottom:.5em;margin-top:0;margin-bottom:.75em;}
+#readInner sup{line-height:.8em;}
+#readInner .page-separator{clear:both;display:block;font-size:.85em;filter:alpha(opacity=20);opacity:.20;text-align:center;}
+.style-apertura #readInner h1 {border-bottom-color:#ededed;}
+#readInner blockquote {margin-left:3em;margin-right:3em;}
+#readability-inner * {margin-bottom:16px;border:none;background:none;}
+/* Footer */
+#readFooter {display:block;border-top:1px solid #333;text-align:center;clear:both;overflow:hidden;}
+.style-apertura #readFooter {border-top-color:#ededed;}
+#rdb-footer-left {display:inline;float:left;margin-top:15px;width:285px;background-position:0 -36px;}
+.rdbTypekit #rdb-footer-left {width:475px;}
+#rdb-footer-left a,#rdb-footer-left a:link {float:left;}
+#readability-logo {display:inline;background-position:0 -36px;height:29px;width:189px;text-indent:-9000px;}
+#arc90-logo {display:inline;background-position:right -36px;height:29px;width:96px;text-indent:-9000px;}
+#readability-url {display:none;}
+.style-apertura #readability-logo {background-position:0 -67px;}
+.style-apertura #arc90-logo {background-position:right -67px;}
+#rdb-footer-right {display:inline;float:right;text-align:right;font-size:.75em;margin-top:18px;}
+#rdb-footer-right a {display:inline-block;float:left;overflow:visible;line-height:16px;vertical-align:baseline;}
+.footer-twitterLink {height:20px;margin-left:20px;padding:4px 0 0 28px;background-position:0 -123px;font-size:12px;}
+#rdb-footer-left .footer-twitterLink {display:none;margin-top:1px;padding-top:2px;}
+.rdbTypekit #rdb-footer-right .footer-twitterLink {display:none;}
+.rdbTypekit #rdb-footer-left .footer-twitterLink {display:inline-block!important;}
+a.rdbTK-powered,a.rdbTK-powered:link,a.rdbTK-powered:hover {font-size:16px;color:#858789!important;text-decoration:none!important;}
+a.rdbTK-powered span {display:inline-block;height:22px;margin-left:2px;padding:4px 0 0 26px;background-position:0 -146px!important;}
+.style-apertura #rdb-inverse,.style-athelas #rdb-athelas {display:block;}
+span.version {display:none;}
+/* Tools */
+#readTools {width:34px;height:150px;position:fixed;z-index:100;top:10px;left:10px;}
+#readTools a {overflow:hidden;margin-bottom:8px;display:block;opacity:.4;text-indent:-99999px;height:34px;width:34px;text-decoration:none;filter:alpha(opacity=40);}
+#reload-page {background-position:0 0;}
+#print-page {background-position:-36px 0;}
+#email-page {background-position:-72px 0;}
+#kindle-page {background-position:-108px 0;}
+#readTools a:hover {opacity:1;filter:alpha(opacity=100);}
+/* -- USER-CONFIGURABLE STYLING -- */
+/* Size */
+.size-x-small {font-size:.75em;}
+.size-small {font-size:.938em;}
+.size-medium {font-size:1.125em;}
+.size-large {font-size:1.375em;}
+.size-x-large {font-size:1.75em;}
+/* Style */
+.style-newspaper {font-family:"Times New Roman", Times, serif;background:#fbfbfb;color:#080000;}
+.style-newspaper h1 {text-transform:capitalize;font-family:Georgia, "Times New Roman", Times, serif;}
+.style-newspaper #readInner a {color:#0924e1;}
+.style-novel {font-family:"Palatino Linotype", "Book Antiqua", Palatino, serif;background:#f4eed9;color:#1d1916;}
+.style-novel #readInner a {color:#1856ba;}
+.style-ebook {font-family:Arial, Helvetica, sans-serif;background:#edebe8;color:#2c2d32;}
+.style-ebook #readInner a {color:#187dc9;}
+.style-ebook h1 {font-family:"Arial Black", Gadget, sans-serif;font-weight:400;}
+.style-terminal {font-family:"Lucida Console", Monaco, monospace;background:#1d4e2c;color:#c6ffc6;}
+.style-terminal #readInner a {color:#093;}
+/* Typekit */
+.style-apertura {font-family:"apertura-1", "apertura-2", sans-serif;background-color:#2d2828;color:#eae8e9;}
+.style-apertura #readInner a {color:#58b0ff;}
+.style-athelas {font-family:"athelas-1", "athelas-2", "Palatino Linotype", "Book Antiqua", Palatino, serif;background-color:#f7f7f7;color:#2b373d;}
+.style-athelas #readInner a {color:#1e83cb;}
+/* Margin */
+.margin-x-narrow {width:95%;}
+.margin-narrow {width:85%;}
+.margin-medium {width:75%;}
+.margin-wide {width:55%;}
+.margin-x-wide {width:35%;}
+/* -- USER-CONFIGURABLE STYLING -- */
+/* -- DEBUG -- */
+.bug-green {background:#bbf9b0;border:4px solid green;}
+.bug-red {background:red;}
+.bug-yellow {background:#ffff8e;}
+.bug-blue {background:#bfdfff;}
+/* -- EMAIL / KINDLE POP UP -- */
+#kindle-container, #email-container {position:fixed;top:60px;left:50%;width:500px;height:490px;border:solid 3px #666;background-color:#fff;z-index:100!important;overflow:hidden;margin:0 0 0 -240px;padding:0;}
+/* Override html styling attributes */
+table, tr, td { background-color: transparent !important; }
