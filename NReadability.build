@@ -83,20 +83,14 @@
     </zip>
     <!-- Package source. -->
     <property name="src.zip.dir" value="NReadability-${nreadability.version}-Src" />
-    <property name="tmp.svn.export.dir" value="tmp_svn_export" />
-    <delete dir="${tmp.svn.export.dir}" />
-    <echo message="Exporting SVN repository." />
-    <exec program="svn">
-      <arg value="export" />
-      <arg value="." />
-      <arg value="${tmp.svn.export.dir}" />
+    <echo message="Archiving repository." />
+    <exec program="git">
+      <arg value="archive" />
+      <arg value="--format=zip" />
+      <arg value="--output" />
+      <arg value="Dist\${src.zip.dir}.zip" />
+      <arg value="master" />
     </exec>
-    <zip zipfile="Dist\${src.zip.dir}.zip">
-      <fileset basedir="${tmp.svn.export.dir}" prefix="${src.zip.dir}">
-        <include name="**\*" />
-      </fileset>
-    </zip>
-    <delete dir="${tmp.svn.export.dir}" />
     <delete>
       <fileset basedir="Dist">
         <include name="**\*" />
