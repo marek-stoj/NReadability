@@ -32,6 +32,7 @@
       <arg value="Src\NReadability\NReadability.sln" />
       <arg value="/t:Build" />
       <arg value="/p:Configuration=Release" />
+      <arg value="/p:Platform=Any CPU" />
     </exec>
   </target>
 
