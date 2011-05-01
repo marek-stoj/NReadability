@@ -631,7 +631,7 @@ namespace NReadability
       // TODO: optimize?
       string bodyInnerHtml = documentBody.GetInnerHtml();
 
-      bodyInnerHtml = _ReplaceDoubleBrsRegex.Replace(bodyInnerHtml, "<p></p>");
+      bodyInnerHtml = _ReplaceDoubleBrsRegex.Replace(bodyInnerHtml, "</p><p>");
       bodyInnerHtml = _ReplaceFontsRegex.Replace(bodyInnerHtml, "<$1span>");
 
       documentBody.SetInnerHtml(bodyInnerHtml);
