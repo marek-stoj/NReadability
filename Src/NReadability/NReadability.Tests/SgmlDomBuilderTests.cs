@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Xml.Linq;
+using NUnit.Framework;
 
 namespace NReadability.Tests
 {
@@ -43,6 +44,14 @@ namespace NReadability.Tests
       string serializedHtmlContent = _sgmlDomSerializer.SerializeDocument(xDocument);
 
       MyAssert.AssertSubstringCount(1, serializedHtmlContent, "<html");
+    }
+
+    [Test]
+    public void Builder_handles_invalid_entity_references()
+    {
+      XDocument document = _sgmlDomBuilder.BuildDocument("<p>&#</p>");
+
+      Assert.DoesNotThrow(() => _sgmlDomSerializer.SerializeDocument(document));
     }
 
     #endregion
