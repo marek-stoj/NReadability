@@ -363,12 +363,6 @@ namespace NReadability.Tests
     #region Transcode tests
 
     [Test]
-    public void temp_remove()
-    {
-      TestSampleInputs(9);
-    }
-
-    [Test]
     [Sequential]
     // TODO: if time, add test case 7 (the sample is already in the repo but needs fixing)
     public void TestSampleInputs([Values(1, 2, 3, 4, 5, 6, 8, 9)]int sampleInputNumber)

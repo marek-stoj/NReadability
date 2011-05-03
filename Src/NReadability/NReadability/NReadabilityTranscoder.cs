@@ -480,7 +480,7 @@ namespace NReadability
       }
 
       /*
-      * Loop thrugh all of our possible pages from above and find our top candidate for the next page URL.
+      * Loop through all of our possible pages from above and find our top candidate for the next page URL.
       * Require at least a score of 50, which is a relatively high confidence that this page is the next link.
       */
       LinkData topPage = null;
@@ -495,7 +495,7 @@ namespace NReadability
         string nextHref = Regex.Replace(topPage.LinkHref, @"\/$", "");        
         var nextHrefUri = new Uri(new Uri(articleBaseUrl), nextHref);
 
-        return nextHrefUri.ToString();
+        return nextHrefUri.OriginalString;
       }
 
       return null;
@@ -1464,7 +1464,7 @@ namespace NReadability
 
       if (Uri.TryCreate(baseUri, url, out absoluteUri))
       {
-        return absoluteUri.ToString();
+        return absoluteUri.OriginalString;
       }
 
       return url;
