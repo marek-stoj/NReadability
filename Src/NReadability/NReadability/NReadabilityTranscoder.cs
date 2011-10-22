@@ -339,24 +339,24 @@ namespace NReadability
     /// <param name="url">Url of document</param>
     internal string FindNextPageLink(XElement body, string url)
     {
-      var possiblePages = new Dictionary<string, LinkData>();
-      var allLinks = body.GetElementsByTagName("a");
-      var articleBaseUrl = FindBaseUrl(url);
+      Dictionary<string, LinkData> possiblePagesByLink = new Dictionary<string, LinkData>();
+      IEnumerable<XElement> allLinks = body.GetElementsByTagName("a");
+      string articleBaseUrl = FindBaseUrl(url);
 
       /* Loop through all links, looking for hints that they may be next-page links. 
        * Things like having "page" in their textContent, className or id, or being a child
        * of a node with a page-y className or id. 
        * After we do that, assign each page a score.
        */
-      foreach (var link in allLinks)
+      foreach (XElement linkElement in allLinks)
       {
-        string linkHref = (string)link.Attribute("href");
+        string linkHref = (string)linkElement.Attribute("href");
 
-        if (string.IsNullOrEmpty(linkHref))
+        if (string.IsNullOrEmpty(linkHref)
+         || _MailtoHrefRegex.IsMatch(linkHref))
+        {
           continue;
-
-        if (_MailtoHrefRegex.IsMatch(linkHref))
-          continue;
+        }
 
         linkHref = Regex.Replace(linkHref, "#.*$", "");
         linkHref = Regex.Replace(linkHref, "/$", "");
@@ -365,75 +365,99 @@ namespace NReadability
         // This leaves out an already-checked page check, because 
         // the web transcoder is seperate from the original transcoder
         if (linkHref == "" || linkHref == articleBaseUrl || linkHref == url)
+        {
           continue;
+        }
 
         /* If it's on a different domain, skip it. */
         Uri linkHrefUri;
-        if (Uri.TryCreate(linkHref, UriKind.Absolute, out linkHrefUri) && linkHrefUri.Host != new Uri(articleBaseUrl).Host)
-          continue;
 
-        string linkText = GetInnerText(link);
+        if (Uri.TryCreate(linkHref, UriKind.Absolute, out linkHrefUri) && linkHrefUri.Host != new Uri(articleBaseUrl).Host)
+        {
+          continue;
+        }
+
+        string linkText = GetInnerText(linkElement);
 
         /* If the linktext looks like it's not the next page, then skip it */
         if (_Extraneous.IsMatch(linkText) || linkText.Length > 25)
+        {
           continue;
+        }
 
         /* If the leftovers of the URL after removing the base URL don't contain any digits, it's certainly not a next page link. */
         string linkHrefLeftover = linkHref.Replace(articleBaseUrl, "");
+        
         if (!Regex.IsMatch(linkHrefLeftover, @"\d"))
-          continue;
-
-        if (!possiblePages.Keys.Contains(linkHref))
         {
-          possiblePages[linkHref] = new LinkData { Score = 0, LinkHref = linkHref, LinkText = linkText };
+          continue;
+        }
+
+        if (!possiblePagesByLink.Keys.Contains(linkHref))
+        {
+          possiblePagesByLink[linkHref] = new LinkData { Score = 0, LinkHref = linkHref, LinkText = linkText };
         } 
         else
         {
-          possiblePages[linkHref].LinkText += " | " + linkText;
+          possiblePagesByLink[linkHref].LinkText += " | " + linkText;
         }
 
-        var linkObj = possiblePages[linkHref];
+        LinkData linkObj = possiblePagesByLink[linkHref];
 
         /*
          * If the articleBaseUrl isn't part of this URL, penalize this link. It could still be the link, but the odds are lower.
          * Example: http://www.actionscript.org/resources/articles/745/1/JavaScript-and-VBScript-Injection-in-ActionScript-3/Page1.html
          */
         if (linkHref.IndexOf(articleBaseUrl) == -1)
+        {
           linkObj.Score -= 25;
+        }
 
-        string linkData = linkText + " " + link.GetClass() + " " + link.GetId();
+        string linkData = linkText + " " + linkElement.GetClass() + " " + linkElement.GetId();
 
         if (_NextLink.IsMatch(linkData))
+        {
           linkObj.Score += 50;
+        }
 
         if (Regex.IsMatch(linkData, "pag(e|ing|inat)", RegexOptions.IgnoreCase))
+        {
           linkObj.Score += 25;
+        }
 
         /* If we already matched on "next", last is probably fine. If we didn't, then it's bad. Penalize. */
         /* -65 is enough to negate any bonuses gotten from a > or � in the text */
-        if (Regex.IsMatch(linkData, "(first|last)", RegexOptions.IgnoreCase))
-          if (!_NextLink.IsMatch(linkObj.LinkText))
-            linkObj.Score -= 65;
+        if (Regex.IsMatch(linkData, "(first|last)", RegexOptions.IgnoreCase)
+         && !_NextLink.IsMatch(linkObj.LinkText))
+        {
+          linkObj.Score -= 65;
+        }
 
         if (_NegativeWeightRegex.IsMatch(linkData) || _Extraneous.IsMatch(linkData))
+        {
           linkObj.Score -= 50;
+        }
 
         if (_PrevLink.IsMatch(linkData))
+        {
           linkObj.Score -= 200;
+        }
 
         /* If any ancestor node contains page or paging or paginat */
-        var parentNode = link.Parent;
+        XElement parentNode = linkElement.Parent;
         bool positiveNodeMatch = false;
         bool negativeNodeMatch = false;
 
         while (parentNode != null)
         {
           string parentNodeClassAndId = parentNode.GetClass() + " " + parentNode.GetId();
+
           if (!positiveNodeMatch && Regex.IsMatch(parentNodeClassAndId, "pag(e|ing|inat)", RegexOptions.IgnoreCase))
           {
             positiveNodeMatch = true;
             linkObj.Score += 25;
           }
+
           if (!negativeNodeMatch && _NegativeWeightRegex.IsMatch(parentNodeClassAndId))
           {
             if (!_PositiveWeightRegex.IsMatch(parentNodeClassAndId))
@@ -450,8 +474,8 @@ namespace NReadability
         * If the URL looks like it has paging in it, add to the score.
         * Things like /page/2/, /pagenum/2, ?p=3, ?page=11, ?pagination=34
         */
-        if (Regex.IsMatch(linkHref, @"p(a|g|ag)?(e|ing|ination)?(=|\/)[0-9]{1,2}", RegexOptions.IgnoreCase) || 
-            Regex.IsMatch(linkHref, @"(page|paging)", RegexOptions.IgnoreCase))
+        if (Regex.IsMatch(linkHref, @"p(a|g|ag)?(e|ing|ination)?(=|\/)[0-9]{1,2}", RegexOptions.IgnoreCase)
+         || Regex.IsMatch(linkHref, @"(page|paging)", RegexOptions.IgnoreCase))
         {
           linkObj.Score += 25;
         }
@@ -469,13 +493,18 @@ namespace NReadability
          */
         int linkTextAsNumber;
         bool isInt = int.TryParse(linkText, out linkTextAsNumber);
+
         if (isInt)
         {
           /* Punish 1 since we're either already there, or it's probably before what we want anyways. */
           if (linkTextAsNumber == 1)
+          {
             linkObj.Score -= 10;
+          }
           else
+          {
             linkObj.Score += Math.Max(0, 10 - linkTextAsNumber);
+          }
         }
       }
 
@@ -484,10 +513,13 @@ namespace NReadability
       * Require at least a score of 50, which is a relatively high confidence that this page is the next link.
       */
       LinkData topPage = null;
-      foreach (var page in possiblePages.Keys)
+
+      foreach (var page in possiblePagesByLink.Keys)
       {
-        if (possiblePages[page].Score >= 50 && (topPage == null || topPage.Score < possiblePages[page].Score))
-          topPage = possiblePages[page];
+        if (possiblePagesByLink[page].Score >= 50 && (topPage == null || topPage.Score < possiblePagesByLink[page].Score))
+        {
+          topPage = possiblePagesByLink[page];
+        }
       }
 
       if (topPage != null)
