@@ -125,7 +125,7 @@ namespace NReadability
     private static readonly Regex _ArticleTitleColonRegex1 = new Regex(".*:(.*)", RegexOptions.Compiled);
     private static readonly Regex _ArticleTitleColonRegex2 = new Regex("[^:]*[:](.*)", RegexOptions.Compiled);    
     private static readonly Regex _NextLink = new Regex(@"(next|weiter|continue|dalej|następna|nastepna>([^\|]|$)|�([^\|]|$))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-    private static readonly Regex _PrevLink = new Regex("(prev|earl|old|new|wstecz|poprzednia|<|�)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static readonly Regex _PrevLink = new Regex("(prev|earl|[^b]old|new|wstecz|poprzednia|<|�)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
     #endregion
 

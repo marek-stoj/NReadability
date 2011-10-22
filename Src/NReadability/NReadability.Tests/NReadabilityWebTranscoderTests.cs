@@ -29,9 +29,6 @@ namespace NReadability.Tests
   [TestFixture]
   public class NReadabilityWebTranscoderTests
   {
-    private NReadabilityTranscoder _nReadabilityTranscoder;
-    private NReadabilityWebTranscoder _nReadabilityWebTranscoder;
-
     /* This provides the list of URLs for the different test imports */
 
     private readonly string[][] _Urls =
@@ -57,26 +54,38 @@ namespace NReadability.Tests
           {
             @"http://www.slate.com/id/2275733",
             @"http://www.slate.com/id/2275733/pagenum/2"
-          }
+          },
+        new[]
+          {
+            @"http://entertainment.howstuffworks.com/leisure/brain-games/scrabble.htm",
+            @"http://entertainment.howstuffworks.com/leisure/brain-games/scrabble1.htm",
+            @"http://entertainment.howstuffworks.com/leisure/brain-games/scrabble2.htm",
+            @"http://entertainment.howstuffworks.com/leisure/brain-games/scrabble3.htm",
+            @"http://entertainment.howstuffworks.com/leisure/brain-games/scrabble4.htm",
+          },
       };
 
-    [SetUp]
-    public void SetUp()
-    {
-      _nReadabilityTranscoder = new NReadabilityTranscoder();      
-    }
-    
     [Test]
-    public void TestSampleInputs([Values(1,2,3,4)]int sampleInputNumber)
+    [Sequential]
+    public void TestSampleInputs([Values(1,2,3,4,5)]int sampleInputNumber)
     {
+      const string outputDir = "SampleWebOutput";
+
       string sampleInputNumberStr = sampleInputNumber.ToString().PadLeft(2, '0');
       string[] urls = _Urls[sampleInputNumber - 1];
       string initialUrl = urls[0];
-      IUrlFetcher fetcher = new UrlFetcherStub(sampleInputNumber, urls);
-      _nReadabilityWebTranscoder = new NReadabilityWebTranscoder(_nReadabilityTranscoder, fetcher);
+      
+      var fetcher = new UrlFetcherStub(sampleInputNumber, urls);
+      var _nReadabilityTranscoder = new NReadabilityTranscoder();
+      var _nReadabilityWebTranscoder = new NReadabilityWebTranscoder(_nReadabilityTranscoder, fetcher);
+
       bool mainContentExtracted;
-      string transcodedContent = _nReadabilityWebTranscoder.Transcode(initialUrl, out mainContentExtracted);
-      const string outputDir = "SampleWebOutput";
+
+      string transcodedContent =
+        _nReadabilityWebTranscoder
+          .Transcode(
+            initialUrl,
+            out mainContentExtracted);
 
       if (!Directory.Exists(outputDir))
       {
@@ -84,9 +93,9 @@ namespace NReadability.Tests
       }
 
       File.WriteAllText(
-       Path.Combine(outputDir, string.Format("SampleOutput_{0}.html", sampleInputNumberStr)),
-       transcodedContent,
-       Encoding.UTF8);
+        Path.Combine(outputDir, string.Format("SampleOutput_{0}.html", sampleInputNumberStr)),
+        transcodedContent,
+        Encoding.UTF8);
 
       switch (sampleInputNumber)
       {
@@ -112,6 +121,24 @@ namespace NReadability.Tests
 
         case 4:  // Test duplicate content on subsequent page
           Assert.That(Regex.Matches(transcodedContent, "his may seem paradoxical, or backward").Count, Is.EqualTo(1));
+          break;
+
+        case 5:
+          // page 1
+          Assert.IsTrue(transcodedContent.Contains("The pressure's on, and as you glance back and forth between your rack and the board, you can hardly believe your eyes at the play you can make."));
+          Assert.IsTrue(transcodedContent.Contains("How can you take your game to the next level? Let's start by looking at game play."));
+          // page 2
+          Assert.IsTrue(transcodedContent.Contains("The object of Scrabble is to get the most points by creating words."));
+          Assert.IsTrue(transcodedContent.Contains("Now that you know the parts of the game, let's take a look at how to play it."));
+          // page 3
+          Assert.IsTrue(transcodedContent.Contains("To determine who goes first, put all the tiles into the bag and mix them up."));
+          Assert.IsTrue(transcodedContent.Contains("The game continues until one player uses all of his tiles and there aren't any in the pouch, or if there are no more tiles and no one can make a word. Add up the total of your unplayed tiles and deduct it from your score. If you've used all of your tiles, add the total of the unplayed tiles to your score. The winner has the most points."));
+          // page 4
+          Assert.IsTrue(transcodedContent.Contains("If you play often enough, you'll need to learn how to play the board in order to get the highest score"));
+          Assert.IsTrue(transcodedContent.Contains("With the game's popularity, it now comes in many variations. Let's take a look at some different ways to play Scrabble."));
+          // page 5
+          Assert.IsTrue(transcodedContent.Contains("Many people play Scrabble on a traditional flat board with the grid imprinted on it."));
+          Assert.IsTrue(transcodedContent.Contains("With its worldwide popularity, it only makes sense that Scrabble comes in languages other than English. "));
           break;
 
         default:
