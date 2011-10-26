@@ -98,6 +98,32 @@ namespace NReadability.Tests
 
     #endregion
 
+    #region CollapseRedundantParagraphDivs tests
+
+    [Test]
+    public void Redundant_paragraph_divs_should_be_collapsed()
+    {
+      const string paragraph =
+        "<p>" + "\r\n" +
+        "    Some paragraph." + "\r\n" +
+        "  </p>";
+
+      const string content =
+        "<div>" + "\r\n" +
+        "  " + paragraph + "\r\n" +
+        "</div>" + "\r\n";
+
+      var document = _sgmlDomBuilder.BuildDocument(content);
+
+      _nReadabilityTranscoder.CollapseRedundantParagraphDivs(document);
+
+      string newContent = _sgmlDomSerializer.SerializeDocument(document);
+
+      AssertHtmlContentsAreEqual(paragraph, newContent);
+    }
+
+    #endregion
+
     #region GetLinksDensity tests
 
     [Test]
@@ -365,7 +391,7 @@ namespace NReadability.Tests
     [Test]
     [Sequential]
     // TODO: if time, add test case 7 (the sample is already in the repo but needs fixing)
-    public void TestSampleInputs([Values(1, 2, 3, 4, 5, 6, 8, 9)]int sampleInputNumber)
+    public void TestSampleInputs([Values(1, 2, 3, 4, 5, 6, 8, 9, 10)]int sampleInputNumber)
     {
       string sampleInputNumberStr = sampleInputNumber.ToString().PadLeft(2, '0');
       string content = File.ReadAllText(string.Format(@"SampleInput\SampleInput_{0}.html", sampleInputNumberStr));
@@ -438,6 +464,20 @@ namespace NReadability.Tests
           Assert.IsTrue(transcodedContent.Contains("Not in the business world anyway."));
           Assert.IsTrue(transcodedContent.Contains("we could look at modeling the acceptance"));
           Assert.IsTrue(transcodedContent.Contains("Keep an eye out."));
+          break;
+
+        case 10:  // http://www.slate.com/articles/technology/technology/2011/10/steve_jobs_biography_the_new_book_doesn_t_explain_what_made_the_.single.html
+          Assert.IsTrue(transcodedContent.Contains("In the aftermath of his resignation and then his death"));
+          Assert.IsTrue(transcodedContent.Contains("It turns out, though, that he was much worse than you ever suspected."));
+          Assert.IsTrue(transcodedContent.Contains("But Isaacson has compiled so many instances"));
+          Assert.IsTrue(transcodedContent.Contains("Yet Jobs also said that he wanted a biographer"));
+          Assert.IsTrue(transcodedContent.Contains("He embodied so many contradictions"));
+          Assert.IsTrue(transcodedContent.Contains("When friends and colleagues offer theories about Jobs"));
+          Assert.IsTrue(transcodedContent.Contains("Isaacson tries valiantly to add some depth to the profile."));
+          Assert.IsTrue(transcodedContent.Contains("Jobs also seemed to suspect that he wasn"));
+          Assert.IsTrue(transcodedContent.Contains("Instead of offering any substantive explanations"));
+          Assert.IsTrue(transcodedContent.Contains("death prompted a flurry of hagiographic tributes"));
+          Assert.IsTrue(transcodedContent.Contains("last 15 years of life, something in him changed"));
           break;
 
         default:

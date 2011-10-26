@@ -72,6 +72,7 @@
     <Compile Include="AttributeTransformationResult.cs" />
     <Compile Include="AttributeTransformationInput.cs" />
     <Compile Include="DomSerializationParams.cs" />
+    <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="IUrlFetcher.cs" />
     <Compile Include="NReadabilityWebTranscoder.cs" />
     <Compile Include="UrlFetcher.cs" />

@@ -725,6 +725,7 @@ namespace NReadability
     internal XElement ExtractArticleContent(XDocument document)
     {
       StripUnlikelyCandidates(document);
+      CollapseRedundantParagraphDivs(document);
 
       var candidatesForArticleContent = FindCandidatesForArticleContent(document);
 
@@ -813,7 +814,7 @@ namespace NReadability
       new ElementsTraverser(
         element =>
           {
-            string elementName = element.Name != null ? (element.Name.LocalName ?? "") : "";
+            string elementName = GetElementName(element);
 
             /* Remove unlikely candidates. */
             string unlikelyMatchString = element.GetClass() + element.GetId();
@@ -866,6 +867,39 @@ namespace NReadability
                       childNode.ReplaceWith(paraElement);
                     }
                   ).Traverse(element);
+              }
+            }
+          }).Traverse(rootElement);
+    }
+
+    internal void CollapseRedundantParagraphDivs(XDocument document)
+    {
+      var rootElement = document.Root;
+
+      new ElementsTraverser(
+        element =>
+          {
+            string elementName = GetElementName(element);
+
+            if ("div".Equals(elementName, StringComparison.OrdinalIgnoreCase))
+            {
+              XNode childNode = element.Nodes().SingleOrNone();
+
+              if (childNode != null)
+              {
+                XElement childElement = childNode as XElement;
+
+                if (childElement != null && "p".Equals(GetElementName(childElement), StringComparison.OrdinalIgnoreCase))
+                {
+                  // we have a div with a single child element that is a paragraph - let's remove the div and attach the paragraph to the div's parent
+                  XElement parentElement = element.Parent;
+
+                  if (parentElement != null)
+                  {
+                    parentElement.Add(childElement);
+                    element.Remove();
+                  }
+                }
               }
             }
           }).Traverse(rootElement);
@@ -1500,6 +1534,11 @@ namespace NReadability
       }
 
       return url;
+    }
+
+    private static string GetElementName(XElement element)
+    {
+      return element.Name.LocalName ?? "";
     }
 
     private string GetReadingStyleClass(ReadingStyle readingStyle)
