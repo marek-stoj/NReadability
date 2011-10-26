@@ -35,7 +35,7 @@ namespace NReadability
   /// </summary>
   public class NReadabilityTranscoder
   {
-    #region Data structures
+    #region Nested types
     
     /// <summary>
     /// Used in FindNextPageLink
@@ -49,13 +49,7 @@ namespace NReadability
 
     #endregion
       
-    #region Fields
-
-    #region Resources constants
-
     private static readonly string _ReadabilityStylesheetResourceName = typeof(NReadabilityTranscoder).Namespace + ".Resources.readability.css";
-
-    #endregion
 
     #region Algorithm constants
 
@@ -126,6 +120,7 @@ namespace NReadability
     private static readonly Regex _ArticleTitleColonRegex2 = new Regex("[^:]*[:](.*)", RegexOptions.Compiled);    
     private static readonly Regex _NextLink = new Regex(@"(next|weiter|continue|dalej|następna|nastepna>([^\|]|$)|�([^\|]|$))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex _PrevLink = new Regex("(prev|earl|[^b]old|new|wstecz|poprzednia|<|�)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static readonly Regex _PageRegex = new Regex("pag(e|ing|inat)|([^a-z]|^)pag([^a-z]|$)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
     #endregion
 
@@ -155,8 +150,6 @@ namespace NReadability
     private Func<AttributeTransformationInput, AttributeTransformationResult> _imageSourceTranformer;
     private Func<AttributeTransformationInput, AttributeTransformationResult> _anchorHrefTransformer;
         
-    #endregion
-
     #endregion
 
     #region Constructor(s)
@@ -420,7 +413,7 @@ namespace NReadability
           linkObj.Score += 50;
         }
 
-        if (Regex.IsMatch(linkData, "pag(e|ing|inat)", RegexOptions.IgnoreCase))
+        if (_PageRegex.IsMatch(linkData))
         {
           linkObj.Score += 25;
         }
@@ -452,7 +445,7 @@ namespace NReadability
         {
           string parentNodeClassAndId = parentNode.GetClass() + " " + parentNode.GetId();
 
-          if (!positiveNodeMatch && Regex.IsMatch(parentNodeClassAndId, "pag(e|ing|inat)", RegexOptions.IgnoreCase))
+          if (!positiveNodeMatch && _PageRegex.IsMatch(parentNodeClassAndId))
           {
             positiveNodeMatch = true;
             linkObj.Score += 25;

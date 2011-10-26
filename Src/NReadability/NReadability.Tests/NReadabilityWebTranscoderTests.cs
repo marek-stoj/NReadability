@@ -63,11 +63,22 @@ namespace NReadability.Tests
             @"http://entertainment.howstuffworks.com/leisure/brain-games/scrabble3.htm",
             @"http://entertainment.howstuffworks.com/leisure/brain-games/scrabble4.htm",
           },
+        new[]
+          {
+            @"http://www.slate.com/articles/technology/technology/2011/10/steve_jobs_biography_the_new_book_doesn_t_explain_what_made_the_.html",
+            @"http://www.slate.com/articles/technology/technology/2011/10/steve_jobs_biography_the_new_book_doesn_t_explain_what_made_the_.2.html",
+          },
       };
 
     [Test]
+    public void TEST()
+    {
+      TestSampleInputs(6);
+    }
+
+    [Test]
     [Sequential]
-    public void TestSampleInputs([Values(1,2,3,4,5)]int sampleInputNumber)
+    public void TestSampleInputs([Values(1,2,3,4,5,6)]int sampleInputNumber)
     {
       const string outputDir = "SampleWebOutput";
 
@@ -139,6 +150,15 @@ namespace NReadability.Tests
           // page 5
           Assert.IsTrue(transcodedContent.Contains("Many people play Scrabble on a traditional flat board with the grid imprinted on it."));
           Assert.IsTrue(transcodedContent.Contains("With its worldwide popularity, it only makes sense that Scrabble comes in languages other than English. "));
+          break;
+
+        case 6:
+          // page 1
+          Assert.IsTrue(transcodedContent.Contains("In the aftermath of his resignation and then his death"));
+          Assert.IsTrue(transcodedContent.Contains("Curb Your Enthusiasm"));
+          // page 2
+          Assert.IsTrue(transcodedContent.Contains("Jobs also seemed to suspect that he"));
+          Assert.IsTrue(transcodedContent.Contains("And, sadly, it may remain one forever."));
           break;
 
         default:
