@@ -71,12 +71,6 @@ namespace NReadability.Tests
       };
 
     [Test]
-    public void TEST()
-    {
-      TestSampleInputs(6);
-    }
-
-    [Test]
     [Sequential]
     public void TestSampleInputs([Values(1,2,3,4,5,6)]int sampleInputNumber)
     {

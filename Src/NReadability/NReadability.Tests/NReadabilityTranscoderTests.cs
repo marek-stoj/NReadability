@@ -391,7 +391,7 @@ namespace NReadability.Tests
     [Test]
     [Sequential]
     // TODO: if time, add test case 7 (the sample is already in the repo but needs fixing)
-    public void TestSampleInputs([Values(1, 2, 3, 4, 5, 6, 8, 9, 10)]int sampleInputNumber)
+    public void TestSampleInputs([Values(1, 2, 3, 4, 5, 6, 8, 9, 10, 11)]int sampleInputNumber)
     {
       string sampleInputNumberStr = sampleInputNumber.ToString().PadLeft(2, '0');
       string content = File.ReadAllText(string.Format(@"SampleInput\SampleInput_{0}.html", sampleInputNumberStr));
@@ -478,6 +478,66 @@ namespace NReadability.Tests
           Assert.IsTrue(transcodedContent.Contains("Instead of offering any substantive explanations"));
           Assert.IsTrue(transcodedContent.Contains("death prompted a flurry of hagiographic tributes"));
           Assert.IsTrue(transcodedContent.Contains("last 15 years of life, something in him changed"));
+          break;
+
+        case 11: // http://www.slate.com/articles/news_and_politics/foreigners/2011/10/jordan_s_king_abdullah_interviewed_the_arab_spring_is_a_disaster.single.html
+          Assert.IsTrue(transcodedContent.Contains("How do you see"));
+          Assert.IsTrue(transcodedContent.Contains("I went to Egypt after visiting"));
+          Assert.IsTrue(transcodedContent.Contains("How did your visit to Egypt go?"));
+          Assert.IsTrue(transcodedContent.Contains("We had a very good meeting."));
+          Assert.IsTrue(transcodedContent.Contains("I think it is astounding that Tantawi"));
+          Assert.IsTrue(transcodedContent.Contains("The feeling I got from the Egyptian leadership"));
+          Assert.IsTrue(transcodedContent.Contains("From the streets"));
+          Assert.IsTrue(transcodedContent.Contains("No, from the West."));
+          Assert.IsTrue(transcodedContent.Contains("They saw that Mubarak was sacrificed"));
+          Assert.IsTrue(transcodedContent.Contains("So they are being very cautious in the decisions they are taking."));
+          Assert.IsTrue(transcodedContent.Contains("Do you and other leaders"));
+          Assert.IsTrue(transcodedContent.Contains("I think everybody is wary"));
+          Assert.IsTrue(transcodedContent.Contains("And Jordan?"));
+          Assert.IsTrue(transcodedContent.Contains("I think two things make Jordan stand out."));
+          Assert.IsTrue(transcodedContent.Contains("Do you think President Bashi"));
+          Assert.IsTrue(transcodedContent.Contains("We have had very limited defectors"));
+          Assert.IsTrue(transcodedContent.Contains("Does that mean you have talked to"));
+          Assert.IsTrue(transcodedContent.Contains("I spoke to Bashar al-Assad twice in the springtime."));
+          Assert.IsTrue(transcodedContent.Contains("People are asking about an alternative"));
+          Assert.IsTrue(transcodedContent.Contains("I think nobody has an answer to Syria."));
+          Assert.IsTrue(transcodedContent.Contains("Do you think they can win?"));
+          Assert.IsTrue(transcodedContent.Contains("My view is when you use violence on your people"));
+          Assert.IsTrue(transcodedContent.Contains("What is your assessment of Libya"));
+          Assert.IsTrue(transcodedContent.Contains("It took everybody by surprise."));
+          Assert.IsTrue(transcodedContent.Contains("So you think the death of Colonel Gaddafi"));
+          Assert.IsTrue(transcodedContent.Contains("There is an old saying that peace"));
+          Assert.IsTrue(transcodedContent.Contains("I heard that Hamas leader Khalid Mashal"));
+          Assert.IsTrue(transcodedContent.Contains("If he comes here, it is part of looking at Palestinian reconciliation."));
+          Assert.IsTrue(transcodedContent.Contains("You support Palestinian President Mahmoud Abba"));
+          Assert.IsTrue(transcodedContent.Contains("It is out of desperation and frustration that they are going to the U.N."));
+          Assert.IsTrue(transcodedContent.Contains("Like our elections?"));
+          Assert.IsTrue(transcodedContent.Contains("It is a disaster. You have seen what has happened in Egypt"));
+          Assert.IsTrue(transcodedContent.Contains("The Israelis are worried the Egyptians will break the treaty."));
+          Assert.IsTrue(transcodedContent.Contains("That is a very, very strong possibility."));
+          Assert.IsTrue(transcodedContent.Contains("Do you intend to support Jordan"));
+          Assert.IsTrue(transcodedContent.Contains("We have a peace treaty with Israel and we will continue"));
+          Assert.IsTrue(transcodedContent.Contains("A lot of Israelis think your recent statements"));
+          Assert.IsTrue(transcodedContent.Contains("know if they are hostile. What I am saying is they are missing an opportunity"));
+          Assert.IsTrue(transcodedContent.Contains("I always look at the glass half full and I"));
+          Assert.IsTrue(transcodedContent.Contains("What did you think of Israel Prime Minister Benjamin Netanyahu"));
+          Assert.IsTrue(transcodedContent.Contains("It is politics at the end of the day."));
+          Assert.IsTrue(transcodedContent.Contains("It was strange for Israel to be negotiating with Hamas."));
+          Assert.IsTrue(transcodedContent.Contains("I think all of us have been asking each othe"));
+          Assert.IsTrue(transcodedContent.Contains("You just appointed a new prime minister."));
+          Assert.IsTrue(transcodedContent.Contains("Yes, for the past six months we have listened to what people want"));
+          Assert.IsTrue(transcodedContent.Contains("If you look five years down the line, do you see yourself relinquishing some power to the parliament"));
+          Assert.IsTrue(transcodedContent.Contains("Probably sooner. We haven"));
+          Assert.IsTrue(transcodedContent.Contains("You will still appoint the Senate"));
+          Assert.IsTrue(transcodedContent.Contains("There are two options. If there is a new parliament next year"));
+          Assert.IsTrue(transcodedContent.Contains("I think we are facing the same challenges as everyone in the West."));
+          Assert.IsTrue(transcodedContent.Contains("Once you have people rioting in the streets, how do you get foreign"));
+          Assert.IsTrue(transcodedContent.Contains("But you made a deal with the Saudis"));
+          Assert.IsTrue(transcodedContent.Contains("The Saudis have come through very strongly this year but"));
+          Assert.IsTrue(transcodedContent.Contains("And that is because you are having problems getting"));
+          Assert.IsTrue(transcodedContent.Contains("We are having problems because the gas pipeline keeps"));
+          Assert.IsTrue(transcodedContent.Contains("There are reports that over the next five years if you join the GCC"));
+          Assert.IsTrue(transcodedContent.Contains("There is going to be a package hopefully of at least a billion"));
           break;
 
         default:

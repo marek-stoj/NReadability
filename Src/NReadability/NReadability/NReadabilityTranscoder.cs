@@ -121,6 +121,7 @@ namespace NReadability
     private static readonly Regex _NextLink = new Regex(@"(next|weiter|continue|dalej|następna|nastepna>([^\|]|$)|�([^\|]|$))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex _PrevLink = new Regex("(prev|earl|[^b]old|new|wstecz|poprzednia|<|�)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex _PageRegex = new Regex("pag(e|ing|inat)|([^a-z]|^)pag([^a-z]|$)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static readonly Regex _LikelyParagraphDivRegex = new Regex("text|para|parbase", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
     #endregion
 
@@ -810,7 +811,7 @@ namespace NReadability
             string elementName = GetElementName(element);
 
             /* Remove unlikely candidates. */
-            string unlikelyMatchString = element.GetClass() + element.GetId();
+            string unlikelyMatchString = element.GetClass() + " " + element.GetId();
 
             if (unlikelyMatchString.Length > 0
              && !"body".Equals(elementName, StringComparison.OrdinalIgnoreCase)
@@ -1010,7 +1011,7 @@ namespace NReadability
       foreach (var siblingElement in siblingElements)
       {
         bool append = false;
-        string siblingElementName = siblingElement.Name != null ? (siblingElement.Name.LocalName ?? "") : "";
+        string siblingElementName = GetElementName(siblingElement);
         float contentBonus = 0;
 
         // Give a bonus if sibling nodes and top canidates have the same class name
@@ -1302,9 +1303,14 @@ namespace NReadability
           continue;
         }
 
+        if (ElementLooksLikeParagraphDiv(element))
+        {
+          // leave the element - it's probably just a div pretending to be a paragraph
+          continue;
+        }
+
         /* If there are not very many commas and the number of non-paragraph elements
          * is more than paragraphs or other ominous signs, remove the element. */
-
         string elementInnerText = GetInnerText(element);
 
         if (GetSegmentsCount(elementInnerText, ',') < _MinCommaSegments)
@@ -1532,6 +1538,39 @@ namespace NReadability
     private static string GetElementName(XElement element)
     {
       return element.Name.LocalName ?? "";
+    }
+
+    private static bool ElementLooksLikeParagraphDiv(XElement element)
+    {
+      string elementName = GetElementName(element);
+
+      if (!"div".Equals(elementName, StringComparison.OrdinalIgnoreCase))
+      {
+        return false;
+      }
+
+      if (!_LikelyParagraphDivRegex.IsMatch(element.GetClass()))
+      {
+        // we'll consider divs only with certain classes as potential paragraph divs
+        return false;
+      }
+
+      XNode childNode = element.Nodes().SingleOrNone();
+
+      if (childNode != null)
+      {
+        XElement childElement = childNode as XElement;
+        string childElementName = GetElementName(childElement);
+
+        if (childElement != null
+         && "p".Equals(childElementName, StringComparison.OrdinalIgnoreCase))
+        {
+          // we have a div with a single child element that is a paragraph
+          return true;
+        }
+      }
+
+      return false;
     }
 
     private string GetReadingStyleClass(ReadingStyle readingStyle)
