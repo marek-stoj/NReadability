@@ -68,18 +68,42 @@ namespace NReadability.Tests
             @"http://www.slate.com/articles/technology/technology/2011/10/steve_jobs_biography_the_new_book_doesn_t_explain_what_made_the_.html",
             @"http://www.slate.com/articles/technology/technology/2011/10/steve_jobs_biography_the_new_book_doesn_t_explain_what_made_the_.2.html",
           },
+        new[]
+          {
+            @"http://www.brookings.edu/opinions/2011/0523_transit_berube_puentes.aspx",
+            @"http://www.brookings.edu/opinions/2011/0524_nextwave_west.aspx", // false positive for paging
+          },
+        new[]
+          {
+            @"http://mashable.com/2008/10/30/slow-feed-movement-rss",
+            @"http://mashable.com/2008/10/30/indecision2008-live-chat", // false positive for paging
+          },
       };
+
+    // TODO IMM HI: remove
+    [Test]
+    public void TestSampleInput7()
+    {
+      TestSampleInputs(7);
+    }
+
+    // TODO IMM HI: remove
+    [Test]
+    public void TestSampleInput8()
+    {
+      TestSampleInputs(8);
+    }
 
     [Test]
     [Sequential]
-    public void TestSampleInputs([Values(1,2,3,4,5,6)]int sampleInputNumber)
+    public void TestSampleInputs([Values(1, 2, 3, 4, 5, 6, 7, 8)]int sampleInputNumber)
     {
       const string outputDir = "SampleWebOutput";
 
       string sampleInputNumberStr = sampleInputNumber.ToString().PadLeft(2, '0');
       string[] urls = _Urls[sampleInputNumber - 1];
       string initialUrl = urls[0];
-      
+
       var fetcher = new UrlFetcherStub(sampleInputNumber, urls);
       var _nReadabilityTranscoder = new NReadabilityTranscoder();
       var _nReadabilityWebTranscoder = new NReadabilityWebTranscoder(_nReadabilityTranscoder, fetcher);
@@ -153,6 +177,22 @@ namespace NReadability.Tests
           // page 2
           Assert.IsTrue(transcodedContent.Contains("Jobs also seemed to suspect that he"));
           Assert.IsTrue(transcodedContent.Contains("And, sadly, it may remain one forever."));
+          break;
+
+        case 7:
+          // page 1
+          Assert.IsTrue(transcodedContent.Contains("post also betrays some misconceptions regarding our report."));
+          Assert.IsTrue(transcodedContent.Contains("After all, none of us can resist the occasional study"));
+          // "page" 2 (false positive)
+          Assert.IsFalse(transcodedContent.Contains("In expressing this view, Clinton joins many Americans who worry about online misinformation, loss of privacy, and identity theft."));
+          break;
+
+        case 8:
+          // page 1
+          Assert.IsTrue(transcodedContent.Contains("For the last couple of days we’ve been asking people"));
+          Assert.IsTrue(transcodedContent.Contains("list your favorite tools for slowing down feeds in the comments"));
+          // "page" 2 (false positive)
+          Assert.IsFalse(transcodedContent.Contains("signature fake news programs"));
           break;
 
         default:

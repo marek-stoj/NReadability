@@ -20,6 +20,8 @@
 
 using System;
 using System.Linq;
+using System.Net;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using NUnit.Framework;
 using System.Globalization;
@@ -197,11 +199,11 @@ namespace NReadability.Tests
     [Test]
     public void DetermineTopCandidateElement_should_choose_a_container_with_longer_paragraph()
     {
-      const string content = "<body><div id=\"first-div\"><p>Praesent in arcu vitae erat sodales consequat. Nam tellus purus, volutpat ac elementum tempus, sagittis sed lacus. Sed lacus ligula, sodales id vehicula at, semper a turpis. Curabitur et augue odio, sed auctor massa. Ut odio massa, fringilla eu elementum sit amet, eleifend congue erat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultrices turpis dignissim metus porta id iaculis purus facilisis. Curabitur auctor purus eu nulla venenatis non ultrices nibh venenatis. Aenean dapibus pellentesque felis, ac malesuada nibh fringilla malesuada. In non mi vitae ipsum vehicula adipiscing. Sed a velit ipsum. Sed at velit magna, in euismod neque. Proin feugiat diam at lectus dapibus sed malesuada orci malesuada. Mauris sit amet orci tortor. Sed mollis, turpis in cursus elementum, sapien ante semper leo, nec venenatis velit sapien id elit. Praesent vel nulla mauris, nec tincidunt ipsum. Nulla at augue vestibulum est elementum sodales.</p></div><div id=\"second-div\"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin lacus ipsum, blandit sit amet cursus ut, posuere quis velit. Vivamus ut lectus quam, venenatis posuere erat. Sed pellentesque suscipit rhoncus. Vestibulum dictum est ut elit molestie vel facilisis dui tincidunt. Nulla adipiscing metus in nulla condimentum non mattis lacus tempus. Phasellus sed ipsum in felis molestie molestie. Sed sagittis massa orci, ut sagittis sem. Cras eget feugiat nulla. Nunc lacus turpis, porttitor eget congue quis, accumsan sed nunc. Vivamus imperdiet luctus molestie. Suspendisse eu est sed ligula pretium blandit. Proin eget metus nisl, at convallis metus. In commodo nibh a arcu pellentesque iaculis. Cras tincidunt vehicula malesuada. Duis tellus mi, ultrices sit amet dapibus sit amet, semper ac elit. Cras lobortis, urna eget consectetur consectetur, enim velit tempus neque, et tincidunt risus quam id mi. Morbi sit amet odio magna, vitae tempus sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur at lectus sit amet augue tincidunt ornare sed vitae lorem. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p></div></body>";
+      const string content = "<div id=\"first-div\"><p>Praesent in arcu vitae erat sodales consequat. Nam tellus purus, volutpat ac elementum tempus, sagittis sed lacus. Sed lacus ligula, sodales id vehicula at, semper a turpis. Curabitur et augue odio, sed auctor massa. Ut odio massa, fringilla eu elementum sit amet, eleifend congue erat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultrices turpis dignissim metus porta id iaculis purus facilisis. Curabitur auctor purus eu nulla venenatis non ultrices nibh venenatis. Aenean dapibus pellentesque felis, ac malesuada nibh fringilla malesuada. In non mi vitae ipsum vehicula adipiscing. Sed a velit ipsum. Sed at velit magna, in euismod neque. Proin feugiat diam at lectus dapibus sed malesuada orci malesuada. Mauris sit amet orci tortor. Sed mollis, turpis in cursus elementum, sapien ante semper leo, nec venenatis velit sapien id elit. Praesent vel nulla mauris, nec tincidunt ipsum. Nulla at augue vestibulum est elementum sodales.</p></div><div id=\"second-div\"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin lacus ipsum, blandit sit amet cursus ut, posuere quis velit. Vivamus ut lectus quam, venenatis posuere erat. Sed pellentesque suscipit rhoncus. Vestibulum dictum est ut elit molestie vel facilisis dui tincidunt. Nulla adipiscing metus in nulla condimentum non mattis lacus tempus. Phasellus sed ipsum in felis molestie molestie. Sed sagittis massa orci, ut sagittis sem. Cras eget feugiat nulla. Nunc lacus turpis, porttitor eget congue quis, accumsan sed nunc. Vivamus imperdiet luctus molestie. Suspendisse eu est sed ligula pretium blandit. Proin eget metus nisl, at convallis metus. In commodo nibh a arcu pellentesque iaculis. Cras tincidunt vehicula malesuada. Duis tellus mi, ultrices sit amet dapibus sit amet, semper ac elit. Cras lobortis, urna eget consectetur consectetur, enim velit tempus neque, et tincidunt risus quam id mi. Morbi sit amet odio magna, vitae tempus sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur at lectus sit amet augue tincidunt ornare sed vitae lorem. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p></div>";
       var document = _sgmlDomBuilder.BuildDocument(content);
       var candidatesForArticleContent = _nReadabilityTranscoder.FindCandidatesForArticleContent(document);
 
-      Assert.AreEqual(3, candidatesForArticleContent.Count());
+      Assert.AreEqual(2, candidatesForArticleContent.Count());
 
       var topCandidateElement = _nReadabilityTranscoder.DetermineTopCandidateElement(document, candidatesForArticleContent);
 
@@ -388,10 +390,17 @@ namespace NReadability.Tests
 
     #region Transcode tests
 
+    // TODO IMM HI: remove
+    [Test]
+    public void TEST()
+    {
+      TestSampleInputs(12);
+    }
+
     [Test]
     [Sequential]
     // TODO: if time, add test case 7 (the sample is already in the repo but needs fixing)
-    public void TestSampleInputs([Values(1, 2, 3, 4, 5, 6, 8, 9, 10, 11)]int sampleInputNumber)
+    public void TestSampleInputs([Values(1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13)]int sampleInputNumber)
     {
       string sampleInputNumberStr = sampleInputNumber.ToString().PadLeft(2, '0');
       string content = File.ReadAllText(string.Format(@"SampleInput\SampleInput_{0}.html", sampleInputNumberStr));
@@ -538,6 +547,42 @@ namespace NReadability.Tests
           Assert.IsTrue(transcodedContent.Contains("We are having problems because the gas pipeline keeps"));
           Assert.IsTrue(transcodedContent.Contains("There are reports that over the next five years if you join the GCC"));
           Assert.IsTrue(transcodedContent.Contains("There is going to be a package hopefully of at least a billion"));
+          break;
+
+        // TODO IMM HI: fix (problem with nested divs)
+        case 12:  // http://www.telegraph.co.uk/comment/personal-view/8841737/What-Gilad-Shalit-tells-us-about-the-respect-for-life-in-Europe-Israel-and-Palestine.html
+          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*One of the supreme ironies among the European moral stances"));
+          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*And yet when that same Europe turns its gaze on the Middle East"));
+          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*Normally, this would not be even worth mentioning."));
+          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*Israel first outlawed the death penalty in 1954"));
+          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*Note that Israel passed this law five years"));
+          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*If the Israelis had hundreds of terrorists"));
+          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*Palestine, on the other hand"));
+          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*The trade of over a thousand Palestinians"));
+          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*If a European, concerned about the nature"));
+          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*So instead of helping Europeans"));
+          Assert.IsTrue(Regex.IsMatch(transcodedContent, "at the return of prisoners, and"));
+          Assert.IsTrue(Regex.IsMatch(transcodedContent, "in order to present the moral equivalence of all the"));
+          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*In acquiescing with a narrative in which hatred and murder"));
+          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*It may seem cost-free to Westerners"));
+          break;
+
+        // TODO IMM HI: fix (problem with nested divs)
+        case 13:  // same URL as 12 but processed by Instapaper first
+          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*One of the supreme ironies among the European moral stances"));
+          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*And yet when that same Europe turns its gaze on the Middle East"));
+          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*Normally, this would not be even worth mentioning."));
+          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*Israel first outlawed the death penalty in 1954"));
+          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*Note that Israel passed this law five years"));
+          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*If the Israelis had hundreds of terrorists"));
+          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*Palestine, on the other hand"));
+          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*The trade of over a thousand Palestinians"));
+          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*If a European, concerned about the nature"));
+          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*So instead of helping Europeans"));
+          Assert.IsTrue(Regex.IsMatch(transcodedContent, "at the return of prisoners, and"));
+          Assert.IsTrue(Regex.IsMatch(transcodedContent, "in order to present the moral equivalence of all the"));
+          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*In acquiescing with a narrative in which hatred and murder"));
+          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*It may seem cost-free to Westerners"));
           break;
 
         default:

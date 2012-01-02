@@ -20,6 +20,7 @@
 
 using System;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Linq;
 using Sgml;
@@ -65,7 +66,32 @@ namespace NReadability
         }
       }
 
-      // load the document using sgml reader
+      XDocument document;
+
+      try
+      {
+        document = LoadDocument(htmlContent);
+      }
+      catch (InvalidOperationException exc)
+      {
+        // sometimes SgmlReader doesn't handle <script> tags well and XDocument.Load() throws,
+        // so we can retry with the html content with <script> tags stripped off
+
+        if (!exc.Message.Contains("EndOfFile"))
+        {
+          throw;
+        }
+
+        htmlContent = HtmlUtils.RemoveScriptTags(htmlContent);
+
+        document = LoadDocument(htmlContent);
+      }
+
+      return document;
+    }
+
+    private static XDocument LoadDocument(string htmlContent)
+    {
       using (var sgmlReader = new SgmlReader())
       {
         sgmlReader.CaseFolding = CaseFolding.ToLower;

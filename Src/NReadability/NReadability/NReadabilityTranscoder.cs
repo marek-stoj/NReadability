@@ -104,6 +104,7 @@ namespace NReadability
     private static readonly Regex _OkMaybeItsACandidateRegex = new Regex("and|article|body|column|main|shadow", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex _PositiveWeightRegex = new Regex("article|body|content|entry|hentry|main|page|pagination|post|text|blog|story", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex _NegativeWeightRegex = new Regex("combx|comment|com-|contact|foot|footer|footnote|masthead|media|meta|outbrain|promo|related|scroll|shoutbox|sidebar|side|sponsor|shopping|tags|tool|widget", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static readonly Regex _NegativeLinkParentRegex = new Regex("(stories|articles|news|documents|posts|notes|series|historie|artykuly|artykuły|wpisy|dokumenty|serie|geschichten|erzählungen|erzahlungen)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex _Extraneous = new Regex("print|archive|comment|discuss|e[-]?mail|share|reply|all|login|sign|single|also", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex _DivToPElementsRegex = new Regex("<(a|blockquote|dl|div|img|ol|p|pre|table|ul)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex _EndOfSentenceRegex = new Regex("\\.( |$)", RegexOptions.Compiled | RegexOptions.Multiline);
@@ -119,6 +120,7 @@ namespace NReadability
     private static readonly Regex _ArticleTitleColonRegex1 = new Regex(".*:(.*)", RegexOptions.Compiled);
     private static readonly Regex _ArticleTitleColonRegex2 = new Regex("[^:]*[:](.*)", RegexOptions.Compiled);    
     private static readonly Regex _NextLink = new Regex(@"(next|weiter|continue|dalej|następna|nastepna>([^\|]|$)|�([^\|]|$))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static readonly Regex _NextStoryLink = new Regex("(story|article|news|document|post|note|series|historia|artykul|artykuł|wpis|dokument|seria|geschichte|erzählung|erzahlung|artikel|serie)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex _PrevLink = new Regex("(prev|earl|[^b]old|new|wstecz|poprzednia|<|�)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex _PageRegex = new Regex("pag(e|ing|inat)|([^a-z]|^)pag([^a-z]|$)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex _LikelyParagraphDivRegex = new Regex("text|para|parbase", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -409,7 +411,8 @@ namespace NReadability
 
         string linkData = linkText + " " + linkElement.GetClass() + " " + linkElement.GetId();
 
-        if (_NextLink.IsMatch(linkData))
+        if (_NextLink.IsMatch(linkData)
+        && !_NextStoryLink.IsMatch(linkData))
         {
           linkObj.Score += 50;
         }
@@ -452,7 +455,7 @@ namespace NReadability
             linkObj.Score += 25;
           }
 
-          if (!negativeNodeMatch && _NegativeWeightRegex.IsMatch(parentNodeClassAndId))
+          if (!negativeNodeMatch && (_NegativeWeightRegex.IsMatch(parentNodeClassAndId) || _NegativeLinkParentRegex.IsMatch(parentNodeClassAndId)))
           {
             if (!_PositiveWeightRegex.IsMatch(parentNodeClassAndId))
             {
@@ -890,7 +893,7 @@ namespace NReadability
 
                   if (parentElement != null)
                   {
-                    parentElement.Add(childElement);
+                    element.AddBeforeSelf(childElement);
                     element.Remove();
                   }
                 }
