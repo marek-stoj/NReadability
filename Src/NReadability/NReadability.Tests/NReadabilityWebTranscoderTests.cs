@@ -80,20 +80,6 @@ namespace NReadability.Tests
           },
       };
 
-    // TODO IMM HI: remove
-    [Test]
-    public void TestSampleInput7()
-    {
-      TestSampleInputs(7);
-    }
-
-    // TODO IMM HI: remove
-    [Test]
-    public void TestSampleInput8()
-    {
-      TestSampleInputs(8);
-    }
-
     [Test]
     [Sequential]
     public void TestSampleInputs([Values(1, 2, 3, 4, 5, 6, 7, 8)]int sampleInputNumber)
