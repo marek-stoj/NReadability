@@ -12,6 +12,8 @@ NReadability is a C# port of [Arc90's Readability bookmarklet][1].
 Usage
 ----------------------
 
+Transcode content downloaded from the Web:
+
 ```c#
 var nReadabilityTranscoder = new NReadabilityTranscoder();
 
@@ -29,8 +31,16 @@ string transcodedContent =
   nReadabilityTranscoder.Transcode(
     content,
     out mainContentExtracted);
-
-Console.WriteLine(transcodedContent);
 ```
+
+Or even simpler:
+
+var nReadabilityWebTranscoder = new NReadabilityWebTranscoder();
+bool mainContentExtracted;
+
+string transcodedContent =
+  nReadabilityWebTranscoder.Transcode(
+    "https://github.com/marek-stoj/NReadability",
+    out mainContentExtracted);
 
 [1]: http://lab.arc90.com/experiments/readability/
