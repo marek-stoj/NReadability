@@ -1,6 +1,9 @@
 NReadability
 ======================
 
+Description
+----------------------
+
 NReadability cleans up hard-to-read articles on the Web. It's a tool for
 removing clutter from HTML pages so that they are more enjoyable to read.
 
@@ -15,32 +18,24 @@ Usage
 Transcode content downloaded from the Web:
 
 ```c#
-var nReadabilityTranscoder = new NReadabilityTranscoder();
-
+var transcoder = new NReadabilityTranscoder();
 string content;
 
 using (var wc = new WebClient())
 {
-  content =
-    wc.DownloadString("https://github.com/marek-stoj/NReadability");
+  content = wc.DownloadString("https://github.com/marek-stoj/NReadability");
 }
 
-bool mainContentExtracted;
-
-string transcodedContent =
-  nReadabilityTranscoder.Transcode(
-    content,
-    out mainContentExtracted);
+bool success;
+string transcodedContent = transcoder.Transcode(content, out success);
 ```
 
 Or even simpler:
 
-var nReadabilityWebTranscoder = new NReadabilityWebTranscoder();
-bool mainContentExtracted;
-
-string transcodedContent =
-  nReadabilityWebTranscoder.Transcode(
-    "https://github.com/marek-stoj/NReadability",
-    out mainContentExtracted);
+```c#
+var transcoder = new NReadabilityWebTranscoder();
+bool success;
+string transcodedContent = transcoder.Transcode("https://github.com/marek-stoj/NReadability", out success);
+```
 
 [1]: http://lab.arc90.com/experiments/readability/
