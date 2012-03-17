@@ -27,7 +27,9 @@ using (var wc = new WebClient())
 }
 
 bool success;
-string transcodedContent = transcoder.Transcode(content, out success);
+
+string transcodedContent =
+  transcoder.Transcode(content, out success);
 ```
 
 Or even simpler:
@@ -35,7 +37,9 @@ Or even simpler:
 ```c#
 var transcoder = new NReadabilityWebTranscoder();
 bool success;
-string transcodedContent = transcoder.Transcode("https://github.com/marek-stoj/NReadability", out success);
+
+string transcodedContent =
+  transcoder.Transcode("https://github.com/marek-stoj/NReadability", out success);
 ```
 
 [1]: http://lab.arc90.com/experiments/readability/
