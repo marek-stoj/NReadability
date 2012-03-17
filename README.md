@@ -15,9 +15,9 @@ NReadability is a C# port of [Arc90's Readability bookmarklet][1].
 Installation
 ----------------------
 
-You can start using NReadability right away by installing the NuGet package:
+You can start using NReadability right away by installing the [NuGet package](https://nuget.org/packages/NReadability):
 
-![PM&gt; Install-Package NReadability](https://lh3.googleusercontent.com/-bsUDZO-sRCs/T2TxZin09xI/AAAAAAAAB-4/xJWvan1K-T8/s800/nreadability-nuget-flair.png)
+[![PM&gt; Install-Package NReadability](https://lh3.googleusercontent.com/-bsUDZO-sRCs/T2TxZin09xI/AAAAAAAAB-4/xJWvan1K-T8/s800/nreadability-nuget-flair.png)](https://nuget.org/packages/NReadability)
 
 Getting Started
 ----------------------
