@@ -17,11 +17,7 @@ Installation
 
 You can start using NReadability right away by installing the NuGet package:
 
-<p style="background-color: #202020; border: 4px solid #C0C0C0; border-radius: 5px 5px 5px 5px; box-shadow: 2px 2px 3px #6E6E6E; color: #E2E2E2; display: block; font: 1.5em/1.5em 'andale mono','lucida console',monospace; overflow: auto; padding: 15px;">
-  <code>
-    PM&gt; Install-Package NReadability
-  <code>
-</p>
+![PM&gt; Install-Package NReadability](https://lh3.googleusercontent.com/-bsUDZO-sRCs/T2TxZin09xI/AAAAAAAAB-4/xJWvan1K-T8/s800/nreadability-nuget-flair.png)
 
 Getting Started
 ----------------------
