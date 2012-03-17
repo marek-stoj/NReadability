@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>NReadability</id>
+    <version>1.3.16</version>
+    <authors>Marek Stój</authors>
+    <owners>Immortal</owners>
+    <projectUrl>https://github.com/marek-stoj/NReadability</projectUrl>
+    <iconUrl>https://lh4.googleusercontent.com/-aoZohhWHUXc/T2TBnkl1ZqI/AAAAAAAAB-w/pYJiKar04OE/s800/nreadability-icon-128.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>NReadability is a tool for removing clutter from HTML pages so that they are more enjoyable to read.</description>
+    <releaseNotes>First release.</releaseNotes>
+    <copyright>Copyright 2012</copyright>
+    <tags>C# HTML transcoder readability</tags>
+  </metadata>
+  <files>
+    <file src="Dist\NReadability.dll" target="lib" />
+    <file src="Dist\NReadability.xml" target="lib" />
+    <file src="Dist\SgmlReaderDll.dll" target="lib" />
+  </files>
+</package>

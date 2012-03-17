@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <project name="NReadability" default="all">
 
-  <property name="nreadability.version" value="1.3.14.0" />
+  <property name="nreadability.version" value="1.3.16.0" />
   <property name="msbuild.path" value="C:\Windows\Microsoft.NET\Framework\v3.5\MSBuild.exe" />
   <property name="git.path" value="C:\Program Files (x86)\Git\bin\git.exe" />
+  <property name="nuget.path" value="C:\Programs\NuGet\NuGet.exe" />
 
   <echo message="Current NReadability version is ${nreadability.version}." />
 
@@ -93,11 +94,20 @@
       <arg value="Dist\${src.zip.dir}.zip" />
       <arg value="master" />
     </exec>
+    <!-- Create NuGet package. -->
+    <exec program="${nuget.path}">
+      <arg value="pack" />
+      <arg value="NReadability.nuspec" />
+      <arg value="-OutputDirectory" />
+      <arg value="Dist" />
+    </exec>
+    <!-- Clean up. -->
     <delete>
       <fileset basedir="Dist">
         <include name="**\*" />
         <exclude name="${bin.zip.dir}.zip" />
         <exclude name="${src.zip.dir}.zip" />
+        <exclude name="*.nupkg" />
       </fileset>
     </delete>
   </target>
