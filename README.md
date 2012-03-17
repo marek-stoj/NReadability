@@ -12,10 +12,23 @@ console application.
 
 NReadability is a C# port of [Arc90's Readability bookmarklet][1].
 
-Usage
+Installation
 ----------------------
 
-Transcode content downloaded from the Web:
+You can start using NReadability right away by installing the NuGet package:
+
+<div style="background-color: #202020; border: 4px solid #C0C0C0; border-radius: 5px 5px 5px 5px; box-shadow: 2px 2px 3px #6E6E6E; color: #E2E2E2; display: block; font: 1.5em/1.5em 'andale mono','lucida console',monospace; overflow: auto; padding: 15px;">
+  <p>
+    <code>
+      PM&gt; Install-Package NReadability
+    <code>
+  </p>
+</div>
+
+Getting Started
+----------------------
+
+In order to transcode content downloaded from the Web:
 
 ```c#
 var transcoder = new NReadabilityTranscoder();
