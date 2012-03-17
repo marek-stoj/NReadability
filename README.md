@@ -9,4 +9,28 @@ console application.
 
 NReadability is a C# port of [Arc90's Readability bookmarklet][1].
 
+Usage
+----------------------
+
+```c#
+var nReadabilityTranscoder = new NReadabilityTranscoder();
+
+string content;
+
+using (var wc = new WebClient())
+{
+  content =
+    wc.DownloadString("https://github.com/marek-stoj/NReadability");
+}
+
+bool mainContentExtracted;
+
+string transcodedContent =
+  nReadabilityTranscoder.Transcode(
+    content,
+    out mainContentExtracted);
+
+Console.WriteLine(transcodedContent);
+```
+
 [1]: http://lab.arc90.com/experiments/readability/
