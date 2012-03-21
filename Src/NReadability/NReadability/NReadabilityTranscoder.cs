@@ -643,6 +643,11 @@ namespace NReadability
 
       RemoveElements(elementsToRemove);
 
+      /* Remove all noscript tags. */
+      elementsToRemove.Clear();
+      elementsToRemove.AddRange(rootElement.GetElementsByTagName("noscript"));
+      RemoveElements(elementsToRemove);
+
       /* Remove all external stylesheets. */
       elementsToRemove.Clear();
       elementsToRemove.AddRange(

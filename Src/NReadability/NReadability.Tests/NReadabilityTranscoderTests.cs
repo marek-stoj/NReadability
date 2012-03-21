@@ -286,6 +286,58 @@ namespace NReadability.Tests
     }
 
     [Test]
+    public void PrepareDocument_should_remove_empty_noscript_between_head_and_body()
+    {
+      const string content = "<html><head></head><noscript /><body>abc</body></html>";
+      var document = _sgmlDomBuilder.BuildDocument(content);
+
+      Assert.Greater(CountTags(document, "noscript"), 0);
+
+      _nReadabilityTranscoder.PrepareDocument(document);
+
+      Assert.AreEqual(0, CountTags(document, "noscript"));
+    }
+
+    [Test]
+    public void PrepareDocument_should_remove_non_empty_noscript_between_head_and_body()
+    {
+      const string content = "<html><head></head><noscript>abc</noscript><body>abc</body></html>";
+      var document = _sgmlDomBuilder.BuildDocument(content);
+
+      Assert.Greater(CountTags(document, "noscript"), 0);
+
+      _nReadabilityTranscoder.PrepareDocument(document);
+
+      Assert.AreEqual(0, CountTags(document, "noscript"));
+    }
+
+    [Test]
+    public void PrepareDocument_should_remove_empty_noscript_in_body()
+    {
+      const string content = "<html><head></head><body><noscript />abc</body></html>";
+      var document = _sgmlDomBuilder.BuildDocument(content);
+
+      Assert.Greater(CountTags(document, "noscript"), 0);
+
+      _nReadabilityTranscoder.PrepareDocument(document);
+
+      Assert.AreEqual(0, CountTags(document, "noscript"));
+    }
+
+    [Test]
+    public void PrepareDocument_should_remove_non_empty_noscript_in_body()
+    {
+      const string content = "<html><head></head><body><noscript>abc</noscript>abc</body></html>";
+      var document = _sgmlDomBuilder.BuildDocument(content);
+
+      Assert.Greater(CountTags(document, "noscript"), 0);
+
+      _nReadabilityTranscoder.PrepareDocument(document);
+
+      Assert.AreEqual(0, CountTags(document, "noscript"));
+    }
+
+    [Test]
     public void PrepareDocument_should_not_remove_neither_readability_scripts_nor_stylesheets()
     {
       const string content = "<html><head><link rel=\"stylesheet\" href=\"http://domain.com/readability.css\" /><script src=\"http://domain.com/readability.js\"></script></head><body><script src=\"http://domain.com/readability.js\"></script><link rel=\"stylesheet\" href=\"http://domain.com/readability.css\" /></body></html>";
