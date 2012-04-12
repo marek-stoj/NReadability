@@ -85,13 +85,69 @@ namespace NReadability
     #region Public methods
 
     /// <summary>
+    /// Extracts article content from an HTML page at the given URL.
+    /// </summary>
+    /// <param name="webTranscodingInput">An object containing input parameters, i.a. URL of the page to be processed.</param>
+    /// <returns>An object containing transcoding result, i.a. extracted content and title.</returns>
+    public WebTranscodingResult Transcode(WebTranscodingInput webTranscodingInput)
+    {
+      if (webTranscodingInput == null)
+      {
+        throw new ArgumentNullException("webTranscodingInput");
+      }
+
+      bool contentExtracted;
+      string extractedTitle;
+
+      string extractedContent =
+        DoTranscode(
+          webTranscodingInput.Url,
+          webTranscodingInput.DomSerializationParams,
+          out contentExtracted,
+          out extractedTitle);
+
+      bool titleExtracted = !string.IsNullOrEmpty(extractedTitle);
+
+      return
+        new WebTranscodingResult(contentExtracted, titleExtracted)
+          {
+            ExtractedContent = extractedContent,
+            ExtractedTitle = extractedTitle,
+          };
+    }
+
+    /// <summary>
     /// Extracts main article content from a HTML web page.
     /// </summary>    
     /// <param name="url">Url from which the content was downloaded. Used to resolve relative urls. Can be null.</param>
     /// <param name="domSerializationParams">Contains parameters that modify the behaviour of the output serialization.</param>
     /// <param name="mainContentExtracted">Determines whether the content has been extracted (if the article is not empty).</param>    
     /// <returns>HTML markup containing extracted article content.</returns>
+    [Obsolete("Use TranscodingResult Transcode(TranscodingInput) method.")]
     public string Transcode(string url, DomSerializationParams domSerializationParams, out bool mainContentExtracted)
+    {
+      string extractedTitle;
+
+      return DoTranscode(url, domSerializationParams, out mainContentExtracted, out extractedTitle);
+    }
+
+    /// <summary>
+    /// Extracts main article content from a HTML web page using default DomSerializationParams.
+    /// </summary>    
+    /// <param name="url">Url from which the content was downloaded. Used to resolve relative urls. Can be null.</param>
+    /// <param name="mainContentExtracted">Determines whether the content has been extracted (if the article is not empty).</param>    
+    /// <returns>HTML markup containing extracted article content.</returns>
+    [Obsolete("Use TranscodingResult Transcode(TranscodingInput) method.")]
+    public string Transcode(string url, out bool mainContentExtracted)
+    {
+      return Transcode(url, DomSerializationParams.CreateDefault(), out mainContentExtracted);
+    }
+
+    #endregion
+
+    #region Private helper methods
+
+    private string DoTranscode(string url, DomSerializationParams domSerializationParams, out bool mainContentExtracted, out string extractedTitle)
     {
       _curPageNum = 1;
       _parsedPages = new List<string>();
@@ -105,6 +161,8 @@ namespace NReadability
       if (string.IsNullOrEmpty(htmlContent))
       {
         mainContentExtracted = false;
+        extractedTitle = null;
+
         return null;
       }
 
@@ -112,7 +170,7 @@ namespace NReadability
       XDocument document;
       string nextPage;
 
-      document = _transcoder.TranscodeToXml(htmlContent, url, out mainContentExtracted, out nextPage);
+      document = _transcoder.TranscodeToXml(htmlContent, url, out mainContentExtracted, out extractedTitle, out nextPage);
 
       if (nextPage != null)
       {
@@ -130,21 +188,6 @@ namespace NReadability
 
       return _sgmlDomSerializer.SerializeDocument(document, domSerializationParams);
     }
-
-    /// <summary>
-    /// Extracts main article content from a HTML web page using default DomSerializationParams.
-    /// </summary>    
-    /// <param name="url">Url from which the content was downloaded. Used to resolve relative urls. Can be null.</param>
-    /// <param name="mainContentExtracted">Determines whether the content has been extracted (if the article is not empty).</param>    
-    /// <returns>HTML markup containing extracted article content.</returns>
-    public string Transcode(string url, out bool mainContentExtracted)
-    {
-      return Transcode(url, DomSerializationParams.CreateDefault(), out mainContentExtracted);
-    }
-
-    #endregion
-
-    #region Private helper methods
 
     /// <summary>
     /// Recursively appends subsequent pages of a multipage article.
@@ -172,8 +215,9 @@ namespace NReadability
       }
 
       bool mainContentExtracted;
+      string extractedTitle;
       string nextPageLink;
-      var nextDocument = _transcoder.TranscodeToXml(nextContent, url, out mainContentExtracted, out nextPageLink);
+      var nextDocument = _transcoder.TranscodeToXml(nextContent, url, out mainContentExtracted, out extractedTitle, out nextPageLink);
       var nextInner = nextDocument.GetElementById("readInner");
       var header = nextInner.Element("h1");
 

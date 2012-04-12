@@ -210,6 +210,46 @@ namespace NReadability
     #region Public methods
 
     /// <summary>
+    /// Extracts article content from an HTML page.
+    /// </summary>
+    /// <param name="transcodingInput">An object containing input parameters, i.a. html content to be processed.</param>
+    /// <returns>An object containing transcoding result, i.a. extracted content and title.</returns>
+    public TranscodingResult Transcode(TranscodingInput transcodingInput)
+    {
+      if (transcodingInput == null)
+      {
+        throw new ArgumentNullException("transcodingInput");
+      }
+
+      bool contentExtracted;
+      string extractedTitle;
+      string nextPageUrl;
+
+      XDocument transcodedXmlDocument =
+        TranscodeToXml(
+          transcodingInput.HtmlContent,
+          transcodingInput.Url,
+          out contentExtracted,
+          out extractedTitle,
+          out nextPageUrl);
+
+      string transcodedContent =
+        _sgmlDomSerializer.SerializeDocument(
+          transcodedXmlDocument,
+          transcodingInput.DomSerializationParams);
+
+      bool titleExtracted = !string.IsNullOrEmpty(extractedTitle);
+
+      return
+        new TranscodingResult(contentExtracted, titleExtracted)
+          {
+            ExtractedContent = transcodedContent,
+            ExtractedTitle = extractedTitle,
+            NextPageUrl = nextPageUrl,
+          };
+    }
+
+    /// <summary>
     /// Extracts main article content from a HTML page.
     /// </summary>
     /// <param name="htmlContent">HTML markup to process.</param>
@@ -218,9 +258,12 @@ namespace NReadability
     /// <param name="mainContentExtracted">Determines whether the content has been extracted (if the article is not empty).</param>
     /// <param name="nextPageUrl">If the content contains a link to a subsequent page, it is returned here.</param>
     /// <returns>HTML markup containing extracted article content.</returns>
+    [Obsolete("Use TranscodingResult Transcode(TranscodingInput) method.")]
     public string Transcode(string htmlContent, string url, DomSerializationParams domSerializationParams, out bool mainContentExtracted, out string nextPageUrl)
     {
-      var document = TranscodeToXml(htmlContent, url, out mainContentExtracted, out nextPageUrl);
+      string extractedTitle;
+
+      var document = TranscodeToXml(htmlContent, url, out mainContentExtracted, out extractedTitle, out nextPageUrl);
 
       return _sgmlDomSerializer.SerializeDocument(document, domSerializationParams);
     }
@@ -233,6 +276,7 @@ namespace NReadability
     /// <param name="mainContentExtracted">Determines whether the content has been extracted (if the article is not empty).</param>
     /// <param name="nextPageUrl">If the content contains a link to a subsequent page, it is returned here.</param>
     /// <returns>HTML markup containing extracted article content.</returns>
+    [Obsolete("Use TranscodingResult Transcode(TranscodingInput) method.")]
     public string Transcode(string htmlContent, string url, out bool mainContentExtracted, out string nextPageUrl)
     {
       return Transcode(htmlContent, url, DomSerializationParams.CreateDefault(), out mainContentExtracted, out nextPageUrl);
@@ -245,6 +289,7 @@ namespace NReadability
     /// <param name="url">Url from which the content was downloaded. Used to resolve relative urls. Can be null.</param>
     /// <param name="mainContentExtracted">Determines whether the content has been extracted (if the article is not empty).</param>    
     /// <returns>HTML markup containing extracted article content.</returns>
+    [Obsolete("Use TranscodingResult Transcode(TranscodingInput) method.")]
     public string Transcode(string htmlContent, string url, out bool mainContentExtracted)
     {
       string nextPageUrl;
@@ -258,6 +303,7 @@ namespace NReadability
     /// <param name="htmlContent">HTML markup to process.</param>
     /// <param name="mainContentExtracted">Determines whether the content has been extracted (if the article is not empty).</param>    
     /// <returns>HTML markup containing extracted article content.</returns>
+    [Obsolete("Use TranscodingResult Transcode(TranscodingInput) method.")]
     public string Transcode(string htmlContent, out bool mainContentExtracted)
     {
       string nextPageUrl;
@@ -275,9 +321,10 @@ namespace NReadability
     /// <param name="htmlContent">HTML markup to process.</param>
     /// <param name="url">Url from which the content was downloaded. Used to resolve relative urls. Can be null.</param>
     /// <param name="mainContentExtracted">Determines whether the content has been extracted (if the article is not empty).</param>
+    /// <param name="extractedTitle">Will contain article title (if we were able to extract it).</param>
     /// <param name="nextPageUrl">If the content contains a link to a subsequent page, it is returned here.</param>
     /// <returns>An XDocument containing extracted article content.</returns>
-    internal XDocument TranscodeToXml(string htmlContent, string url, out bool mainContentExtracted, out string nextPageUrl)
+    internal XDocument TranscodeToXml(string htmlContent, string url, out bool mainContentExtracted, out string extractedTitle, out string nextPageUrl)
     {
       if (string.IsNullOrEmpty(htmlContent))
       {
@@ -313,7 +360,7 @@ namespace NReadability
         {
           _dontStripUnlikelys = true;
 
-          return TranscodeToXml(htmlContent, url, out mainContentExtracted, out nextPageUrl);
+          return TranscodeToXml(htmlContent, url, out mainContentExtracted, out extractedTitle, out nextPageUrl);
         } 
         finally
         {
@@ -324,6 +371,7 @@ namespace NReadability
       // TODO: implement another fallback behaviour - rerun one more time with _dontWeightClasses
 
       mainContentExtracted = !articleContentElement.IsEmpty;
+      extractedTitle = ExtractTitle(document);
 
       return document;
     }
@@ -581,15 +629,10 @@ namespace NReadability
         {
           segment = pageNumRegex.Replace(segment, "");
         }
-          
-        bool del = false;
 
         /* If this is purely a number, and it's the first or second segment, it's probably a page number. Remove it. */
-        if (i < 2 && Regex.IsMatch(segment, @"^[\d]{1,2}$"))
-        {
-          del = true;
-        }
-            
+        bool del = (i < 2 && Regex.IsMatch(segment, @"^[\d]{1,2}$"));
+
         /* If this is the first segment and it's just "index," remove it. */
         if (i == 0 && segment.ToLower() == "index")
         {
@@ -697,17 +740,24 @@ namespace NReadability
       }
       else if (currentTitle.Length > _MaxArticleTitleLength || currentTitle.Length < _MinArticleTitleLength)
       {
-        var levelOneHeaders = documentBody.GetElementsByTagName("h1");
+        List<XElement> titleHeaders = documentBody.GetElementsByTagName("h1").ToList();
 
-        if (levelOneHeaders.Count() == 1)
+        if (titleHeaders.Count == 0)
         {
-          currentTitle = GetInnerText(levelOneHeaders.First());
+          // if we don't have any level one headers let's give level two header a chance
+          titleHeaders = documentBody.GetElementsByTagName("h2").ToList();
+        }
+
+        if (titleHeaders.Count == 1)
+        {
+          currentTitle = GetInnerText(titleHeaders[0]);
         }
       }
 
       currentTitle = (currentTitle ?? "").Trim();
 
-      if (currentTitle.Split(' ').Length <= _MinArticleTitleWordsCount2)
+      if (!string.IsNullOrEmpty(documentTitle)
+       && currentTitle.Split(' ').Length <= _MinArticleTitleWordsCount2)
       {
         currentTitle = documentTitle;
       }
@@ -934,14 +984,14 @@ namespace NReadability
         score += Math.Min(innerText.Length / _ParagraphSegmentLength, _MaxPointsForSegmentsCount);
 
         // Add the score to the parent.
-        if (parentElement != null && (parentElement.Name == null || !"html".Equals(parentElement.Name.LocalName, StringComparison.OrdinalIgnoreCase)))
+        if (parentElement != null && !"html".Equals(parentElement.Name.LocalName, StringComparison.OrdinalIgnoreCase))
         {
           candidateElements.Add(parentElement);
           AddPointsToElementScore(parentElement, score);
         }
 
         // Add half the score to the grandparent.
-        if (grandParentElement != null && (grandParentElement.Name == null || !"html".Equals(grandParentElement.Name.LocalName, StringComparison.OrdinalIgnoreCase)))
+        if (grandParentElement != null && !"html".Equals(grandParentElement.Name.LocalName, StringComparison.OrdinalIgnoreCase))
         {
           candidateElements.Add(grandParentElement);
           AddPointsToElementScore(grandParentElement, score / 2);
@@ -973,7 +1023,7 @@ namespace NReadability
       }
 
       if (topCandidateElement == null
-       || "body".Equals(topCandidateElement.Name != null ? topCandidateElement.Name.LocalName : null, StringComparison.OrdinalIgnoreCase))
+       || "body".Equals(topCandidateElement.Name.LocalName, StringComparison.OrdinalIgnoreCase))
       {
         topCandidateElement = new XElement("div");
 
@@ -1579,6 +1629,25 @@ namespace NReadability
       }
 
       return false;
+    }
+
+    private static string ExtractTitle(XDocument transcodedXmlDocument)
+    {
+      XElement firstH1Element =
+        transcodedXmlDocument.Root
+          .GetElementsByTagName("h1").FirstOrDefault();
+
+      string extractedTitle =
+        firstH1Element != null
+          ? firstH1Element.Value.Trim()
+          : null;
+
+      if (extractedTitle != null && extractedTitle.Length == 0)
+      {
+        extractedTitle = null;
+      }
+
+      return extractedTitle;
     }
 
     private string GetReadingStyleClass(ReadingStyle readingStyle)

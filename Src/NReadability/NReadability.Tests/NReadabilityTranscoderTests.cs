@@ -19,8 +19,8 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using NUnit.Framework;
@@ -66,7 +66,7 @@ namespace NReadability.Tests
     {
       const string content = "<div class=\"sidebar\">Some content.</div>";
       var document = _sgmlDomBuilder.BuildDocument(content);
-      
+
       _nReadabilityTranscoder.StripUnlikelyCandidates(document);
 
       string newContent = _sgmlDomSerializer.SerializeDocument(document);
@@ -168,9 +168,11 @@ namespace NReadability.Tests
       const string content = "";
       var document = _sgmlDomBuilder.BuildDocument(content);
 
-      var candidatesForArticleContent = _nReadabilityTranscoder.FindCandidatesForArticleContent(document);
+      List<XElement> candidatesForArticleContent =
+        _nReadabilityTranscoder.FindCandidatesForArticleContent(document)
+          .ToList();
 
-      Assert.AreEqual(0, candidatesForArticleContent.Count());
+      Assert.AreEqual(0, candidatesForArticleContent.Count);
 
       var topCandidateElement = _nReadabilityTranscoder.DetermineTopCandidateElement(document, candidatesForArticleContent);
 
@@ -183,9 +185,11 @@ namespace NReadability.Tests
       const string content = "<body><p>Some paragraph.</p><p>Some paragraph.</p>some text</body>";
       var document = _sgmlDomBuilder.BuildDocument(content);
 
-      var candidatesForArticleContent = _nReadabilityTranscoder.FindCandidatesForArticleContent(document);
-      
-      Assert.AreEqual(0, candidatesForArticleContent.Count());
+      List<XElement> candidatesForArticleContent =
+        _nReadabilityTranscoder.FindCandidatesForArticleContent(document)
+          .ToList();
+
+      Assert.AreEqual(0, candidatesForArticleContent.Count);
 
       var topCandidateElement = _nReadabilityTranscoder.DetermineTopCandidateElement(document, candidatesForArticleContent);
 
@@ -201,9 +205,11 @@ namespace NReadability.Tests
     {
       const string content = "<div id=\"first-div\"><p>Praesent in arcu vitae erat sodales consequat. Nam tellus purus, volutpat ac elementum tempus, sagittis sed lacus. Sed lacus ligula, sodales id vehicula at, semper a turpis. Curabitur et augue odio, sed auctor massa. Ut odio massa, fringilla eu elementum sit amet, eleifend congue erat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultrices turpis dignissim metus porta id iaculis purus facilisis. Curabitur auctor purus eu nulla venenatis non ultrices nibh venenatis. Aenean dapibus pellentesque felis, ac malesuada nibh fringilla malesuada. In non mi vitae ipsum vehicula adipiscing. Sed a velit ipsum. Sed at velit magna, in euismod neque. Proin feugiat diam at lectus dapibus sed malesuada orci malesuada. Mauris sit amet orci tortor. Sed mollis, turpis in cursus elementum, sapien ante semper leo, nec venenatis velit sapien id elit. Praesent vel nulla mauris, nec tincidunt ipsum. Nulla at augue vestibulum est elementum sodales.</p></div><div id=\"second-div\"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin lacus ipsum, blandit sit amet cursus ut, posuere quis velit. Vivamus ut lectus quam, venenatis posuere erat. Sed pellentesque suscipit rhoncus. Vestibulum dictum est ut elit molestie vel facilisis dui tincidunt. Nulla adipiscing metus in nulla condimentum non mattis lacus tempus. Phasellus sed ipsum in felis molestie molestie. Sed sagittis massa orci, ut sagittis sem. Cras eget feugiat nulla. Nunc lacus turpis, porttitor eget congue quis, accumsan sed nunc. Vivamus imperdiet luctus molestie. Suspendisse eu est sed ligula pretium blandit. Proin eget metus nisl, at convallis metus. In commodo nibh a arcu pellentesque iaculis. Cras tincidunt vehicula malesuada. Duis tellus mi, ultrices sit amet dapibus sit amet, semper ac elit. Cras lobortis, urna eget consectetur consectetur, enim velit tempus neque, et tincidunt risus quam id mi. Morbi sit amet odio magna, vitae tempus sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur at lectus sit amet augue tincidunt ornare sed vitae lorem. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p></div>";
       var document = _sgmlDomBuilder.BuildDocument(content);
-      var candidatesForArticleContent = _nReadabilityTranscoder.FindCandidatesForArticleContent(document);
+      List<XElement> candidatesForArticleContent =
+        _nReadabilityTranscoder.FindCandidatesForArticleContent(document)
+          .ToList();
 
-      Assert.AreEqual(2, candidatesForArticleContent.Count());
+      Assert.AreEqual(2, candidatesForArticleContent.Count);
 
       var topCandidateElement = _nReadabilityTranscoder.DetermineTopCandidateElement(document, candidatesForArticleContent);
 
@@ -230,7 +236,7 @@ namespace NReadability.Tests
       Assert.IsNotNull(articleContentElement);
       Assert.AreEqual("div", articleContentElement.Name.LocalName);
       Assert.IsNotNullOrEmpty(articleContentElement.GetId());
-      
+
       // only one empty div should be inside
       Assert.AreEqual(1, articleContentElement.Nodes().Count());
     }
@@ -441,7 +447,7 @@ namespace NReadability.Tests
     #endregion
 
     #region Transcode tests
-    
+
     [Test]
     [Sequential]
     // TODO: if time, add test case 7 (the sample is already in the repo but needs fixing)
@@ -449,10 +455,16 @@ namespace NReadability.Tests
     //public void TestSampleInputs([Values(1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13)]int sampleInputNumber)
     public void TestSampleInputs([Values(1, 2, 3, 4, 5, 6, 8, 9, 10, 11)]int sampleInputNumber)
     {
+      // arrange
       string sampleInputNumberStr = sampleInputNumber.ToString().PadLeft(2, '0');
       string content = File.ReadAllText(string.Format(@"SampleInput\SampleInput_{0}.html", sampleInputNumberStr));
-      bool mainContentExtracted;
-      string transcodedContent = _nReadabilityTranscoder.Transcode(content, out mainContentExtracted);
+      var transcodingInput = new TranscodingInput(content);
+
+      // act
+      TranscodingResult transcodingResult = _nReadabilityTranscoder.Transcode(transcodingInput);
+
+      // assert
+      Assert.IsTrue(transcodingResult.ContentExtracted);
 
       const string outputDir = "SampleOutput";
 
@@ -461,182 +473,182 @@ namespace NReadability.Tests
         Directory.CreateDirectory(outputDir);
       }
 
+      string extractedContent = transcodingResult.ExtractedContent;
+
       File.WriteAllText(
         Path.Combine(outputDir, string.Format("SampleOutput_{0}.html", sampleInputNumberStr)),
-        transcodedContent,
+        extractedContent,
         Encoding.UTF8);
 
       switch (sampleInputNumber)
       {
         case 1: // washingtonpost.com - "Court Puts Off Decision On Indefinite Detention"
-          Assert.IsTrue(transcodedContent.Contains("The Supreme Court yesterday vacated a lower"));
-          Assert.IsTrue(transcodedContent.Contains("The justices did not rule on the merits"));
-          Assert.IsTrue(transcodedContent.Contains("But the government said the issues were now"));
+          Assert.IsTrue(extractedContent.Contains("The Supreme Court yesterday vacated a lower"));
+          Assert.IsTrue(extractedContent.Contains("The justices did not rule on the merits"));
+          Assert.IsTrue(extractedContent.Contains("But the government said the issues were now"));
           break;
 
         case 2: // devBlogi.pl - "Po co nam testerzy?"
-          Assert.IsTrue(transcodedContent.Contains("Moja siostra sprawiła swoim dzieciom szczeniaczka"));
-          Assert.IsTrue(transcodedContent.Contains("Z tresowaniem psów jest tak, że reakcja musi być"));
-          Assert.IsTrue(transcodedContent.Contains("Korzystając z okazji, chcielibyśmy dowiedzieć się"));
+          Assert.IsTrue(extractedContent.Contains("Moja siostra sprawiła swoim dzieciom szczeniaczka"));
+          Assert.IsTrue(extractedContent.Contains("Z tresowaniem psów jest tak, że reakcja musi być"));
+          Assert.IsTrue(extractedContent.Contains("Korzystając z okazji, chcielibyśmy dowiedzieć się"));
           break;
 
         case 3: // codinghorror.com - "Welcome Back Comments"
-          Assert.IsTrue(transcodedContent.Contains("I apologize for the scarcity of updates lately."));
-          Assert.IsTrue(transcodedContent.Contains("Most of all, I blame myself."));
-          Assert.IsTrue(transcodedContent.Contains("And, most of all, thanks to"));
+          Assert.IsTrue(extractedContent.Contains("I apologize for the scarcity of updates lately."));
+          Assert.IsTrue(extractedContent.Contains("Most of all, I blame myself."));
+          Assert.IsTrue(extractedContent.Contains("And, most of all, thanks to"));
           break;
 
         case 4: // sample page; only with paragraphs
-          Assert.IsTrue(transcodedContent.Contains("Lorem ipsum dolor sit amet, consectetur adipiscing elit."));
-          Assert.IsTrue(transcodedContent.Contains("Mauris nec massa ante, id fringilla nisi."));
-          Assert.IsTrue(transcodedContent.Contains("Nulla facilisi. Proin lacinia venenatis elit, nec ornare elit varius eu."));
-          Assert.IsTrue(transcodedContent.Contains("Duis vitae ultricies nibh."));
-          Assert.IsTrue(transcodedContent.Contains("Vestibulum dictum iaculis nisl, lobortis luctus justo porttitor eu."));
+          Assert.IsTrue(extractedContent.Contains("Lorem ipsum dolor sit amet, consectetur adipiscing elit."));
+          Assert.IsTrue(extractedContent.Contains("Mauris nec massa ante, id fringilla nisi."));
+          Assert.IsTrue(extractedContent.Contains("Nulla facilisi. Proin lacinia venenatis elit, nec ornare elit varius eu."));
+          Assert.IsTrue(extractedContent.Contains("Duis vitae ultricies nibh."));
+          Assert.IsTrue(extractedContent.Contains("Vestibulum dictum iaculis nisl, lobortis luctus justo porttitor eu."));
           break;
 
         case 5: // mnmlist.com - "clear distractions"
-          Assert.IsTrue(transcodedContent.Contains("When it comes to minimalism in"));
-          Assert.IsTrue(transcodedContent.Contains("Here’s how:"));
-          Assert.IsTrue(transcodedContent.Contains("Set limits on your work hours. If your time is limited, you’ll find ways to make the most of that limited time."));
+          Assert.IsTrue(extractedContent.Contains("When it comes to minimalism in"));
+          Assert.IsTrue(extractedContent.Contains("Here’s how:"));
+          Assert.IsTrue(extractedContent.Contains("Set limits on your work hours. If your time is limited, you’ll find ways to make the most of that limited time."));
           break;
 
         case 6: // sample page; nbsp
-          Assert.IsTrue(transcodedContent.Contains("1.  Item 1.")); // there's a non-breaking space here
+          Assert.IsTrue(extractedContent.Contains("1.  Item 1.")); // there's a non-breaking space here
           break;
 
         case 7: // http://nplusonemag.com/treasure-island
-          Assert.IsTrue(transcodedContent.Contains("stretched out storylines"));
-          Assert.IsTrue(transcodedContent.Contains("It is no longer a smart social move to brag about not owning a television."));
-          Assert.IsTrue(transcodedContent.Contains("Of course, some habits can be hard to give up completely."));
+          Assert.IsTrue(extractedContent.Contains("stretched out storylines"));
+          Assert.IsTrue(extractedContent.Contains("It is no longer a smart social move to brag about not owning a television."));
+          Assert.IsTrue(extractedContent.Contains("Of course, some habits can be hard to give up completely."));
           break;
 
         case 8:  // NYTimes leading paragraph
-          Assert.IsTrue(transcodedContent.Contains("freed from house arrest on Saturday, setting her on the path"));
-          Assert.IsTrue(transcodedContent.Contains("confrontation with the generals who had kept her out of the public eye"));
-          Assert.IsTrue(transcodedContent.Contains("Western capitals was one of celebration"));
+          Assert.IsTrue(extractedContent.Contains("freed from house arrest on Saturday, setting her on the path"));
+          Assert.IsTrue(extractedContent.Contains("confrontation with the generals who had kept her out of the public eye"));
+          Assert.IsTrue(extractedContent.Contains("Western capitals was one of celebration"));
           break;
 
         case 9:  // http://www.udidahan.com/2010/08/31/race-conditions-dont-exist/ - rich sidebar should not be identified as main content
-          Assert.IsTrue(transcodedContent.Contains("Not in the business world anyway."));
-          Assert.IsTrue(transcodedContent.Contains("we could look at modeling the acceptance"));
-          Assert.IsTrue(transcodedContent.Contains("Keep an eye out."));
+          Assert.IsTrue(extractedContent.Contains("Not in the business world anyway."));
+          Assert.IsTrue(extractedContent.Contains("we could look at modeling the acceptance"));
+          Assert.IsTrue(extractedContent.Contains("Keep an eye out."));
           break;
 
         case 10:  // http://www.slate.com/articles/technology/technology/2011/10/steve_jobs_biography_the_new_book_doesn_t_explain_what_made_the_.single.html
-          Assert.IsTrue(transcodedContent.Contains("In the aftermath of his resignation and then his death"));
-          Assert.IsTrue(transcodedContent.Contains("It turns out, though, that he was much worse than you ever suspected."));
-          Assert.IsTrue(transcodedContent.Contains("But Isaacson has compiled so many instances"));
-          Assert.IsTrue(transcodedContent.Contains("Yet Jobs also said that he wanted a biographer"));
-          Assert.IsTrue(transcodedContent.Contains("He embodied so many contradictions"));
-          Assert.IsTrue(transcodedContent.Contains("When friends and colleagues offer theories about Jobs"));
-          Assert.IsTrue(transcodedContent.Contains("Isaacson tries valiantly to add some depth to the profile."));
-          Assert.IsTrue(transcodedContent.Contains("Jobs also seemed to suspect that he wasn"));
-          Assert.IsTrue(transcodedContent.Contains("Instead of offering any substantive explanations"));
-          Assert.IsTrue(transcodedContent.Contains("death prompted a flurry of hagiographic tributes"));
-          Assert.IsTrue(transcodedContent.Contains("last 15 years of life, something in him changed"));
+          Assert.IsTrue(extractedContent.Contains("In the aftermath of his resignation and then his death"));
+          Assert.IsTrue(extractedContent.Contains("It turns out, though, that he was much worse than you ever suspected."));
+          Assert.IsTrue(extractedContent.Contains("But Isaacson has compiled so many instances"));
+          Assert.IsTrue(extractedContent.Contains("Yet Jobs also said that he wanted a biographer"));
+          Assert.IsTrue(extractedContent.Contains("He embodied so many contradictions"));
+          Assert.IsTrue(extractedContent.Contains("When friends and colleagues offer theories about Jobs"));
+          Assert.IsTrue(extractedContent.Contains("Isaacson tries valiantly to add some depth to the profile."));
+          Assert.IsTrue(extractedContent.Contains("Jobs also seemed to suspect that he wasn"));
+          Assert.IsTrue(extractedContent.Contains("Instead of offering any substantive explanations"));
+          Assert.IsTrue(extractedContent.Contains("death prompted a flurry of hagiographic tributes"));
+          Assert.IsTrue(extractedContent.Contains("last 15 years of life, something in him changed"));
           break;
 
         case 11: // http://www.slate.com/articles/news_and_politics/foreigners/2011/10/jordan_s_king_abdullah_interviewed_the_arab_spring_is_a_disaster.single.html
-          Assert.IsTrue(transcodedContent.Contains("How do you see"));
-          Assert.IsTrue(transcodedContent.Contains("I went to Egypt after visiting"));
-          Assert.IsTrue(transcodedContent.Contains("How did your visit to Egypt go?"));
-          Assert.IsTrue(transcodedContent.Contains("We had a very good meeting."));
-          Assert.IsTrue(transcodedContent.Contains("I think it is astounding that Tantawi"));
-          Assert.IsTrue(transcodedContent.Contains("The feeling I got from the Egyptian leadership"));
-          Assert.IsTrue(transcodedContent.Contains("From the streets"));
-          Assert.IsTrue(transcodedContent.Contains("No, from the West."));
-          Assert.IsTrue(transcodedContent.Contains("They saw that Mubarak was sacrificed"));
-          Assert.IsTrue(transcodedContent.Contains("So they are being very cautious in the decisions they are taking."));
-          Assert.IsTrue(transcodedContent.Contains("Do you and other leaders"));
-          Assert.IsTrue(transcodedContent.Contains("I think everybody is wary"));
-          Assert.IsTrue(transcodedContent.Contains("And Jordan?"));
-          Assert.IsTrue(transcodedContent.Contains("I think two things make Jordan stand out."));
-          Assert.IsTrue(transcodedContent.Contains("Do you think President Bashi"));
-          Assert.IsTrue(transcodedContent.Contains("We have had very limited defectors"));
-          Assert.IsTrue(transcodedContent.Contains("Does that mean you have talked to"));
-          Assert.IsTrue(transcodedContent.Contains("I spoke to Bashar al-Assad twice in the springtime."));
-          Assert.IsTrue(transcodedContent.Contains("People are asking about an alternative"));
-          Assert.IsTrue(transcodedContent.Contains("I think nobody has an answer to Syria."));
-          Assert.IsTrue(transcodedContent.Contains("Do you think they can win?"));
-          Assert.IsTrue(transcodedContent.Contains("My view is when you use violence on your people"));
-          Assert.IsTrue(transcodedContent.Contains("What is your assessment of Libya"));
-          Assert.IsTrue(transcodedContent.Contains("It took everybody by surprise."));
-          Assert.IsTrue(transcodedContent.Contains("So you think the death of Colonel Gaddafi"));
-          Assert.IsTrue(transcodedContent.Contains("There is an old saying that peace"));
-          Assert.IsTrue(transcodedContent.Contains("I heard that Hamas leader Khalid Mashal"));
-          Assert.IsTrue(transcodedContent.Contains("If he comes here, it is part of looking at Palestinian reconciliation."));
-          Assert.IsTrue(transcodedContent.Contains("You support Palestinian President Mahmoud Abba"));
-          Assert.IsTrue(transcodedContent.Contains("It is out of desperation and frustration that they are going to the U.N."));
-          Assert.IsTrue(transcodedContent.Contains("Like our elections?"));
-          Assert.IsTrue(transcodedContent.Contains("It is a disaster. You have seen what has happened in Egypt"));
-          Assert.IsTrue(transcodedContent.Contains("The Israelis are worried the Egyptians will break the treaty."));
-          Assert.IsTrue(transcodedContent.Contains("That is a very, very strong possibility."));
-          Assert.IsTrue(transcodedContent.Contains("Do you intend to support Jordan"));
-          Assert.IsTrue(transcodedContent.Contains("We have a peace treaty with Israel and we will continue"));
-          Assert.IsTrue(transcodedContent.Contains("A lot of Israelis think your recent statements"));
-          Assert.IsTrue(transcodedContent.Contains("know if they are hostile. What I am saying is they are missing an opportunity"));
-          Assert.IsTrue(transcodedContent.Contains("I always look at the glass half full and I"));
-          Assert.IsTrue(transcodedContent.Contains("What did you think of Israel Prime Minister Benjamin Netanyahu"));
-          Assert.IsTrue(transcodedContent.Contains("It is politics at the end of the day."));
-          Assert.IsTrue(transcodedContent.Contains("It was strange for Israel to be negotiating with Hamas."));
-          Assert.IsTrue(transcodedContent.Contains("I think all of us have been asking each othe"));
-          Assert.IsTrue(transcodedContent.Contains("You just appointed a new prime minister."));
-          Assert.IsTrue(transcodedContent.Contains("Yes, for the past six months we have listened to what people want"));
-          Assert.IsTrue(transcodedContent.Contains("If you look five years down the line, do you see yourself relinquishing some power to the parliament"));
-          Assert.IsTrue(transcodedContent.Contains("Probably sooner. We haven"));
-          Assert.IsTrue(transcodedContent.Contains("You will still appoint the Senate"));
-          Assert.IsTrue(transcodedContent.Contains("There are two options. If there is a new parliament next year"));
-          Assert.IsTrue(transcodedContent.Contains("I think we are facing the same challenges as everyone in the West."));
-          Assert.IsTrue(transcodedContent.Contains("Once you have people rioting in the streets, how do you get foreign"));
-          Assert.IsTrue(transcodedContent.Contains("But you made a deal with the Saudis"));
-          Assert.IsTrue(transcodedContent.Contains("The Saudis have come through very strongly this year but"));
-          Assert.IsTrue(transcodedContent.Contains("And that is because you are having problems getting"));
-          Assert.IsTrue(transcodedContent.Contains("We are having problems because the gas pipeline keeps"));
-          Assert.IsTrue(transcodedContent.Contains("There are reports that over the next five years if you join the GCC"));
-          Assert.IsTrue(transcodedContent.Contains("There is going to be a package hopefully of at least a billion"));
+          Assert.IsTrue(extractedContent.Contains("How do you see"));
+          Assert.IsTrue(extractedContent.Contains("I went to Egypt after visiting"));
+          Assert.IsTrue(extractedContent.Contains("How did your visit to Egypt go?"));
+          Assert.IsTrue(extractedContent.Contains("We had a very good meeting."));
+          Assert.IsTrue(extractedContent.Contains("I think it is astounding that Tantawi"));
+          Assert.IsTrue(extractedContent.Contains("The feeling I got from the Egyptian leadership"));
+          Assert.IsTrue(extractedContent.Contains("From the streets"));
+          Assert.IsTrue(extractedContent.Contains("No, from the West."));
+          Assert.IsTrue(extractedContent.Contains("They saw that Mubarak was sacrificed"));
+          Assert.IsTrue(extractedContent.Contains("So they are being very cautious in the decisions they are taking."));
+          Assert.IsTrue(extractedContent.Contains("Do you and other leaders"));
+          Assert.IsTrue(extractedContent.Contains("I think everybody is wary"));
+          Assert.IsTrue(extractedContent.Contains("And Jordan?"));
+          Assert.IsTrue(extractedContent.Contains("I think two things make Jordan stand out."));
+          Assert.IsTrue(extractedContent.Contains("Do you think President Bashi"));
+          Assert.IsTrue(extractedContent.Contains("We have had very limited defectors"));
+          Assert.IsTrue(extractedContent.Contains("Does that mean you have talked to"));
+          Assert.IsTrue(extractedContent.Contains("I spoke to Bashar al-Assad twice in the springtime."));
+          Assert.IsTrue(extractedContent.Contains("People are asking about an alternative"));
+          Assert.IsTrue(extractedContent.Contains("I think nobody has an answer to Syria."));
+          Assert.IsTrue(extractedContent.Contains("Do you think they can win?"));
+          Assert.IsTrue(extractedContent.Contains("My view is when you use violence on your people"));
+          Assert.IsTrue(extractedContent.Contains("What is your assessment of Libya"));
+          Assert.IsTrue(extractedContent.Contains("It took everybody by surprise."));
+          Assert.IsTrue(extractedContent.Contains("So you think the death of Colonel Gaddafi"));
+          Assert.IsTrue(extractedContent.Contains("There is an old saying that peace"));
+          Assert.IsTrue(extractedContent.Contains("I heard that Hamas leader Khalid Mashal"));
+          Assert.IsTrue(extractedContent.Contains("If he comes here, it is part of looking at Palestinian reconciliation."));
+          Assert.IsTrue(extractedContent.Contains("You support Palestinian President Mahmoud Abba"));
+          Assert.IsTrue(extractedContent.Contains("It is out of desperation and frustration that they are going to the U.N."));
+          Assert.IsTrue(extractedContent.Contains("Like our elections?"));
+          Assert.IsTrue(extractedContent.Contains("It is a disaster. You have seen what has happened in Egypt"));
+          Assert.IsTrue(extractedContent.Contains("The Israelis are worried the Egyptians will break the treaty."));
+          Assert.IsTrue(extractedContent.Contains("That is a very, very strong possibility."));
+          Assert.IsTrue(extractedContent.Contains("Do you intend to support Jordan"));
+          Assert.IsTrue(extractedContent.Contains("We have a peace treaty with Israel and we will continue"));
+          Assert.IsTrue(extractedContent.Contains("A lot of Israelis think your recent statements"));
+          Assert.IsTrue(extractedContent.Contains("know if they are hostile. What I am saying is they are missing an opportunity"));
+          Assert.IsTrue(extractedContent.Contains("I always look at the glass half full and I"));
+          Assert.IsTrue(extractedContent.Contains("What did you think of Israel Prime Minister Benjamin Netanyahu"));
+          Assert.IsTrue(extractedContent.Contains("It is politics at the end of the day."));
+          Assert.IsTrue(extractedContent.Contains("It was strange for Israel to be negotiating with Hamas."));
+          Assert.IsTrue(extractedContent.Contains("I think all of us have been asking each othe"));
+          Assert.IsTrue(extractedContent.Contains("You just appointed a new prime minister."));
+          Assert.IsTrue(extractedContent.Contains("Yes, for the past six months we have listened to what people want"));
+          Assert.IsTrue(extractedContent.Contains("If you look five years down the line, do you see yourself relinquishing some power to the parliament"));
+          Assert.IsTrue(extractedContent.Contains("Probably sooner. We haven"));
+          Assert.IsTrue(extractedContent.Contains("You will still appoint the Senate"));
+          Assert.IsTrue(extractedContent.Contains("There are two options. If there is a new parliament next year"));
+          Assert.IsTrue(extractedContent.Contains("I think we are facing the same challenges as everyone in the West."));
+          Assert.IsTrue(extractedContent.Contains("Once you have people rioting in the streets, how do you get foreign"));
+          Assert.IsTrue(extractedContent.Contains("But you made a deal with the Saudis"));
+          Assert.IsTrue(extractedContent.Contains("The Saudis have come through very strongly this year but"));
+          Assert.IsTrue(extractedContent.Contains("And that is because you are having problems getting"));
+          Assert.IsTrue(extractedContent.Contains("We are having problems because the gas pipeline keeps"));
+          Assert.IsTrue(extractedContent.Contains("There are reports that over the next five years if you join the GCC"));
+          Assert.IsTrue(extractedContent.Contains("There is going to be a package hopefully of at least a billion"));
           break;
 
         // TODO IMM HI: fix (problem with nested divs)
         case 12:  // http://www.telegraph.co.uk/comment/personal-view/8841737/What-Gilad-Shalit-tells-us-about-the-respect-for-life-in-Europe-Israel-and-Palestine.html
-          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*One of the supreme ironies among the European moral stances"));
-          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*And yet when that same Europe turns its gaze on the Middle East"));
-          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*Normally, this would not be even worth mentioning."));
-          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*Israel first outlawed the death penalty in 1954"));
-          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*Note that Israel passed this law five years"));
-          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*If the Israelis had hundreds of terrorists"));
-          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*Palestine, on the other hand"));
-          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*The trade of over a thousand Palestinians"));
-          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*If a European, concerned about the nature"));
-          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*So instead of helping Europeans"));
-          Assert.IsTrue(Regex.IsMatch(transcodedContent, "at the return of prisoners, and"));
-          Assert.IsTrue(Regex.IsMatch(transcodedContent, "in order to present the moral equivalence of all the"));
-          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*In acquiescing with a narrative in which hatred and murder"));
-          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*It may seem cost-free to Westerners"));
+          Assert.IsTrue(Regex.IsMatch(extractedContent, "<p>\\s*One of the supreme ironies among the European moral stances"));
+          Assert.IsTrue(Regex.IsMatch(extractedContent, "<p>\\s*And yet when that same Europe turns its gaze on the Middle East"));
+          Assert.IsTrue(Regex.IsMatch(extractedContent, "<p>\\s*Normally, this would not be even worth mentioning."));
+          Assert.IsTrue(Regex.IsMatch(extractedContent, "<p>\\s*Israel first outlawed the death penalty in 1954"));
+          Assert.IsTrue(Regex.IsMatch(extractedContent, "<p>\\s*Note that Israel passed this law five years"));
+          Assert.IsTrue(Regex.IsMatch(extractedContent, "<p>\\s*If the Israelis had hundreds of terrorists"));
+          Assert.IsTrue(Regex.IsMatch(extractedContent, "<p>\\s*Palestine, on the other hand"));
+          Assert.IsTrue(Regex.IsMatch(extractedContent, "<p>\\s*The trade of over a thousand Palestinians"));
+          Assert.IsTrue(Regex.IsMatch(extractedContent, "<p>\\s*If a European, concerned about the nature"));
+          Assert.IsTrue(Regex.IsMatch(extractedContent, "<p>\\s*So instead of helping Europeans"));
+          Assert.IsTrue(Regex.IsMatch(extractedContent, "at the return of prisoners, and"));
+          Assert.IsTrue(Regex.IsMatch(extractedContent, "in order to present the moral equivalence of all the"));
+          Assert.IsTrue(Regex.IsMatch(extractedContent, "<p>\\s*In acquiescing with a narrative in which hatred and murder"));
+          Assert.IsTrue(Regex.IsMatch(extractedContent, "<p>\\s*It may seem cost-free to Westerners"));
           break;
 
         // TODO IMM HI: fix (problem with nested divs)
         case 13:  // same URL as 12 but processed by Instapaper first
-          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*One of the supreme ironies among the European moral stances"));
-          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*And yet when that same Europe turns its gaze on the Middle East"));
-          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*Normally, this would not be even worth mentioning."));
-          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*Israel first outlawed the death penalty in 1954"));
-          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*Note that Israel passed this law five years"));
-          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*If the Israelis had hundreds of terrorists"));
-          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*Palestine, on the other hand"));
-          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*The trade of over a thousand Palestinians"));
-          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*If a European, concerned about the nature"));
-          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*So instead of helping Europeans"));
-          Assert.IsTrue(Regex.IsMatch(transcodedContent, "at the return of prisoners, and"));
-          Assert.IsTrue(Regex.IsMatch(transcodedContent, "in order to present the moral equivalence of all the"));
-          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*In acquiescing with a narrative in which hatred and murder"));
-          Assert.IsTrue(Regex.IsMatch(transcodedContent, "<p>\\s*It may seem cost-free to Westerners"));
+          Assert.IsTrue(Regex.IsMatch(extractedContent, "<p>\\s*One of the supreme ironies among the European moral stances"));
+          Assert.IsTrue(Regex.IsMatch(extractedContent, "<p>\\s*And yet when that same Europe turns its gaze on the Middle East"));
+          Assert.IsTrue(Regex.IsMatch(extractedContent, "<p>\\s*Normally, this would not be even worth mentioning."));
+          Assert.IsTrue(Regex.IsMatch(extractedContent, "<p>\\s*Israel first outlawed the death penalty in 1954"));
+          Assert.IsTrue(Regex.IsMatch(extractedContent, "<p>\\s*Note that Israel passed this law five years"));
+          Assert.IsTrue(Regex.IsMatch(extractedContent, "<p>\\s*If the Israelis had hundreds of terrorists"));
+          Assert.IsTrue(Regex.IsMatch(extractedContent, "<p>\\s*Palestine, on the other hand"));
+          Assert.IsTrue(Regex.IsMatch(extractedContent, "<p>\\s*The trade of over a thousand Palestinians"));
+          Assert.IsTrue(Regex.IsMatch(extractedContent, "<p>\\s*If a European, concerned about the nature"));
+          Assert.IsTrue(Regex.IsMatch(extractedContent, "<p>\\s*So instead of helping Europeans"));
+          Assert.IsTrue(Regex.IsMatch(extractedContent, "at the return of prisoners, and"));
+          Assert.IsTrue(Regex.IsMatch(extractedContent, "in order to present the moral equivalence of all the"));
+          Assert.IsTrue(Regex.IsMatch(extractedContent, "<p>\\s*In acquiescing with a narrative in which hatred and murder"));
+          Assert.IsTrue(Regex.IsMatch(extractedContent, "<p>\\s*It may seem cost-free to Westerners"));
           break;
 
         default:
           throw new NotSupportedException("Unknown sample input number (" + sampleInputNumber + "). Have you added another sample input? If so, then add appropriate asserts here as well.");
       }
-
-      Assert.IsTrue(mainContentExtracted);
     }
 
     [Test]
@@ -660,12 +672,12 @@ namespace NReadability.Tests
       TestReplacingImageUrl("static/gfx/image.gif", "http://immortal.pl/", "http://immortal.pl/static/gfx/image.gif");
       TestReplacingImageUrl("/static/gfx/image.gif", "http://immortal.pl", "http://immortal.pl/static/gfx/image.gif");
       TestReplacingImageUrl("/static/gfx/image.gif", "http://immortal.pl/", "http://immortal.pl/static/gfx/image.gif");
-      
+
       TestReplacingImageUrl("/static/gfx/image.gif", "http://immortal.pl/article/doc.html", "http://immortal.pl/static/gfx/image.gif");
-      
+
       TestReplacingImageUrl("static/gfx/image.gif", "http://immortal.pl/article", "http://immortal.pl/static/gfx/image.gif");
       TestReplacingImageUrl("static/gfx/image.gif", "http://immortal.pl/article/", "http://immortal.pl/article/static/gfx/image.gif");
-      
+
       TestReplacingImageUrl("/static/gfx/image.gif", "http://immortal.pl/article/doc.html?someParam=1", "http://immortal.pl/static/gfx/image.gif");
       TestReplacingImageUrl("static/gfx/image.gif", "http://immortal.pl/article/", "http://immortal.pl/article/static/gfx/image.gif");
 
@@ -684,70 +696,124 @@ namespace NReadability.Tests
     [Test]
     public void TestReplacingLinksUrls()
     {
+      // arrange
       string dummyParagraphs = "<p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p>";
       string htmlContent = "<html><body>" + dummyParagraphs + "<p><a href=\"/wiki/article1\">link</a></p>" + dummyParagraphs + "</body></html>";
-      bool mainContentExtracted;
-      string transcodedContent = _nReadabilityTranscoder.Transcode(htmlContent, "http://wikipedia.org/wiki/baseArticle", out mainContentExtracted);
 
-      Assert.IsTrue(mainContentExtracted);
-      Assert.IsTrue(transcodedContent.Contains("href=\"http://wikipedia.org/wiki/article1\""));
+      var transcodingInput =
+        new TranscodingInput(htmlContent)
+          {
+            Url = "http://wikipedia.org/wiki/baseArticle",
+          };
+
+      // act
+      TranscodingResult transcodingResult = _nReadabilityTranscoder.Transcode(transcodingInput);
+
+      // assert
+      Assert.IsTrue(transcodingResult.ContentExtracted);
+      Assert.IsTrue(transcodingResult.ExtractedContent.Contains("href=\"http://wikipedia.org/wiki/article1\""));
     }
 
     [Test]
     public void TestReplacingQueryStringLinkUrls()
     {
-        string dummyParagraphs = "<p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p>";
-        string htmlContent = "<html><body>" + dummyParagraphs + "<p><a href=\"?hello\">link</a></p>" + dummyParagraphs + "</body></html>";
-        bool mainContentExtracted;
-        string transcodedContent = _nReadabilityTranscoder.Transcode(htmlContent, "http://wikipedia.org/wiki/baseArticle", out mainContentExtracted);
+      // arrange
+      string dummyParagraphs = "<p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p>";
+      string htmlContent = "<html><body>" + dummyParagraphs + "<p><a href=\"?hello\">link</a></p>" + dummyParagraphs + "</body></html>";
 
-        Assert.IsTrue(mainContentExtracted);
-        Assert.IsTrue(transcodedContent.Contains("href=\"http://wikipedia.org/wiki/baseArticle?hello\""));
+      var transcodingInput =
+        new TranscodingInput(htmlContent)
+          {
+            Url = "http://wikipedia.org/wiki/baseArticle",
+          };
 
-        transcodedContent = _nReadabilityTranscoder.Transcode(htmlContent, "http://wikipedia.org/wiki/baseArticle?goodbye", out mainContentExtracted);
-        Assert.IsTrue(mainContentExtracted);
-        Assert.IsTrue(transcodedContent.Contains("href=\"http://wikipedia.org/wiki/baseArticle?hello\""));
+      // act
+      TranscodingResult transcodingResult = _nReadabilityTranscoder.Transcode(transcodingInput);
+
+      // assert
+      Assert.IsTrue(transcodingResult.ContentExtracted);
+      Assert.IsTrue(transcodingResult.ExtractedContent.Contains("href=\"http://wikipedia.org/wiki/baseArticle?hello\""));
+
+      // arrange
+      transcodingInput =
+        new TranscodingInput(htmlContent)
+          {
+            Url = "http://wikipedia.org/wiki/baseArticle?goodbye",
+          };
+
+      // act
+      transcodingResult = _nReadabilityTranscoder.Transcode(transcodingInput);
+
+      // assert
+      Assert.IsTrue(transcodingResult.ContentExtracted);
+      Assert.IsTrue(transcodingResult.ExtractedContent.Contains("href=\"http://wikipedia.org/wiki/baseArticle?hello\""));
     }
 
     [Test]
     public void TestEmptyArticle()
     {
+      // arrange
       const string htmlContent = "<html><body></body></html>";
-      bool mainContentExtracted;
-      
-      _nReadabilityTranscoder.Transcode(htmlContent, "http://wikipedia.org/wiki/baseArticle", out mainContentExtracted);
 
-      Assert.IsFalse(mainContentExtracted);
+      var transcodingInput =
+        new TranscodingInput(htmlContent)
+          {
+            Url = "http://wikipedia.org/wiki/baseArticle",
+          };
+
+      // act
+      TranscodingResult transcodingResult = _nReadabilityTranscoder.Transcode(transcodingInput);
+
+      // assert
+      Assert.IsFalse(transcodingResult.ContentExtracted);
     }
 
     [Test]
     public void TestMobileHeaders()
     {
+      // arrange
       string dummyParagraphs = "<p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p>";
       string htmlContent = "<html><body>" + dummyParagraphs + "</body></html>";
-      bool mainContentExtracted;
-      string transcodedContent = _nReadabilityTranscoder.Transcode(htmlContent, "http://wikipedia.org/wiki/baseArticle", out mainContentExtracted);
 
-      Assert.IsTrue(mainContentExtracted);
-      Assert.IsTrue(transcodedContent.Contains("<meta name=\"HandheldFriendly\" content=\"true\" />"));
+      var transcodingInput =
+        new TranscodingInput(htmlContent)
+          {
+            Url = "http://wikipedia.org/wiki/baseArticle",
+          };
+
+      // act
+      TranscodingResult transcodingResult = _nReadabilityTranscoder.Transcode(transcodingInput);
+
+      // assert
+      Assert.IsTrue(transcodingResult.ContentExtracted);
+      Assert.IsTrue(transcodingResult.ExtractedContent.Contains("<meta name=\"HandheldFriendly\" content=\"true\" />"));
     }
 
     [Test]
     public void MetaViewportElementShouldBeRemoved()
     {
+      // arrange
       const string metaViewportElementStr = "<meta name=\"viewport\" content=\"width=1000\" />";
       const string htmlContent = "<html><head>" + metaViewportElementStr + "</head><body><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p></body></html>";
-      
-      bool mainContentExtracted;
-      string transcodedContent = _nReadabilityTranscoder.Transcode(htmlContent, "http://wikipedia.org/wiki/baseArticle", out mainContentExtracted);
 
-      Assert.IsTrue(mainContentExtracted);
-      Assert.IsFalse(transcodedContent.Contains(metaViewportElementStr));
+      var transcodingInput =
+        new TranscodingInput(htmlContent)
+          {
+            Url = "http://wikipedia.org/wiki/baseArticle",
+          };
+
+      // act
+      TranscodingResult transcodingResult = _nReadabilityTranscoder.Transcode(transcodingInput);
+
+      // assert
+      Assert.IsTrue(transcodingResult.ContentExtracted);
+      Assert.IsFalse(transcodingResult.ExtractedContent.Contains(metaViewportElementStr));
     }
 
     [Test]
     public void TestImageSourceTransformer()
     {
+      // arrange
       Func<AttributeTransformationInput, AttributeTransformationResult> imgSrcTransformer =
         input =>
         new AttributeTransformationResult
@@ -768,17 +834,25 @@ namespace NReadability.Tests
             ImageSourceTranformer = imgSrcTransformer,
           };
 
-      bool mainContentExtracted;
-      string transcodedContent = nReadabilityTranscoder.Transcode(htmlContent, "http://immortal.pl/", out mainContentExtracted);
+      var transcodingInput =
+        new TranscodingInput(htmlContent)
+          {
+            Url = "http://immortal.pl/",
+          };
 
-      Assert.IsTrue(mainContentExtracted);
-      Assert.IsTrue(transcodedContent.Contains("src=\"" + expectedSrcValue + "\""));
-      Assert.IsTrue(transcodedContent.Contains("origsrc=\"" + originalSrcValue + "\""));
+      // act
+      TranscodingResult transcodingResult = nReadabilityTranscoder.Transcode(transcodingInput);
+
+      // assert
+      Assert.IsTrue(transcodingResult.ContentExtracted);
+      Assert.IsTrue(transcodingResult.ExtractedContent.Contains("src=\"" + expectedSrcValue + "\""));
+      Assert.IsTrue(transcodingResult.ExtractedContent.Contains("origsrc=\"" + originalSrcValue + "\""));
     }
 
     [Test]
     public void TestAnchorHrefTransformer()
     {
+      // arrange
       Func<AttributeTransformationInput, AttributeTransformationResult> anchorHrefTransformer =
         input =>
         new AttributeTransformationResult
@@ -799,23 +873,85 @@ namespace NReadability.Tests
             AnchorHrefTranformer = anchorHrefTransformer,
           };
 
-      bool mainContentExtracted;
-      string transcodedContent = nReadabilityTranscoder.Transcode(htmlContent, "http://immortal.pl/", out mainContentExtracted);
+      var transcodingInput =
+        new TranscodingInput(htmlContent)
+          {
+            Url = "http://immortal.pl/",
+          };
 
-      Assert.IsTrue(mainContentExtracted);
-      Assert.IsTrue(transcodedContent.Contains("href=\"" + expectedHrefValue + "\""));
-      Assert.IsTrue(transcodedContent.Contains("orighref=\"" + originalHrefValue + "\""));
+      // act
+      TranscodingResult transcodingResult = nReadabilityTranscoder.Transcode(transcodingInput);
+
+      // assert
+      Assert.IsTrue(transcodingResult.ContentExtracted);
+      Assert.IsTrue(transcodingResult.ExtractedContent.Contains("href=\"" + expectedHrefValue + "\""));
+      Assert.IsTrue(transcodingResult.ExtractedContent.Contains("orighref=\"" + originalHrefValue + "\""));
     }
 
     [Test]
     public void Output_contains_meta_generator_element()
     {
-      bool mainContentExtracted;
+      // arrange
+      var transcodingInput = new TranscodingInput("test");
 
-      string transcodedContent =
-        _nReadabilityTranscoder.Transcode("test", out mainContentExtracted);
+      // act
+      TranscodingResult transcodingResult = _nReadabilityTranscoder.Transcode(transcodingInput);
 
-      Assert.IsTrue(transcodedContent.Contains("meta name=\"Generator\""));
+      // assert
+      Assert.IsTrue(transcodingResult.ExtractedContent.Contains("meta name=\"Generator\""));
+    }
+
+    [Test]
+    public void Transcode_can_extract_title_from_header()
+    {
+      // arrange
+      const string expectedTitle = "Some title ąęłóżźńć";
+      const string htmlContent = "<html><head><title>" + expectedTitle + "</title></head><body></body></html>";
+
+      var transcodingInput = new TranscodingInput(htmlContent);
+
+      // act
+      TranscodingResult transcodingResult = _nReadabilityTranscoder.Transcode(transcodingInput);
+
+      // assert
+      Assert.IsTrue(transcodingResult.TitleExtracted);
+      Assert.AreEqual(expectedTitle, transcodingResult.ExtractedTitle);
+    }
+
+    [Test]
+    public void Transcode_can_extract_title_from_body_h1()
+    {
+      // arrange
+      const string expectedTitle = "Some title ąęłóżźńć";
+      const string dummyParagraphs = "<p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p>";
+      const string htmlContent = "<html><body><div id=\"main\"><h1>" + expectedTitle + "</h1>" + dummyParagraphs + "</div></body></html>";
+
+      var transcodingInput = new TranscodingInput(htmlContent);
+
+      // act
+      TranscodingResult transcodingResult = _nReadabilityTranscoder.Transcode(transcodingInput);
+
+      // assert
+      Assert.IsTrue(transcodingResult.TitleExtracted);
+      Assert.AreEqual(expectedTitle, transcodingResult.ExtractedTitle);
+    }
+
+    [Test]
+    public void Transcode_can_extract_title_from_body_h2()
+    {
+      // arrange
+      const string expectedTitle = "Some title ąęłóżźńć";
+      const string dummyParagraphs = "<p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p>";
+      const string htmlContent = "<html><body><div id=\"main\"><h2>" + expectedTitle + "</h2>" + dummyParagraphs + "</div></body></html>";
+
+      var transcodingInput = new TranscodingInput(htmlContent);
+
+      // act
+      TranscodingResult transcodingResult = _nReadabilityTranscoder.Transcode(transcodingInput);
+
+      // assert
+      Assert.IsTrue(transcodingResult.TitleExtracted);
+      Assert.AreEqual(expectedTitle, transcodingResult.ExtractedTitle);
     }
 
     #endregion
@@ -834,11 +970,11 @@ namespace NReadability.Tests
       Assert.AreEqual(
         0,
         (from node in document.DescendantNodes()
-        let name = node is XElement && ((XElement)node).Name != null ? ((XElement)node).Name.LocalName : ""
-        where !"html".Equals(name, StringComparison.OrdinalIgnoreCase)
-           && !"head".Equals(name, StringComparison.OrdinalIgnoreCase)
-           && !"meta".Equals(name, StringComparison.OrdinalIgnoreCase)
-        select node).Count());
+         let name = node is XElement ? ((XElement)node).Name.LocalName : ""
+         where !"html".Equals(name, StringComparison.OrdinalIgnoreCase)
+            && !"head".Equals(name, StringComparison.OrdinalIgnoreCase)
+            && !"meta".Equals(name, StringComparison.OrdinalIgnoreCase)
+         select node).Count());
     }
 
     private static void AssertHtmlContentsAreEqual(string expectedContent, string actualContent)
@@ -846,7 +982,7 @@ namespace NReadability.Tests
       string serializedExpectedContent =
         _sgmlDomSerializer.SerializeDocument(
           _sgmlDomBuilder.BuildDocument(expectedContent));
-      
+
       string serializedActualContent =
         _sgmlDomSerializer.SerializeDocument(
           _sgmlDomBuilder.BuildDocument(actualContent));
@@ -870,28 +1006,35 @@ namespace NReadability.Tests
       return container.Descendants()
         .Count(
           element =>
-            args.Any(
-              elementToSearch =>
-                elementToSearch.Trim().ToLower()
-                  .Equals(
-                    element.Name != null
-                      ? element.Name.LocalName
-                      : null,
-                    StringComparison.OrdinalIgnoreCase)));
+          args.Any(
+            elementToSearch =>
+            elementToSearch.Trim().ToLower()
+              .Equals(
+                element.Name.LocalName,
+                StringComparison.OrdinalIgnoreCase)));
     }
 
     private void TestReplacingImageUrl(string srcAttribute, string url, string expectedImageUrl)
     {
+      // arrange
       string dummyParagraphs = "<p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p><p>Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet. Lorem ipsum dolor et amet.</p>";
       string htmlContent = "<html><body>" + dummyParagraphs + "<p><img src=\"" + srcAttribute + "\" /></p>" + dummyParagraphs + "</body></html>";
-      bool mainContentExtracted;
-      string transcodedContent = _nReadabilityTranscoder.Transcode(htmlContent, url, out mainContentExtracted);
+
+      var transcodingInput =
+        new TranscodingInput(htmlContent)
+          {
+            Url = url,
+          };
+
+      // act
+      TranscodingResult transcodingResult = _nReadabilityTranscoder.Transcode(transcodingInput);
+
+      // assert
+      Assert.IsTrue(transcodingResult.ContentExtracted);
 
       Assert.IsTrue(
-        transcodedContent.Contains("src=\"" + expectedImageUrl + "\""),
+        transcodingResult.ExtractedContent.Contains("src=\"" + expectedImageUrl + "\""),
         string.Format("Image url replacement failed. Src attribute: {0}, base url: {1}, expected image url: {2}", srcAttribute, url, expectedImageUrl));
-
-      Assert.IsTrue(mainContentExtracted);
     }
 
     #endregion

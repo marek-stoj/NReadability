@@ -70,15 +70,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NReadabilityWebTranscoderTests.cs" />
+    <Compile Include="NReadabilityTranscoderTests.cs" />
     <Compile Include="EnumerableExtensionsTests.cs" />
     <Compile Include="HtmlUtilsTests.cs" />
     <Compile Include="MyAssert.cs" />
     <Compile Include="SgmlDomSerializerTests.cs" />
     <Compile Include="DomExtensionsTests.cs" />
     <None Include="Properties\AssemblyInfo.cs.template" />
-    <Compile Include="UrlFetcherStub.cs" />
-    <Compile Include="NReadabilityTranscoderTests.cs" />
-    <Compile Include="NReadabilityWebTranscoderTests.cs" />
+    <Compile Include="SimpleUrlFetcherStub.cs" />
+    <Compile Include="FileBasedUrlFetcherStub.cs" />
+    <Compile Include="NReadabilityTranscoderTests_Old.cs" />
+    <Compile Include="NReadabilityWebTranscoderTests_Old.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SgmlDomBuilderTests.cs" />
   </ItemGroup>

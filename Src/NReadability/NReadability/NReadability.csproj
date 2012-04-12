@@ -71,11 +71,15 @@
   <ItemGroup>
     <Compile Include="AttributeTransformationResult.cs" />
     <Compile Include="AttributeTransformationInput.cs" />
+    <Compile Include="WebTranscodingInput.cs" />
+    <Compile Include="WebTranscodingResult.cs" />
     <Compile Include="DomSerializationParams.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="HtmlUtils.cs" />
     <Compile Include="IUrlFetcher.cs" />
     <Compile Include="NReadabilityWebTranscoder.cs" />
+    <Compile Include="TranscodingInput.cs" />
+    <Compile Include="TranscodingResult.cs" />
     <Compile Include="UrlFetcher.cs" />
     <Compile Include="SgmlDomBuilder.cs" />
     <Compile Include="ChildNodesTraverser.cs" />
