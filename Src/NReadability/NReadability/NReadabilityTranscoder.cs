@@ -130,6 +130,7 @@ namespace NReadability
     #region Other regular expressions
 
     private static readonly Regex _MailtoHrefRegex = new Regex("^\\s*mailto\\s*:", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static readonly Regex _TitleWhitespacesCleanUpRegex = new Regex("\\s+", RegexOptions.Compiled);
 
     #endregion
 
@@ -152,7 +153,7 @@ namespace NReadability
 
     private Func<AttributeTransformationInput, AttributeTransformationResult> _imageSourceTranformer;
     private Func<AttributeTransformationInput, AttributeTransformationResult> _anchorHrefTransformer;
-        
+
     #endregion
 
     #region Constructor(s)
@@ -1639,8 +1640,14 @@ namespace NReadability
 
       string extractedTitle =
         firstH1Element != null
-          ? firstH1Element.Value.Trim()
+          ? firstH1Element.Value
           : null;
+
+      if (!string.IsNullOrEmpty(extractedTitle))
+      {
+        extractedTitle = _TitleWhitespacesCleanUpRegex.Replace(extractedTitle, " ");
+        extractedTitle = extractedTitle.Trim();
+      }
 
       if (extractedTitle != null && extractedTitle.Length == 0)
       {

@@ -954,6 +954,24 @@ namespace NReadability.Tests
       Assert.AreEqual(expectedTitle, transcodingResult.ExtractedTitle);
     }
 
+    [Test]
+    public void Transcode_cleans_up_title_after_extracting_it()
+    {
+      // arrange
+      const string expectedTitle = "Гостиница - Ги де Мопассан";
+      const string title = "Гостиница\n-  \r Ги  \t  де \n\n \r Мопассан \r\n";
+      const string htmlContent = "<html><head><title>" + title + "</title></head><body></body></html>";
+
+      var transcodingInput = new TranscodingInput(htmlContent);
+
+      // act
+      TranscodingResult transcodingResult = _nReadabilityTranscoder.Transcode(transcodingInput);
+
+      // assert
+      Assert.IsTrue(transcodingResult.TitleExtracted);
+      Assert.AreEqual(expectedTitle, transcodingResult.ExtractedTitle);
+    }
+
     #endregion
 
     #region Private helper methods

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <project name="NReadability" default="all">
 
-  <property name="nreadability.version" value="1.4.0.0" />
+  <property name="nreadability.version" value="1.4.1.0" />
   <property name="msbuild.path" value="C:\Windows\Microsoft.NET\Framework\v3.5\MSBuild.exe" />
   <property name="git.path" value="C:\Program Files (x86)\Git\bin\git.exe" />
   <property name="nuget.path" value="C:\Programs\NuGet\NuGet.exe" />
