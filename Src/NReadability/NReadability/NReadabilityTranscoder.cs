@@ -264,7 +264,13 @@ namespace NReadability
     {
       string extractedTitle;
 
-      var document = TranscodeToXml(htmlContent, url, out mainContentExtracted, out extractedTitle, out nextPageUrl);
+      XDocument document =
+        TranscodeToXml(
+          htmlContent,
+          url,
+          out mainContentExtracted,
+          out extractedTitle,
+          out nextPageUrl);
 
       return _sgmlDomSerializer.SerializeDocument(document, domSerializationParams);
     }
@@ -332,7 +338,7 @@ namespace NReadability
         throw new ArgumentNullException("htmlContent");
       }
 
-      var document = _sgmlDomBuilder.BuildDocument(htmlContent);
+      XDocument document = _sgmlDomBuilder.BuildDocument(htmlContent);
 
       PrepareDocument(document);
 
@@ -349,8 +355,8 @@ namespace NReadability
         nextPageUrl = FindNextPageLink(document.GetBody(), url);
       }
 
-      var articleTitleElement = ExtractArticleTitle(document);
-      var articleContentElement = ExtractArticleContent(document);
+      XElement articleTitleElement = ExtractArticleTitle(document);
+      XElement articleContentElement = ExtractArticleContent(document);
 
       GlueDocument(document, articleTitleElement, articleContentElement);
 
@@ -560,7 +566,7 @@ namespace NReadability
       */
       LinkData topPage = null;
 
-      foreach (var page in possiblePagesByLink.Keys)
+      foreach (string page in possiblePagesByLink.Keys)
       {
         if (possiblePagesByLink[page].Score >= 50 && (topPage == null || topPage.Score < possiblePagesByLink[page].Score))
         {
@@ -594,7 +600,7 @@ namespace NReadability
       string protocol = urlUri.Scheme;
       string hostname = urlUri.Host;        
       string noUrlParams = urlUri.AbsolutePath + "/";
-      var urlSlashes = noUrlParams.Split('/').Reverse().ToList();
+      List<string> urlSlashes = noUrlParams.Split('/').Reverse().ToList();
       var cleanedSegments = new List<string>();
       int slashLen = urlSlashes.Count();
 
@@ -664,8 +670,8 @@ namespace NReadability
     {
       /* In some cases a body element can't be found (if the HTML is totally hosed for example),
        * so we create a new body element and append it to the document. */
-      var documentBody = GetOrCreateBody(document);
-      var rootElement = document.Root;
+      XElement documentBody = GetOrCreateBody(document);
+      XElement rootElement = document.Root;
 
       // TODO: handle HTML frames
 
@@ -717,7 +723,7 @@ namespace NReadability
 
     internal XElement ExtractArticleTitle(XDocument document)
     {
-      var documentBody = GetOrCreateBody(document);
+      XElement documentBody = GetOrCreateBody(document);
       string documentTitle = document.GetTitle() ?? "";
       string currentTitle = documentTitle;
 
@@ -780,7 +786,7 @@ namespace NReadability
       StripUnlikelyCandidates(document);
       CollapseRedundantParagraphDivs(document);
 
-      var candidatesForArticleContent = FindCandidatesForArticleContent(document);
+      IEnumerable<XElement> candidatesForArticleContent = FindCandidatesForArticleContent(document);
 
       XElement topCandidateElement = DetermineTopCandidateElement(document, candidatesForArticleContent);
       XElement articleContentElement = CreateArticleContentElement(document, topCandidateElement);
@@ -792,10 +798,10 @@ namespace NReadability
 
     internal void GlueDocument(XDocument document, XElement articleTitleElement, XElement articleContentElement)
     {
-      var documentBody = GetOrCreateBody(document);
+      XElement documentBody = GetOrCreateBody(document);
 
       /* Include readability.css stylesheet. */
-      var headElement = document.GetElementsByTagName("head").FirstOrDefault();
+      XElement headElement = document.GetElementsByTagName("head").FirstOrDefault();
 
       if (headElement == null)
       {
@@ -803,11 +809,11 @@ namespace NReadability
         documentBody.AddBeforeSelf(headElement);
       }
 
-      var styleElement = new XElement("style");
+      XElement styleElement = new XElement("style");
 
       styleElement.SetAttributeValue("type", "text/css");
 
-      var readabilityStylesheetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(_ReadabilityStylesheetResourceName);
+      Stream readabilityStylesheetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(_ReadabilityStylesheetResourceName);
 
       if (readabilityStylesheetStream == null)
       {
@@ -862,7 +868,7 @@ namespace NReadability
         return;
       }
 
-      var rootElement = document.Root;
+      XElement rootElement = document.Root;
 
       new ElementsTraverser(
         element =>
@@ -878,7 +884,7 @@ namespace NReadability
              && _UnlikelyCandidatesRegex.IsMatch(unlikelyMatchString)
              && !_OkMaybeItsACandidateRegex.IsMatch(unlikelyMatchString))
             {
-              var parentElement = element.Parent;
+              XElement parentElement = element.Parent;
 
               if (parentElement != null)
               {
@@ -895,7 +901,7 @@ namespace NReadability
               if (!_DivToPElementsRegex.IsMatch(element.GetInnerHtml()))
               {
                 // no block elements inside - change to p
-                element.Name = "p";
+                SetElementName(element, "p");
               }
               else
               {
@@ -909,7 +915,7 @@ namespace NReadability
                         return;
                       }
 
-                      var paraElement = new XElement("p");
+                      XElement paraElement = new XElement("p");
 
                       // note that we're not using GetInnerText() here; instead we're getting raw InnerText to preserve whitespaces
                       paraElement.SetInnerHtml(((XText)childNode).Value);
@@ -927,7 +933,7 @@ namespace NReadability
 
     internal void CollapseRedundantParagraphDivs(XDocument document)
     {
-      var rootElement = document.Root;
+      XElement rootElement = document.Root;
 
       new ElementsTraverser(
         element =>
@@ -960,12 +966,12 @@ namespace NReadability
 
     internal IEnumerable<XElement> FindCandidatesForArticleContent(XDocument document)
     {
-      var paraElements = document.GetElementsByTagName("p");
+      IEnumerable<XElement> paraElements = document.GetElementsByTagName("p");
       var candidateElements = new HashSet<XElement>();
 
       _elementsScores.Clear();
 
-      foreach (var paraElement in paraElements)
+      foreach (XElement paraElement in paraElements)
       {
         string innerText = GetInnerText(paraElement);
 
@@ -974,8 +980,8 @@ namespace NReadability
           continue;
         }
 
-        var parentElement = paraElement.Parent;
-        var grandParentElement = parentElement != null ? parentElement.Parent : null;
+        XElement parentElement = paraElement.Parent;
+        XElement grandParentElement = parentElement != null ? parentElement.Parent : null;
         int score = 1; // 1 point for having a paragraph
 
         // Add points for any comma-segments within this paragraph.
@@ -1006,7 +1012,7 @@ namespace NReadability
     {
       XElement topCandidateElement = null;
 
-      foreach (var candidateElement in candidatesForArticleContent)
+      foreach (XElement candidateElement in candidatesForArticleContent)
       {
         float candidateScore = GetElementScore(candidateElement);
 
@@ -1028,7 +1034,7 @@ namespace NReadability
       {
         topCandidateElement = new XElement("div");
 
-        var documentBody = GetOrCreateBody(document);
+        XElement documentBody = GetOrCreateBody(document);
 
         topCandidateElement.Add(documentBody.Nodes());
       }
@@ -1045,7 +1051,7 @@ namespace NReadability
 
       articleContentElement.SetId(ContentDivId);
 
-      var parentElement = topCandidateElement.Parent;
+      XElement parentElement = topCandidateElement.Parent;
 
       if (parentElement == null)
       {
@@ -1067,7 +1073,7 @@ namespace NReadability
       string topCandidateClass = topCandidateElement.GetClass();
 
       // iterate through the sibling elements and decide whether append them
-      foreach (var siblingElement in siblingElements)
+      foreach (XElement siblingElement in siblingElements)
       {
         bool append = false;
         string siblingElementName = GetElementName(siblingElement);
@@ -1167,10 +1173,10 @@ namespace NReadability
       CleanConditionally(articleContentElement, "div");
 
       /* Remove extra paragraphs. */
-      var paraElements = articleContentElement.GetElementsByTagName("p");
+      IEnumerable<XElement> paraElements = articleContentElement.GetElementsByTagName("p");
       var elementsToRemove = new List<XElement>();
 
-      foreach (var paraElement in paraElements)
+      foreach (XElement paraElement in paraElements)
       {
         string innerText = GetInnerText(paraElement, false);
         if (innerText.Length > 0) { continue; }
@@ -1316,12 +1322,14 @@ namespace NReadability
     /// </summary>
     internal void Clean(XElement rootElement, string elementName)
     {
-      var elements = rootElement.GetElementsByTagName(elementName);
+      IEnumerable<XElement> elements = rootElement.GetElementsByTagName(elementName);
+
       bool isEmbed = "object".Equals(elementName, StringComparison.OrdinalIgnoreCase)
                   || "embed".Equals(elementName, StringComparison.OrdinalIgnoreCase);
+
       var elementsToRemove = new List<XElement>();
 
-      foreach (var element in elements)
+      foreach (XElement element in elements)
       {
         /* Allow youtube and vimeo videos through as people usually want to see those. */
         if (isEmbed
@@ -1348,10 +1356,10 @@ namespace NReadability
         throw new ArgumentNullException("elementName");
       }
 
-      var elements = rootElement.GetElementsByTagName(elementName);
+      IEnumerable<XElement> elements = rootElement.GetElementsByTagName(elementName);
       var elementsToRemove = new List<XElement>();
 
-      foreach (var element in elements)
+      foreach (XElement element in elements)
       {
         int weight = GetClassWeight(element);
         float score = GetElementScore(element);
@@ -1415,9 +1423,9 @@ namespace NReadability
 
       for (int headerLevel = 1; headerLevel < 7; headerLevel++)
       {
-        var headerElements = element.GetElementsByTagName("h" + headerLevel);
+        IEnumerable<XElement> headerElements = element.GetElementsByTagName("h" + headerLevel);
 
-        foreach (var headerElement in headerElements)
+        foreach (XElement headerElement in headerElements)
         {
           if (GetClassWeight(headerElement) < 0
            || GetLinksDensity(headerElement) > _MaxHeaderLinksDensity)
@@ -1487,11 +1495,11 @@ namespace NReadability
 
     private static XElement GetOrCreateBody(XDocument document)
     {
-      var documentBody = document.GetBody();
+      XElement documentBody = document.GetBody();
 
       if (documentBody == null)
       {
-        var htmlElement = document.GetChildrenByTagName("html").FirstOrDefault();
+        XElement htmlElement = document.GetChildrenByTagName("html").FirstOrDefault();
 
         if (htmlElement == null)
         {
@@ -1523,11 +1531,11 @@ namespace NReadability
         throw new ArgumentNullException("url");
       }
 
-      var elements = document.GetElementsByTagName(tagName);
+      IEnumerable<XElement> elements = document.GetElementsByTagName(tagName);
 
-      foreach (var element in elements)
+      foreach (XElement element in elements)
       {
-        var attributeValue = element.GetAttributeValue(attributeName, null);
+        string attributeValue = element.GetAttributeValue(attributeName, null);
 
         if (attributeValue == null)
         {
@@ -1597,6 +1605,11 @@ namespace NReadability
     private static string GetElementName(XElement element)
     {
       return element.Name.LocalName ?? "";
+    }
+
+    private static void SetElementName(XElement element, string newLocalName)
+    {
+      element.Name = XName.Get(newLocalName, element.Name.NamespaceName);
     }
 
     private static bool ElementLooksLikeParagraphDiv(XElement element)
