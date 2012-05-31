@@ -132,6 +132,12 @@ namespace NReadability
     private static readonly Regex _MailtoHrefRegex = new Regex("^\\s*mailto\\s*:", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex _TitleWhitespacesCleanUpRegex = new Regex("\\s+", RegexOptions.Compiled);
 
+    private static readonly Dictionary<Regex, string> _articleContentElementHints =
+      new Dictionary<Regex, string>
+        {
+          { new Regex("^https?://(www|mobile)\\.theverge.com", RegexOptions.Compiled | RegexOptions.IgnoreCase), "article" },
+        };
+
     #endregion
 
     #region Algorithm parameters
@@ -350,13 +356,13 @@ namespace NReadability
 
       nextPageUrl = null;
 
-      if (url != null)
+      if (!string.IsNullOrEmpty(url))
       {
         nextPageUrl = FindNextPageLink(document.GetBody(), url);
       }
 
       XElement articleTitleElement = ExtractArticleTitle(document);
-      XElement articleContentElement = ExtractArticleContent(document);
+      XElement articleContentElement = ExtractArticleContent(document, url);
 
       GlueDocument(document, articleTitleElement, articleContentElement);
 
@@ -711,6 +717,21 @@ namespace NReadability
       elementsToRemove.AddRange(rootElement.GetElementsByTagName("style"));
       RemoveElements(elementsToRemove);
 
+      /* Remove all nav tags. */
+      elementsToRemove.Clear();
+      elementsToRemove.AddRange(rootElement.GetElementsByTagName("nav"));
+      RemoveElements(elementsToRemove);
+
+      /* Remove all anchors. */
+      elementsToRemove.Clear();
+      
+      IEnumerable<XElement> anchorElements =
+        rootElement.GetElementsByTagName("a")
+          .Where(aElement => aElement.Attribute("name") != null && aElement.Attribute("href") == null);
+
+      elementsToRemove.AddRange(anchorElements);
+      RemoveElements(elementsToRemove);
+
       /* Turn all double br's into p's and all font's into span's. */
       // TODO: optimize?
       string bodyInnerHtml = documentBody.GetInnerHtml();
@@ -781,12 +802,20 @@ namespace NReadability
       return articleTitleElement;
     }
 
-    internal XElement ExtractArticleContent(XDocument document)
+    internal XElement ExtractArticleContent(XDocument document, string url = null)
     {
       StripUnlikelyCandidates(document);
       CollapseRedundantParagraphDivs(document);
 
-      IEnumerable<XElement> candidatesForArticleContent = FindCandidatesForArticleContent(document);
+      string articleContentElementHint =
+        !string.IsNullOrEmpty(url)
+          ? GetArticleContentElementHint(url)
+          : null;
+
+      IEnumerable<XElement> candidatesForArticleContent =
+        FindCandidatesForArticleContent(
+        document,
+        articleContentElementHint);
 
       XElement topCandidateElement = DetermineTopCandidateElement(document, candidatesForArticleContent);
       XElement articleContentElement = CreateArticleContentElement(document, topCandidateElement);
@@ -964,8 +993,19 @@ namespace NReadability
           }).Traverse(rootElement);
     }
 
-    internal IEnumerable<XElement> FindCandidatesForArticleContent(XDocument document)
+    internal IEnumerable<XElement> FindCandidatesForArticleContent(XDocument document, string articleContentElementHint = null)
     {
+      if (!string.IsNullOrEmpty(articleContentElementHint))
+      {
+        XElement articleContentElement =
+          TryFindArticleContentElement(document, articleContentElementHint);
+
+        if (articleContentElement != null)
+        {
+          return new[] { articleContentElement };
+        }
+      }
+
       IEnumerable<XElement> paraElements = document.GetElementsByTagName("p");
       var candidateElements = new HashSet<XElement>();
 
@@ -1668,6 +1708,43 @@ namespace NReadability
       }
 
       return extractedTitle;
+    }
+
+    private static XElement TryFindArticleContentElement(XDocument document, string articleContentElementHint)
+    {
+      if (document == null)
+      {
+        throw new ArgumentNullException("document");
+      }
+
+      if (string.IsNullOrEmpty(articleContentElementHint))
+      {
+        throw new ArgumentException("Argument can't be null nor empty.", "articleContentElementHint");
+      }
+
+      return document
+        .GetElementsByTagName(articleContentElementHint)
+        .FirstOrDefault();
+    }
+
+    private static string GetArticleContentElementHint(string url)
+    {
+      if (string.IsNullOrEmpty(url))
+      {
+        throw new ArgumentException("Argument can't be null nor empty.", "url");
+      }
+
+      url = url.Trim();
+
+      foreach (Regex urlRegex in _articleContentElementHints.Keys)
+      {
+        if (urlRegex.IsMatch(url))
+        {
+          return _articleContentElementHints[urlRegex];
+        }
+      }
+
+      return null;
     }
 
     private string GetReadingStyleClass(ReadingStyle readingStyle)

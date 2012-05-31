@@ -452,13 +452,15 @@ namespace NReadability.Tests
     [Sequential]
     // TODO: if time, add test case 7 (the sample is already in the repo but needs fixing)
     // TODO IMM HI: uncomment tests 12, 13
-    //public void TestSampleInputs([Values(1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13)]int sampleInputNumber)
-    public void TestSampleInputs([Values(1, 2, 3, 4, 5, 6, 8, 9, 10, 11)]int sampleInputNumber)
+    //public void TestSampleInputs([Values(1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14)]int sampleInputNumber)
+    public void TestSampleInputs([Values(1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 14)]int sampleInputNumber)
     {
       // arrange
       string sampleInputNumberStr = sampleInputNumber.ToString().PadLeft(2, '0');
       string content = File.ReadAllText(string.Format(@"SampleInput\SampleInput_{0}.html", sampleInputNumberStr));
       var transcodingInput = new TranscodingInput(content);
+
+      transcodingInput.Url = GetSampleInputUrl(sampleInputNumber);
 
       // act
       TranscodingResult transcodingResult = _nReadabilityTranscoder.Transcode(transcodingInput);
@@ -644,6 +646,11 @@ namespace NReadability.Tests
           Assert.IsTrue(Regex.IsMatch(extractedContent, "in order to present the moral equivalence of all the"));
           Assert.IsTrue(Regex.IsMatch(extractedContent, "<p>\\s*In acquiescing with a narrative in which hatred and murder"));
           Assert.IsTrue(Regex.IsMatch(extractedContent, "<p>\\s*It may seem cost-free to Westerners"));
+          break;
+
+        case 14: // http://www.theverge.com/2012/5/25/3042640/samsung-galaxy-s-iii-review
+          Assert.IsTrue(extractedContent.Contains("Samsung stops teasing and finally delivers its flagship Android device"));
+          Assert.IsTrue(extractedContent.Contains("The extra-large size of this phone, even with its great ergonomics, may prove to be"));
           break;
 
         default:
@@ -1030,6 +1037,18 @@ namespace NReadability.Tests
               .Equals(
                 element.Name.LocalName,
                 StringComparison.OrdinalIgnoreCase)));
+    }
+
+    private static string GetSampleInputUrl(int sampleInputNumber)
+    {
+      switch (sampleInputNumber)
+      {
+        case 14:
+          return "http://www.theverge.com/2012/5/25/3042640/samsung-galaxy-s-iii-review";
+
+        default:
+          return null;
+      }
     }
 
     private void TestReplacingImageUrl(string srcAttribute, string url, string expectedImageUrl)

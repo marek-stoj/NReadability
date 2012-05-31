@@ -279,7 +279,7 @@ namespace NReadability
       }
 
       return container.Descendants()
-        .Where(e => e.Name != null && tagName.Equals(e.Name.LocalName, StringComparison.OrdinalIgnoreCase));
+        .Where(e => tagName.Equals(e.Name.LocalName, StringComparison.OrdinalIgnoreCase));
     }
 
     public static IEnumerable<XElement> GetChildrenByTagName(this XContainer container, string tagName)

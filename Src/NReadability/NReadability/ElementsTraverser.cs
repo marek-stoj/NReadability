@@ -23,7 +23,7 @@ using System.Xml.Linq;
 
 namespace NReadability
 {
-  internal class ElementsTraverser
+  public class ElementsTraverser
   {
     private readonly Action<XElement> _elementVisitor;
 
