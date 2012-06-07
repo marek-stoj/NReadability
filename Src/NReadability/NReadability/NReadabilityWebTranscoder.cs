@@ -49,17 +49,29 @@ namespace NReadability
 
     /// <summary>
     ///  Initializes a new instance of NReadabilityWebTranscoder.
+    ///  Allows passing in custom-constructed NReadabilityTranscoder, IUrlFetcher
+    ///  and pageSeparatorBuilder.
+    /// </summary>
+    /// <param name="transcoder">A NReadabilityTranscoder.</param>
+    /// <param name="urlFetcher">IFetcher instance to download content.</param>
+    public NReadabilityWebTranscoder(NReadabilityTranscoder transcoder, IUrlFetcher urlFetcher, Func<int, string> pageSeparatorBuilder)
+    {
+        _transcoder = transcoder;
+        _urlFetcher = urlFetcher;
+        _sgmlDomSerializer = new SgmlDomSerializer();
+        _pageSeparatorBuilder = pageSeparatorBuilder;
+    }
+
+    /// <summary>
+    ///  Initializes a new instance of NReadabilityWebTranscoder.
     ///  Allows passing in custom-constructed NReadabilityTranscoder,
-    ///  and a custom IUrlFetcher.  This overload is mostly used for testing.
+    ///  and a custom IUrlFetcher.
     /// </summary>
     /// <param name="transcoder">A NReadabilityTranscoder.</param>
     /// <param name="urlFetcher">IFetcher instance to download content.</param>
     public NReadabilityWebTranscoder(NReadabilityTranscoder transcoder, IUrlFetcher urlFetcher)
+        : this(transcoder, urlFetcher, _DefaultPageSeparatorBuilder)
     {
-      _transcoder = transcoder;
-      _urlFetcher = urlFetcher;
-      _sgmlDomSerializer = new SgmlDomSerializer();
-      _pageSeparatorBuilder = _DefaultPageSeparatorBuilder;
     }
 
     /// <summary>
@@ -69,6 +81,15 @@ namespace NReadability
     /// <param name="transcoder">A NReadailityTranscoder.</param>
     public NReadabilityWebTranscoder(NReadabilityTranscoder transcoder)
       : this(transcoder, new UrlFetcher())
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of NReadabilityWebTranscoder.
+    /// Allows passing in custom pageSeparatorBuilder.
+    /// </summary>
+    public NReadabilityWebTranscoder(Func<int, string> pageSeparatorBuilder)
+        : this(new NReadabilityTranscoder(), new UrlFetcher(), pageSeparatorBuilder)
     {
     }
 
