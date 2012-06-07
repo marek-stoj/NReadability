@@ -78,11 +78,16 @@ namespace NReadability.Tests
             @"http://mashable.com/2008/10/30/slow-feed-movement-rss",
             @"http://mashable.com/2008/10/30/indecision2008-live-chat", // false positive for paging
           },
+        new[]
+          {
+            @"http://www.sparknotes.com/lit/mocking/section1.rhtml",
+            @"http://www.sparknotes.com/lit/mocking/section2.rhtml",
+          },
       };
 
     [Test]
     [Sequential]
-    public void TestSampleInputs([Values(1, 2, 3, 4, 5, 6, 7, 8)]int sampleInputNumber)
+    public void TestSampleInputs([Values(1, 2, 3, 4, 5, 6, 7, 8, 9)]int sampleInputNumber)
     {
       const string outputDir = "SampleWebOutput";
 
@@ -180,6 +185,15 @@ namespace NReadability.Tests
           // "page" 2 (false positive)
           Assert.IsFalse(extractedContent.Contains("signature fake news programs"));
           break;
+
+        case 9:
+            // page 1
+            Assert.IsTrue(extractedContent.Contains("The story is narrated by a young girl named Jean Louise"));
+            Assert.IsTrue(extractedContent.Contains("toward adulthood."));
+            // page 2
+            Assert.IsTrue(extractedContent.Contains("September arrives, and Dill leaves Maycomb to return to"));
+            Assert.IsTrue(extractedContent.Contains("educational technique but the law."));
+        break;
 
         default:
           throw new NotSupportedException("Unknown sample input number (" + sampleInputNumber + "). Have you added another sample input? If so, then add appropriate asserts here as well.");
