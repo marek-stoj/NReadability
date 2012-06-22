@@ -92,6 +92,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="SampleInput\SampleInput_15.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="SampleInput\SampleInput_14.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
