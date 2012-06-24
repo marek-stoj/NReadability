@@ -50,16 +50,29 @@ namespace NReadability
     /// <summary>
     ///  Initializes a new instance of NReadabilityWebTranscoder.
     ///  Allows passing in custom-constructed NReadabilityTranscoder,
-    ///  and a custom IUrlFetcher.  This overload is mostly used for testing.
+    ///  and a custom IUrlFetcher.
     /// </summary>
     /// <param name="transcoder">A NReadabilityTranscoder.</param>
     /// <param name="urlFetcher">IFetcher instance to download content.</param>
-    public NReadabilityWebTranscoder(NReadabilityTranscoder transcoder, IUrlFetcher urlFetcher)
+    /// <param name="pageSeparatorBuilder">A function that creates a HTML fragment for page separator. It takes the page number as an argument.</param>
+    public NReadabilityWebTranscoder(NReadabilityTranscoder transcoder, IUrlFetcher urlFetcher, Func<int, string> pageSeparatorBuilder)
     {
       _transcoder = transcoder;
       _urlFetcher = urlFetcher;
       _sgmlDomSerializer = new SgmlDomSerializer();
-      _pageSeparatorBuilder = _DefaultPageSeparatorBuilder;
+      _pageSeparatorBuilder = pageSeparatorBuilder;
+    }
+
+    /// <summary>
+    ///  Initializes a new instance of NReadabilityWebTranscoder.
+    ///  Allows passing in custom-constructed NReadabilityTranscoder,
+    ///  and a custom IUrlFetcher.
+    /// </summary>
+    /// <param name="transcoder">A NReadabilityTranscoder.</param>
+    /// <param name="urlFetcher">IFetcher instance to download content.</param>
+    public NReadabilityWebTranscoder(NReadabilityTranscoder transcoder, IUrlFetcher urlFetcher)
+      : this(transcoder, urlFetcher, _DefaultPageSeparatorBuilder)
+    {
     }
 
     /// <summary>
@@ -76,7 +89,7 @@ namespace NReadability
     /// Initializes a new instance of NReadabilityWebTranscoder.
     /// </summary>
     public NReadabilityWebTranscoder()
-      : this(new NReadabilityTranscoder(), new UrlFetcher())
+      : this(new NReadabilityTranscoder())
     {
     }
 

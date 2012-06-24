@@ -437,7 +437,7 @@ namespace NReadability
         string linkText = GetInnerText(linkElement);
 
         /* If the linktext looks like it's not the next page, then skip it */
-        if (_Extraneous.IsMatch(linkText) || linkText.Length > 25)
+        if (_Extraneous.IsMatch(linkText))
         {
           continue;
         }
@@ -510,7 +510,7 @@ namespace NReadability
         {
           string parentNodeClassAndId = parentNode.GetClass() + " " + parentNode.GetId();
 
-          if (!positiveNodeMatch && _PageRegex.IsMatch(parentNodeClassAndId))
+          if (!positiveNodeMatch && (_PageRegex.IsMatch(parentNodeClassAndId) || _NextLink.IsMatch(parentNodeClassAndId)))
           {
             positiveNodeMatch = true;
             linkObj.Score += 25;
@@ -533,7 +533,8 @@ namespace NReadability
         * Things like /page/2/, /pagenum/2, ?p=3, ?page=11, ?pagination=34
         */
         if (Regex.IsMatch(linkHref, @"p(a|g|ag)?(e|ing|ination)?(=|\/)[0-9]{1,2}", RegexOptions.IgnoreCase)
-         || Regex.IsMatch(linkHref, @"(page|paging)", RegexOptions.IgnoreCase))
+         || Regex.IsMatch(linkHref, @"(page|paging)", RegexOptions.IgnoreCase)
+         || Regex.IsMatch(linkHref, @"section", RegexOptions.IgnoreCase))
         {
           linkObj.Score += 25;
         }
