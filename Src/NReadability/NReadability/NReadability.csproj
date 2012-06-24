@@ -71,6 +71,9 @@
   <ItemGroup>
     <Compile Include="AttributeTransformationResult.cs" />
     <Compile Include="AttributeTransformationInput.cs" />
+    <Compile Include="CookieAwareWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="WebTranscodingInput.cs" />
     <Compile Include="WebTranscodingResult.cs" />
     <Compile Include="DomSerializationParams.cs" />
