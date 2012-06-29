@@ -857,6 +857,11 @@ namespace NReadability
 
       headElement.Add(styleElement);
 
+      /* Remove 'base' href node from head */
+      XElement baseElement = headElement.GetElementsByTagName("base").FirstOrDefault();
+      if (baseElement != null)
+          baseElement.Remove();
+
       /* Apply reading style to body. */
       string readingStyleClass = GetReadingStyleClass(_readingStyle);
 
