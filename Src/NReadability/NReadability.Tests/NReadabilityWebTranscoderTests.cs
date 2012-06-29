@@ -19,6 +19,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -29,61 +30,92 @@ namespace NReadability.Tests
   [TestFixture]
   public class NReadabilityWebTranscoderTests
   {
-    /* This provides the list of URLs for the different test imports */
+    #region Test URLs
 
-    private readonly string[][] _Urls =
-      {
-        new[]
+    /* This provides the list of URLs for the different test imports */
+    private readonly Dictionary<int, string[]> _Urls =
+      new Dictionary<int, string[]>
+        {
           {
-            @"http://www.nytimes.com/2010/11/14/world/asia/14myanmar.html?hp",
-            @"http://www.nytimes.com/2010/11/14/world/asia/14myanmar.html?pagewanted=2&hp"
-          },
-        new[]
+            1,
+            new[]
+              {
+                @"http://www.nytimes.com/2010/11/14/world/asia/14myanmar.html?hp",
+                @"http://www.nytimes.com/2010/11/14/world/asia/14myanmar.html?pagewanted=2&hp"
+              }
+            },
           {
-            @"http://www.vanityfair.com/politics/features/2010/12/unbroken-excerpt-201012",
-            @"http://www.vanityfair.com/politics/features/2010/12/unbroken-excerpt-201012?currentPage=2",
-            @"http://www.vanityfair.com/politics/features/2010/12/unbroken-excerpt-201012?currentPage=3"
-          },
-        new[]
+            2,
+            new[]
+              {
+                @"http://www.vanityfair.com/politics/features/2010/12/unbroken-excerpt-201012",
+                @"http://www.vanityfair.com/politics/features/2010/12/unbroken-excerpt-201012?currentPage=2",
+                @"http://www.vanityfair.com/politics/features/2010/12/unbroken-excerpt-201012?currentPage=3"
+              }
+            },
           {
-            @"http://www.theatlantic.com/magazine/archive/2010/12/dirty-coal-clean-future/8307",
-            @"http://www.theatlantic.com/magazine/archive/2010/12/dirty-coal-clean-future/8307/2",
-            @"http://www.theatlantic.com/magazine/archive/2010/12/dirty-coal-clean-future/8307/3"
-          },
-        new[]
+            3,
+            new[]
+              {
+                @"http://www.theatlantic.com/magazine/archive/2010/12/dirty-coal-clean-future/8307",
+                @"http://www.theatlantic.com/magazine/archive/2010/12/dirty-coal-clean-future/8307/2",
+                @"http://www.theatlantic.com/magazine/archive/2010/12/dirty-coal-clean-future/8307/3"
+              }
+            },
           {
-            @"http://www.slate.com/id/2275733",
-            @"http://www.slate.com/id/2275733/pagenum/2"
-          },
-        new[]
+            4,
+            new[]
+              {
+                @"http://www.slate.com/id/2275733",
+                @"http://www.slate.com/id/2275733/pagenum/2"
+              }
+            },
           {
-            @"http://entertainment.howstuffworks.com/leisure/brain-games/scrabble.htm",
-            @"http://entertainment.howstuffworks.com/leisure/brain-games/scrabble1.htm",
-            @"http://entertainment.howstuffworks.com/leisure/brain-games/scrabble2.htm",
-            @"http://entertainment.howstuffworks.com/leisure/brain-games/scrabble3.htm",
-            @"http://entertainment.howstuffworks.com/leisure/brain-games/scrabble4.htm",
-          },
-        new[]
+            5,
+            new[]
+              {
+                @"http://entertainment.howstuffworks.com/leisure/brain-games/scrabble.htm",
+                @"http://entertainment.howstuffworks.com/leisure/brain-games/scrabble1.htm",
+                @"http://entertainment.howstuffworks.com/leisure/brain-games/scrabble2.htm",
+                @"http://entertainment.howstuffworks.com/leisure/brain-games/scrabble3.htm",
+                @"http://entertainment.howstuffworks.com/leisure/brain-games/scrabble4.htm",
+              }
+            },
           {
-            @"http://www.slate.com/articles/technology/technology/2011/10/steve_jobs_biography_the_new_book_doesn_t_explain_what_made_the_.html",
-            @"http://www.slate.com/articles/technology/technology/2011/10/steve_jobs_biography_the_new_book_doesn_t_explain_what_made_the_.2.html",
-          },
-        new[]
+            6,
+            new[]
+              {
+                @"http://www.slate.com/articles/technology/technology/2011/10/steve_jobs_biography_the_new_book_doesn_t_explain_what_made_the_.html",
+                @"http://www.slate.com/articles/technology/technology/2011/10/steve_jobs_biography_the_new_book_doesn_t_explain_what_made_the_.2.html",
+              }
+            },
           {
-            @"http://www.brookings.edu/opinions/2011/0523_transit_berube_puentes.aspx",
-            @"http://www.brookings.edu/opinions/2011/0524_nextwave_west.aspx", // false positive for paging
-          },
-        new[]
+            7,
+            new[]
+              {
+                @"http://www.brookings.edu/opinions/2011/0523_transit_berube_puentes.aspx",
+                @"http://www.brookings.edu/opinions/2011/0524_nextwave_west.aspx", // false positive for paging
+              }
+            },
           {
-            @"http://mashable.com/2008/10/30/slow-feed-movement-rss",
-            @"http://mashable.com/2008/10/30/indecision2008-live-chat", // false positive for paging
-          },
-        new[]
+            8,
+            new[]
+              {
+                @"http://mashable.com/2008/10/30/slow-feed-movement-rss",
+                @"http://mashable.com/2008/10/30/indecision2008-live-chat", // false positive for paging
+              }
+            },
           {
-            @"http://www.sparknotes.com/lit/mocking/section1.rhtml",
-            @"http://www.sparknotes.com/lit/mocking/section2.rhtml",
-          },
-      };
+            9,
+            new[]
+              {
+                @"http://www.sparknotes.com/lit/mocking/section1.rhtml",
+                @"http://www.sparknotes.com/lit/mocking/section2.rhtml",
+              }
+            },
+        };
+
+    #endregion
 
     [Test]
     [Sequential]
@@ -92,7 +124,7 @@ namespace NReadability.Tests
       const string outputDir = "SampleWebOutput";
 
       string sampleInputNumberStr = sampleInputNumber.ToString().PadLeft(2, '0');
-      string[] urls = _Urls[sampleInputNumber - 1];
+      string[] urls = _Urls[sampleInputNumber];
       string initialUrl = urls[0];
 
       var fetcher = new FileBasedUrlFetcherStub(sampleInputNumber, urls);
@@ -187,13 +219,13 @@ namespace NReadability.Tests
           break;
 
         case 9:
-            // page 1
-            Assert.IsTrue(extractedContent.Contains("The story is narrated by a young girl named Jean Louise"));
-            Assert.IsTrue(extractedContent.Contains("toward adulthood."));
-            // page 2
-            Assert.IsTrue(extractedContent.Contains("September arrives, and Dill leaves Maycomb to return to"));
-            Assert.IsTrue(extractedContent.Contains("educational technique but the law."));
-        break;
+          // page 1
+          Assert.IsTrue(extractedContent.Contains("The story is narrated by a young girl named Jean Louise"));
+          Assert.IsTrue(extractedContent.Contains("toward adulthood."));
+          // page 2
+          Assert.IsTrue(extractedContent.Contains("September arrives, and Dill leaves Maycomb to return to"));
+          Assert.IsTrue(extractedContent.Contains("educational technique but the law."));
+          break;
 
         default:
           throw new NotSupportedException("Unknown sample input number (" + sampleInputNumber + "). Have you added another sample input? If so, then add appropriate asserts here as well.");

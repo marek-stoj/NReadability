@@ -534,7 +534,7 @@ namespace NReadability
         */
         if (Regex.IsMatch(linkHref, @"p(a|g|ag)?(e|ing|ination)?(=|\/)[0-9]{1,2}", RegexOptions.IgnoreCase)
          || Regex.IsMatch(linkHref, @"(page|paging)", RegexOptions.IgnoreCase)
-         || Regex.IsMatch(linkHref, @"(section)", RegexOptions.IgnoreCase))
+         || Regex.IsMatch(linkHref, @"section", RegexOptions.IgnoreCase))
         {
           linkObj.Score += 25;
         }
@@ -675,6 +675,12 @@ namespace NReadability
 
     internal void PrepareDocument(XDocument document)
     {
+      /* Remove all HTML comments (including conditional comments). */
+      document
+        .DescendantNodes()
+        .Where(node => node.NodeType == XmlNodeType.Comment)
+        .Remove();
+
       /* In some cases a body element can't be found (if the HTML is totally hosed for example),
        * so we create a new body element and append it to the document. */
       XElement documentBody = GetOrCreateBody(document);

@@ -50,17 +50,18 @@ namespace NReadability
 
     /// <summary>
     ///  Initializes a new instance of NReadabilityWebTranscoder.
-    ///  Allows passing in custom-constructed NReadabilityTranscoder, IUrlFetcher
-    ///  and pageSeparatorBuilder.
+    ///  Allows passing in custom-constructed NReadabilityTranscoder,
+    ///  and a custom IUrlFetcher.
     /// </summary>
     /// <param name="transcoder">A NReadabilityTranscoder.</param>
     /// <param name="urlFetcher">IFetcher instance to download content.</param>
+    /// <param name="pageSeparatorBuilder">A function that creates a HTML fragment for page separator. It takes the page number as an argument.</param>
     public NReadabilityWebTranscoder(NReadabilityTranscoder transcoder, IUrlFetcher urlFetcher, Func<int, string> pageSeparatorBuilder)
     {
-        _transcoder = transcoder;
-        _urlFetcher = urlFetcher;
-        _sgmlDomSerializer = new SgmlDomSerializer();
-        _pageSeparatorBuilder = pageSeparatorBuilder;
+      _transcoder = transcoder;
+      _urlFetcher = urlFetcher;
+      _sgmlDomSerializer = new SgmlDomSerializer();
+      _pageSeparatorBuilder = pageSeparatorBuilder;
     }
 
     /// <summary>
@@ -71,7 +72,7 @@ namespace NReadability
     /// <param name="transcoder">A NReadabilityTranscoder.</param>
     /// <param name="urlFetcher">IFetcher instance to download content.</param>
     public NReadabilityWebTranscoder(NReadabilityTranscoder transcoder, IUrlFetcher urlFetcher)
-        : this(transcoder, urlFetcher, _DefaultPageSeparatorBuilder)
+      : this(transcoder, urlFetcher, _DefaultPageSeparatorBuilder)
     {
     }
 
@@ -87,18 +88,9 @@ namespace NReadability
 
     /// <summary>
     /// Initializes a new instance of NReadabilityWebTranscoder.
-    /// Allows passing in custom pageSeparatorBuilder.
-    /// </summary>
-    public NReadabilityWebTranscoder(Func<int, string> pageSeparatorBuilder)
-        : this(new NReadabilityTranscoder(), new UrlFetcher(), pageSeparatorBuilder)
-    {
-    }
-
-    /// <summary>
-    /// Initializes a new instance of NReadabilityWebTranscoder.
     /// </summary>
     public NReadabilityWebTranscoder()
-      : this(new NReadabilityTranscoder(), new UrlFetcher())
+      : this(new NReadabilityTranscoder())
     {
     }
 
