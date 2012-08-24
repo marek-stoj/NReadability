@@ -113,13 +113,22 @@ namespace NReadability.Tests
                 @"http://www.sparknotes.com/lit/mocking/section2.rhtml",
               }
             },
+          {
+            10,
+            new[]
+              {
+                @"http://www.ilr.cornell.edu/trianglefire/story/introduction.html",
+                @"http://www.ilr.cornell.edu/trianglefire/story/sweatshopsStrikes.html",
+                @"http://www.ilr.cornell.edu/trianglefire/story/investigationTrial.html",
+              }
+            },
         };
 
     #endregion
 
     [Test]
     [Sequential]
-    public void TestSampleInputs([Values(1, 2, 3, 4, 5, 6, 7, 8, 9)]int sampleInputNumber)
+    public void TestSampleInputs([Values(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)]int sampleInputNumber)
     {
       const string outputDir = "SampleWebOutput";
 
@@ -225,6 +234,18 @@ namespace NReadability.Tests
           // page 2
           Assert.IsTrue(extractedContent.Contains("September arrives, and Dill leaves Maycomb to return to"));
           Assert.IsTrue(extractedContent.Contains("educational technique but the law."));
+          break;
+
+        case 10:
+          // page 1
+          Assert.IsTrue(extractedContent.Contains("he fire at the Triangle Waist Company"));
+          Assert.IsTrue(extractedContent.Contains("at the hands of industrial greed."));
+          // page 2
+          Assert.IsTrue(extractedContent.Contains("he Triangle Waist Company was in many ways"));
+          Assert.IsTrue(extractedContent.Contains("unsafe working conditions on their employees."));
+          // page 3 (last)
+          Assert.IsTrue(extractedContent.Contains("mmediately after the fire, Triangle owners Blanck and Harris"));
+          Assert.IsTrue(extractedContent.Contains("and that it was \"second to none in the country.\""));
           break;
 
         default:
