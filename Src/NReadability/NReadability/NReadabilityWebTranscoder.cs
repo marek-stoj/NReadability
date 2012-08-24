@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using System.Collections.ObjectModel;
 
 namespace NReadability
 {
@@ -297,6 +298,14 @@ namespace NReadability
     {
       get { return _pageSeparatorBuilder; }
       set { _pageSeparatorBuilder = value; }
+    }
+
+    /// <summary>
+    /// Returns a read-only collection of the pages as parsed.
+    /// </summary>
+    public ReadOnlyCollection<string> ParsedPages
+    {
+        get { return _parsedPages.AsReadOnly(); }
     }
 
     #endregion

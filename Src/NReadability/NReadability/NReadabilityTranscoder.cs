@@ -118,8 +118,9 @@ namespace NReadability
     private static readonly Regex _ArticleTitleDashRegex2 = new Regex("(.*)[\\|\\-] .*", RegexOptions.Compiled);
     private static readonly Regex _ArticleTitleDashRegex3 = new Regex("[^\\|\\-]*[\\|\\-](.*)", RegexOptions.Compiled);
     private static readonly Regex _ArticleTitleColonRegex1 = new Regex(".*:(.*)", RegexOptions.Compiled);
-    private static readonly Regex _ArticleTitleColonRegex2 = new Regex("[^:]*[:](.*)", RegexOptions.Compiled);    
-    private static readonly Regex _NextLink = new Regex(@"(next|weiter|continue|dalej|następna|nastepna>([^\|]|$)|�([^\|]|$))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static readonly Regex _ArticleTitleColonRegex2 = new Regex("[^:]*[:](.*)", RegexOptions.Compiled);
+    private static readonly Regex _ContinueLink = new Regex(@"(continue|continuer|continuar)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static readonly Regex _NextLink = new Regex(@"(next|weiter|dalej|następna|nastepna>([^\|]|$)|�([^\|]|$))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex _NextStoryLink = new Regex("(story|article|news|document|post|note|series|historia|artykul|artykuł|wpis|dokument|seria|geschichte|erzählung|erzahlung|artikel|serie)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex _PrevLink = new Regex("(prev|earl|[^b]old|new|wstecz|poprzednia|<|�)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex _PageRegex = new Regex("pag(e|ing|inat)|([^a-z]|^)pag([^a-z]|$)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -442,14 +443,6 @@ namespace NReadability
           continue;
         }
 
-        /* If the leftovers of the URL after removing the base URL don't contain any digits, it's certainly not a next page link. */
-        string linkHrefLeftover = linkHref.Replace(articleBaseUrl, "");
-        
-        if (!Regex.IsMatch(linkHrefLeftover, @"\d"))
-        {
-          continue;
-        }
-
         if (!possiblePagesByLink.Keys.Contains(linkHref))
         {
           possiblePagesByLink[linkHref] = new LinkData { Score = 0, LinkHref = linkHref, LinkText = linkText };
@@ -460,6 +453,12 @@ namespace NReadability
         }
 
         LinkData linkObj = possiblePagesByLink[linkHref];
+
+        /* If the leftovers of the URL after removing the base URL don't contain any digits, it could still be the link, but the odds are lower. */
+        if (!Regex.IsMatch(linkHref.Replace(articleBaseUrl, ""), @"\d"))
+        {
+            linkObj.Score -= 50;
+        }
 
         /*
          * If the articleBaseUrl isn't part of this URL, penalize this link. It could still be the link, but the odds are lower.
@@ -476,6 +475,11 @@ namespace NReadability
         && !_NextStoryLink.IsMatch(linkData))
         {
           linkObj.Score += 50;
+        }
+        else if (_ContinueLink.IsMatch(linkData))
+        {
+          /* Give "continue" links high weight since that usually implies a context of 'this article/story' */
+          linkObj.Score += 100;
         }
 
         if (_PageRegex.IsMatch(linkData))
@@ -862,6 +866,11 @@ namespace NReadability
       }
 
       headElement.Add(styleElement);
+
+      /* Remove 'base' href node from head */
+      XElement baseElement = headElement.GetElementsByTagName("base").FirstOrDefault();
+      if (baseElement != null)
+          baseElement.Remove();
 
       /* Apply reading style to body. */
       string readingStyleClass = GetReadingStyleClass(_readingStyle);
