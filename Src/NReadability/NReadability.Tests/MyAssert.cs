@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 
 namespace NReadability.Tests
 {
@@ -15,7 +16,7 @@ namespace NReadability.Tests
       int index = -1;
       int count = 0;
 
-      while ((index = s.IndexOf(substring, index + 1)) != -1)
+      while ((index = s.IndexOf(substring, index + 1, StringComparison.Ordinal)) != -1)
       {
         count++;
       }

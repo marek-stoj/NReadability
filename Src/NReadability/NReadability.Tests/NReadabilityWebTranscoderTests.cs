@@ -122,13 +122,22 @@ namespace NReadability.Tests
                 @"http://www.gamasutra.com/view/feature/175210/the_ins_and_outs_of_native_client.php?page=3",
               }
             },
+          {
+            11,
+            new[]
+              {
+                @"http://www.gamasutra.com/view/feature/177676/The_Media_Molecule_Identity.php",
+                @"http://www.gamasutra.com/view/feature/177676/the_media_molecule_identity.php?page=2",
+                @"http://www.gamasutra.com/view/feature/177676/the_media_molecule_identity.php?page=3",
+              }
+            },
         };
 
     #endregion
 
     [Test]
     [Sequential]
-    public void TestSampleInputs([Values(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)]int sampleInputNumber)
+    public void TestSampleInputs([Values(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)]int sampleInputNumber)
     {
       const string outputDir = "SampleWebOutput";
 
@@ -246,6 +255,18 @@ namespace NReadability.Tests
           // page 3
           Assert.IsTrue(extractedContent.Contains("The NaCl team is working hard on debugging"));
           Assert.IsTrue(extractedContent.Contains("Unfortunately this isn't really documented"));
+          break;
+
+        case 11:
+          // page 1
+          Assert.IsTrue(extractedContent.Contains("Sony press conference at Gamescom"));
+          Assert.IsTrue(extractedContent.Contains("The guys can actually model inside the game"));
+          // page 2
+          Assert.IsTrue(extractedContent.Contains("You actually fold"));
+          Assert.IsTrue(extractedContent.Contains("working on the skin shader right now"));
+          // page 3
+          Assert.IsTrue(extractedContent.Contains("It was the founding thing"));
+          Assert.IsTrue(extractedContent.Contains("opportunities that you just did not have on the PS3"));
           break;
 
         default:

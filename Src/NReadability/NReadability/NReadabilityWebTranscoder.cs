@@ -258,7 +258,7 @@ namespace NReadability
         string existingContent = contentDiv.Value;
         string innerHtml = firstP.Value;
 
-        if (!string.IsNullOrEmpty(existingContent) && !string.IsNullOrEmpty(innerHtml) && existingContent.IndexOf(innerHtml) != -1)
+        if (!string.IsNullOrEmpty(existingContent) && !string.IsNullOrEmpty(innerHtml) && existingContent.IndexOf(innerHtml, StringComparison.OrdinalIgnoreCase) != -1)
         {
           _parsedPages.Add(url);
           return;
