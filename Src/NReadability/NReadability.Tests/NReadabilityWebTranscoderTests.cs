@@ -113,13 +113,22 @@ namespace NReadability.Tests
                 @"http://www.sparknotes.com/lit/mocking/section2.rhtml",
               }
             },
+          {
+            10,
+            new[]
+              {
+                @"http://www.gamasutra.com/view/feature/175210/the_ins_and_outs_of_native_client.php",
+                @"http://www.gamasutra.com/view/feature/175210/the_ins_and_outs_of_native_client.php?page=2",
+                @"http://www.gamasutra.com/view/feature/175210/the_ins_and_outs_of_native_client.php?page=3",
+              }
+            },
         };
 
     #endregion
 
     [Test]
     [Sequential]
-    public void TestSampleInputs([Values(1, 2, 3, 4, 5, 6, 7, 8, 9)]int sampleInputNumber)
+    public void TestSampleInputs([Values(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)]int sampleInputNumber)
     {
       const string outputDir = "SampleWebOutput";
 
@@ -225,6 +234,18 @@ namespace NReadability.Tests
           // page 2
           Assert.IsTrue(extractedContent.Contains("September arrives, and Dill leaves Maycomb to return to"));
           Assert.IsTrue(extractedContent.Contains("educational technique but the law."));
+          break;
+
+        case 10:
+          // page 1
+          Assert.IsTrue(extractedContent.Contains("Curious about Native Client"));
+          Assert.IsTrue(extractedContent.Contains("also known as the GLES2 Blue Book"));
+          // page 2
+          Assert.IsTrue(extractedContent.Contains("Most games written specifically for PC"));
+          Assert.IsTrue(extractedContent.Contains("The things a good script should do"));
+          // page 3
+          Assert.IsTrue(extractedContent.Contains("The NaCl team is working hard on debugging"));
+          Assert.IsTrue(extractedContent.Contains("Unfortunately this isn't really documented"));
           break;
 
         default:

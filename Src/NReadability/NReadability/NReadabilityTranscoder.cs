@@ -528,6 +528,27 @@ namespace NReadability
           parentNode = parentNode.Parent;
         }
 
+        /* If any descendant node contains 'next indicator' or 'prev indicator' - adjust the score */
+        bool positiveDescendantMatch = false;
+        bool negativeDescendantMatch = false;
+
+        foreach (XElement descendantElement in linkElement.Descendants())
+        {
+          string descendantData = GetInnerText(descendantElement) + " " + descendantElement.GetClass() + " " + descendantElement.GetId() + " " + descendantElement.GetAttributeValue("alt", "");
+
+          if (!positiveDescendantMatch && _NextLink.IsMatch(descendantData))
+          {
+            linkObj.Score += 12.5f;
+            positiveDescendantMatch = true;
+          }
+          
+          if (!negativeDescendantMatch && _PrevLink.IsMatch(descendantData))
+          {
+            linkObj.Score -= 100;
+            negativeDescendantMatch = true;
+          }
+        }
+
         /*
         * If the URL looks like it has paging in it, add to the score.
         * Things like /page/2/, /pagenum/2, ?p=3, ?page=11, ?pagination=34
