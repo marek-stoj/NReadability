@@ -1700,10 +1700,9 @@ namespace NReadability
       if (childNode != null)
       {
         XElement childElement = childNode as XElement;
-        string childElementName = GetElementName(childElement);
 
         if (childElement != null
-         && "p".Equals(childElementName, StringComparison.OrdinalIgnoreCase))
+         && "p".Equals(GetElementName(childElement), StringComparison.OrdinalIgnoreCase))
         {
           // we have a div with a single child element that is a paragraph
           return true;

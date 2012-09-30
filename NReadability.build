@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <project name="NReadability" default="all">
 
-  <property name="nreadability.version" value="1.4.5.0" />
+  <property name="nreadability.version" value="1.4.6.0" />
   <property name="msbuild.path" value="C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe" />
   <property name="git.path" value="C:\Program Files (x86)\Git\bin\git.exe" />
   <property name="nuget.path" value="C:\Programs\NuGet\NuGet.exe" />
@@ -68,7 +68,7 @@
     <copy file="Bin\NReadability.Console.exe" todir="Dist" />
     <copy file="LICENSE.txt" todir="Dist" />
     <copy todir="Dist">
-      <fileset basedir="ImmDOc">
+      <fileset basedir="ImmDoc">
         <include name="*.chm" />
       </fileset>
     </copy>
@@ -110,6 +110,23 @@
         <exclude name="*.nupkg" />
       </fileset>
     </delete>
+  </target>
+  
+  <target name="push-to-nuget">
+    <foreach item="File" property="filePath">
+      <in>
+        <items>
+          <include name="Dist\NReadability.*.nupkg" />
+        </items>
+      </in>
+      <do>
+        <echo message="Pushing ${filePath} to NuGet." />
+        <exec program="${nuget.path}">
+          <arg value="push" />
+          <arg value="${filePath}" />
+        </exec>
+      </do>
+    </foreach>
   </target>
   
   <target name="clean">
