@@ -1,5 +1,4 @@
-﻿using System;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using NUnit.Framework;
 
 namespace NReadability.Tests
@@ -53,17 +52,6 @@ namespace NReadability.Tests
       XDocument document = _sgmlDomBuilder.BuildDocument("<p>&#</p>");
 
       Assert.DoesNotThrow(() => _sgmlDomSerializer.SerializeDocument(document));
-    }
-
-    [Test]
-    public void Builder_respects_significant_whitespaces()
-    {
-      XDocument document =
-        _sgmlDomBuilder.BuildDocument("<a>Link1</a> <a>Link2</a>");
-
-      string html = _sgmlDomSerializer.SerializeDocument(document);
-
-      Assert.IsTrue(html.Contains("<a>Link1</a> <a>Link2</a>"));
     }
 
     #endregion
