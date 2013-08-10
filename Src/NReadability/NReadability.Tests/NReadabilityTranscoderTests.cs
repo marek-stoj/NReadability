@@ -453,7 +453,7 @@ namespace NReadability.Tests
     // TODO: if time, add test case 7 (the sample is already in the repo but needs fixing)
     // TODO IMM HI: uncomment tests 12, 13
     //public void TestSampleInputs([Values(1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14)]int sampleInputNumber)
-    public void TestSampleInputs([Values(1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 14, 15)]int sampleInputNumber)
+    public void TestSampleInputs([Values(1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 14, 15, 16)]int sampleInputNumber)
     {
       // arrange
       string sampleInputNumberStr = sampleInputNumber.ToString().PadLeft(2, '0');
@@ -656,6 +656,15 @@ namespace NReadability.Tests
         case 15: // http://www.theverge.com/2012/6/21/3032067/casio-bluetooth-g-shock-watch-gb6900-review
           Assert.IsTrue(extractedContent.Contains("Bank devices in the 80s, but in recent years it hasn't been quite the innovator it once was. "));
           Assert.IsTrue(extractedContent.Contains("the Verge score is based on the average of the subscores below"));
+          break;
+
+        case 16:
+          Assert.IsTrue(extractedContent.Contains("Header Level 1"));
+          Assert.IsTrue(extractedContent.Contains("Header Level 2"));
+          Assert.IsTrue(extractedContent.Contains("Header Level 3"));
+          Assert.IsTrue(extractedContent.Contains("Header Level 4"));
+          Assert.IsTrue(extractedContent.Contains("Header Level 5"));
+          Assert.IsTrue(extractedContent.Contains("Header Level 6"));
           break;
 
         default:

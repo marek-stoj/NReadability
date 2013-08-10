@@ -1223,7 +1223,10 @@ namespace NReadability
       /* Clean out junk from the article content. */
       Clean(articleContentElement, "form");
       Clean(articleContentElement, "object");
-      Clean(articleContentElement, "h1");
+
+      if (articleContentElement.GetElementsByTagName("h1").Count() == 1) {
+        Clean(articleContentElement, "h1");
+      }
 
       /* If there is only one h2, they are probably using it as a header and not a subheader,
        * so remove it since we already have a header. */
