@@ -15,7 +15,7 @@ using System.Runtime.InteropServices;
 
 [assembly: Guid("11153417-d4e1-4ef9-aea6-1b2a75308a0e")]
 
-[assembly: AssemblyVersion("1.4.7.0")]
-[assembly: AssemblyFileVersion("1.4.7.0")]
+[assembly: AssemblyVersion("1.4.8.0")]
+[assembly: AssemblyFileVersion("1.4.8.0")]
 
 [assembly: InternalsVisibleTo("NReadability.Tests")]
